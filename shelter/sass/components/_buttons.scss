@@ -1,0 +1,12 @@
+.button{
+    display: inline-block;
+    padding: 1.5rem 4.5rem;
+    text-decoration: none;
+    color: $color-dark-3xl;
+    background-color: $color-primary;
+    border-radius: 10rem;
+    font-family: "Georgia-Regular";
+    @include font(1.7rem, 1.3);
+    letter-spacing: 0.1rem;
+    border: none;
+}

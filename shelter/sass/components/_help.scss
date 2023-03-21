@@ -1,0 +1,80 @@
+.help__wrapper{
+    padding: $padding-desktop-top 0 $padding-desktop-bottom 0;
+    text-align: center;
+}
+
+.help__options {
+    @include flex($justify-content:center);
+    flex-wrap: wrap;
+    gap: 11.1rem;
+    row-gap: 5.5rem;
+    max-width: 90%;
+    margin: auto;
+}
+.help__option{
+    @include flex($gap:3rem);
+    flex-direction: column;
+    .pet-food{
+        background-image: url(../img/icons/icon-pet-food.svg);
+        width: 6rem;
+        height: 6rem;
+        display: block;
+    }
+    .pet-food{
+        background-image: url(../img/icons/icon-pet-food.svg);
+        width: 6rem;
+        height: 6rem;
+        display: block;
+    }
+    .transportation{
+        background-image: url(../img/icons/icon-transportation.svg);
+        width: 6rem;
+        height: 6rem;
+        display: block;
+    } 
+    .toys{
+        background-image: url(../img/icons/icon-toys.svg);
+        width: 6rem;
+        height: 6rem;
+        display: block;
+    } 
+    .bowls-and-cups{
+        background-image: url(../img/icons/icon-bowls-and-cups.svg);
+        width: 6rem;
+        height: 6rem;
+        display: block;
+    }
+     .shampoos{
+        background-image: url(../img/icons/icon-shampoos.svg);
+        width: 6rem;
+        height: 6rem;
+        display: block;
+    } 
+    .vitamins{
+        background-image: url(../img/icons/icon-vitamins.svg);
+        width: 6rem;
+        height: 6rem;
+        display: block;
+    }
+    .medicines{
+        background-image: url(../img/icons/icon-medicines.svg);
+        width: 6rem;
+        height: 6rem;
+        display: block;
+    }
+    .collars{
+        background-image: url(../img/icons/icon-collars-leashes.svg);
+        width: 6rem;
+        height: 6rem;
+        display: block;
+    }
+    .sleeping-areas{
+        background-image: url(../img/icons/icon-sleeping-area.svg);
+        width: 6rem;
+        height: 6rem;
+        display: block;
+    }
+    &:last-child{
+        margin-right: 0;
+    }
+}

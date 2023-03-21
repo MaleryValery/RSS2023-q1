@@ -1,0 +1,133 @@
+@font-face {
+    font-family: "Georgia-Regular";
+    src: url(../fonts/georgia/georgia-regular.ttf);
+    font-weight: 400;
+}
+
+@font-face {
+    font-family: "Arial-Regular";
+    src: url(../fonts/arial/arial-regular.ttf);
+    font-weight: 400;
+}
+
+.header__logo-title {
+    font-family: "Georgia-Regular";
+    @include font(3.2rem, 1.1);
+    color: $color-primary;
+    letter-spacing: 0.18rem;
+    margin-bottom: 1rem;
+}
+
+.header__logo-subtitle {
+    font-family: "Arial-Regular";
+    @include font(1.3rem, 1.15);
+    color: $color-light-xl;
+    letter-spacing: 0.15rem;
+}
+
+.navigation__list {
+    font-family: "Arial-Regular";
+    @include font(1.5rem, 1.6);
+}
+
+.navigation__list-item {
+    list-style: none;
+}
+
+.navigation__list-link {
+    text-decoration: none;
+    color: $color-dark-s;
+    @extend %transition;
+    position: relative;
+
+    &::before {
+        content: "";
+        position: absolute;
+        top: 2rem;
+        height: 0.3rem;
+        width: 0;
+        left: 50%;
+        @extend %transition;
+    }
+
+    &:hover {
+        color: $color-light-s;
+    }
+
+    &:hover::before {
+        left: 0;
+        width: 100%;
+        background: $color-primary;
+    }
+
+    &.active{
+        color: $color-light-s;
+    }
+    &.active::before{
+        content: "";
+        position: absolute;
+        top: 2rem;
+        height: 0.3rem;
+        left: 0;
+        @extend %transition;
+        width: 100%;
+        background: $color-primary;
+        cursor:alias;
+    }
+}
+
+
+/******************************/
+.not-only__content-heading{
+    max-width: 67.4%;
+    font-family: "Georgia-Regular";
+    @include font(4.4rem, 1.3);
+    color: $color-light-xl;
+    margin-bottom: 4.2rem;
+}
+
+.not-only__content-subheading{
+    font-family: "Arial-Regular";
+    @include font(1.5rem, 1.6);
+    color: $color-light-xl;
+    margin-bottom: 4.2rem;
+}
+
+
+/******************************/
+
+.about__content-heading{
+    @extend %h3;
+    max-width: 86%;
+    margin-bottom: 2.5rem
+}
+.about__content-subheading{
+    @extend %subheading;
+    margin-bottom: 2.5rem;
+    &:last-child{
+        margin-bottom: 0;
+    }
+}
+/******************************/
+
+.our-friends__heading{
+    @extend %h3;
+    max-width:33.3%;
+    margin: auto;
+
+}
+
+/******************************/
+
+.help__heading{
+    @extend %h3;
+    max-width:37.16%;
+    margin: auto;
+    margin-bottom: 6rem;
+
+}
+.help__option{
+    p{
+        @extend %h4;
+    }
+}

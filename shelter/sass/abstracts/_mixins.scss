@@ -1,0 +1,13 @@
+@mixin font($size, $line-hight,  $style:normal,$weigth:400) {
+    font-size: $size;
+    line-height: $line-hight;
+    font-style: $style;
+    weigth:$weigth;
+}
+
+@mixin flex($display:flex,$justify-content:center,$align-items:center, $gap:0) {
+    display: $display;
+    justify-content: $justify-content;
+    align-items: $align-items;
+    gap: $gap;
+}
