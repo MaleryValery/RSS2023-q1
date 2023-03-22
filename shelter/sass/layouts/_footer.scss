@@ -59,8 +59,8 @@
     &.pin {
         display: block;
         background-image: url(../img/icons/pin.svg);
-        width: 4.05rem;
-        height: 3.2rem;
+        width: 4.03rem;
+        height: 3.15rem;
       
     }
     &.pin2 {
@@ -76,5 +76,8 @@
 .footer__contact-phone,
 .footer__contact-map {
     @include flex($justify-content:flex-start);
-    
+    @extend %transition-hover;
+    &:hover{
+        transform: scale(1.05);
+    }
 }
