@@ -4,10 +4,17 @@
         @include flex($gap:4.2rem, $justify-content:space-between,$align-items: flex-start);
     }
 
-
-
     &.about__wrapper{
         @include flex($gap:12rem,$justify-content:center);
         padding: $padding-desktop-top 0 $padding-desktop-bottom 0;
     }
+    
+    &.in-addition__wrapper{
+        @include flex($gap:3rem);
+        padding: $padding-desktop-top 0 $padding-desktop-bottom 0;
+    }
+}
+
+.lauout-3col{
+    @include flex($gap:16rem, $align-items:flex-start);
 }

@@ -1,12 +1,45 @@
-.button{
-    display: inline-block;
-    padding: 1.5rem 4.5rem;
-    text-decoration: none;
-    color: $color-dark-3xl;
-    background-color: $color-primary;
-    border-radius: 10rem;
+.button {
     font-family: "Georgia-Regular";
     @include font(1.7rem, 1.3);
     letter-spacing: 0.1rem;
+    text-decoration: none;
+
+    background-color: $color-primary;
+    color: $color-dark-3xl;
     border: none;
+    border-radius: 10rem;
+
+    display: inline-block;
+    padding: 1.5rem 4.5rem;
+
+    @extend %transition;
+
+    &:hover {
+        background-color: $color-primary-light;
+    }
+}
+
+.slider__card__btn {
+    background-color: transparent;
+    padding: 1.3rem 4.3rem;
+    border: 0.2rem solid $color-primary;
+
+    &:hover {
+        background-color: $color-primary-light;
+        border: 0.2rem solid $color-primary-light;
+    }
+}
+
+.button__round {
+    width: 5.2rem;
+    height: 5.2rem;
+    border-radius: 10rem;
+    border: 0.2rem solid $color-primary;
+    background-color: transparent;
+    @extend %transition;
+
+    &:hover {
+        background-color: $color-primary-light;
+        border: 0.2rem solid $color-primary-light;
+    }
 }

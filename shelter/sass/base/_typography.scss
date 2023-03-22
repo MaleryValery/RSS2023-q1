@@ -13,9 +13,12 @@
 .header__logo-title {
     font-family: "Georgia-Regular";
     @include font(3.2rem, 1.1);
-    color: $color-primary;
     letter-spacing: 0.18rem;
     margin-bottom: 1rem;
+    a{
+        text-decoration: none;
+        color: $color-primary;
+    }
 }
 
 .header__logo-subtitle {
@@ -60,10 +63,11 @@
         background: $color-primary;
     }
 
-    &.active{
+    &.active {
         color: $color-light-s;
     }
-    &.active::before{
+
+    &.active::before {
         content: "";
         position: absolute;
         top: 2rem;
@@ -72,13 +76,13 @@
         @extend %transition;
         width: 100%;
         background: $color-primary;
-        cursor:alias;
+        cursor: alias;
     }
 }
 
 
 /******************************/
-.not-only__content-heading{
+.not-only__content-heading {
     max-width: 67.4%;
     font-family: "Georgia-Regular";
     @include font(4.4rem, 1.3);
@@ -86,7 +90,7 @@
     margin-bottom: 4.2rem;
 }
 
-.not-only__content-subheading{
+.not-only__content-subheading {
     font-family: "Arial-Regular";
     @include font(1.5rem, 1.6);
     color: $color-light-xl;
@@ -96,38 +100,94 @@
 
 /******************************/
 
-.about__content-heading{
+.about__content-heading {
     @extend %h3;
     max-width: 86%;
     margin-bottom: 2.5rem
 }
-.about__content-subheading{
+
+.about__content-subheading {
     @extend %subheading;
     margin-bottom: 2.5rem;
-    &:last-child{
+
+    &:last-child {
         margin-bottom: 0;
     }
 }
-/******************************/
-
-.our-friends__heading{
-    @extend %h3;
-    max-width:33.3%;
-    margin: auto;
-
-}
 
 /******************************/
 
-.help__heading{
+.our-friends__heading {
     @extend %h3;
-    max-width:37.16%;
+    max-width: 33.3%;
     margin: auto;
     margin-bottom: 6rem;
-
 }
-.help__option{
-    p{
+
+/******************************/
+
+.help__heading {
+    @extend %h3;
+    max-width: 37.16%;
+    margin: auto;
+    margin-bottom: 6rem;
+    
+}
+.help__option {
+    p {
         @extend %h4;
     }
+}
+
+/******************************/
+
+.in-addition__content-heading {
+    @extend %h3;
+    max-width: 78.9%;
+    margin-bottom: 2rem;
+}
+
+.in-addition__content-subheading {
+    @extend %h5;
+    line-height: 1.1;
+    margin-bottom: 2rem;
+}
+
+.in-addition__card-number {
+    @extend %h4;
+    letter-spacing: 0.12rem;
+    text-decoration: none;
+}
+
+.in-addition__content-legal {
+    font-family: "Arial-Regular";
+    @include font(1.2rem, 1.5, $style:italic);
+    color: $color-dark-m;
+}
+
+
+/******************************/
+
+.footer__contact-header {
+    @extend %h3;
+    color: $color-light-xl;
+}
+
+.footer__contact,
+.footer__contact--address {
+        @extend %h4;
+        color: $color-primary;
+        display:block;
+        letter-spacing: 0.15rem;
+        text-decoration: none;
+}  
+ .first{
+   position: relative;
+   left: 2rem;
+}
+
+/******************************/
+.slider__card__name{
+    @extend  %h4;
+    margin: 2.95rem 0;
 }

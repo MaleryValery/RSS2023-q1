@@ -1,8 +1,8 @@
-@mixin font($size, $line-hight,  $style:normal,$weigth:400) {
+@mixin font($size, $line-hight,  $style:normal,$weight:400) {
     font-size: $size;
     line-height: $line-hight;
     font-style: $style;
-    weigth:$weigth;
+    font-weight:$weight;
 }
 
 @mixin flex($display:flex,$justify-content:center,$align-items:center, $gap:0) {

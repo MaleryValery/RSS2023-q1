@@ -1,6 +1,5 @@
-.our-friends {
+.our-friends-bg__wrapper{
     background-color: $color-light-l;
-
 }
 
 .our-friends__wrapper {
@@ -8,3 +7,41 @@
     text-align: center;
 }
 
+.slider{
+    @include flex($gap:9rem);
+    position:relative;
+    margin-bottom: 6rem;
+}
+.slider__card{
+    border-radius: 0.9rem;
+    background-color: $color-light-s;
+    padding-bottom: 3rem;
+}
+
+.slider__card__img{
+line-height: 0;
+}
+.slider__btn{
+    position: absolute;
+}
+.slider__btn--rigth{
+    right: 0;
+    @include flex();
+    span{
+        background-image: url(../img/icons/Arrow.svg);
+        width: 1.4rem;
+        height: 0.6rem;
+        display: block;
+    }
+}
+.slider__btn--left{
+    left: 0;
+    @include flex();
+    span{
+        background-image: url(../img/icons/Arrow.svg);
+        width: 1.4rem;
+        height: 0.6rem;
+        display: block;
+        transform: rotate(180deg);
+    }
+}

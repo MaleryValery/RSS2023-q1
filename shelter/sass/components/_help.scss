@@ -1,3 +1,7 @@
+.help-bg__wrapper{
+    background-color: $color-light-xl;
+}
+
 .help__wrapper{
     padding: $padding-desktop-top 0 $padding-desktop-bottom 0;
     text-align: center;
@@ -6,7 +10,7 @@
 .help__options {
     @include flex($justify-content:center);
     flex-wrap: wrap;
-    gap: 11.1rem;
+    gap: 11.2rem;
     row-gap: 5.5rem;
     max-width: 90%;
     margin: auto;
