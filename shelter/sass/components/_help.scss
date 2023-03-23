@@ -10,7 +10,7 @@
 .help__options {
     @include flex($justify-content:center);
     flex-wrap: wrap;
-    gap: 11.2rem;
+    gap: 12rem;
     row-gap: 5.5rem;
     max-width: 90%;
     margin: auto;

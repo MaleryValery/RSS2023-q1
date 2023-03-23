@@ -8,6 +8,10 @@
     justify-content: space-between;
     align-items:center;
     padding: 3rem 0 9rem 0;
+
+    &.pets{
+        padding: 3rem 0 3rem 0;
+    }
 }
 .navigation__list{
     display: flex;  

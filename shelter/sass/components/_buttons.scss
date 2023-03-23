@@ -61,3 +61,11 @@
         border: 0.2rem solid $color-dark-s;
     }
 }
+
+.act{
+    background-color: $color-primary;
+    &:hover {
+        cursor: default;
+        background-color: $color-primary;
+       border: $color-primary;}
+}

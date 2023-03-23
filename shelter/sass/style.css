@@ -25,7 +25,7 @@
   line-height: 1.15;
   font-style: normal;
   font-weight: 400;
-  letter-spacing: 0.2rem;
+  letter-spacing: 0.13rem;
   color: #545454;
 }
 
@@ -35,7 +35,7 @@
   line-height: 1.1;
   font-style: normal;
   font-weight: 400;
-  letter-spacing: 0.11rem;
+  letter-spacing: 0.09rem;
   color: #545454;
 }
 
@@ -95,6 +95,9 @@ body {
   text-decoration: none;
   color: #F1CDB3;
 }
+.header__logo-title.pets a {
+  color: #545454;
+}
 
 .header__logo-subtitle {
   font-family: "Arial-Regular";
@@ -104,6 +107,9 @@ body {
   font-weight: 400;
   color: #FFFFFF;
   letter-spacing: 0.15rem;
+}
+.header__logo-subtitle.pets {
+  color: #292929;
 }
 
 .navigation__list {
@@ -122,6 +128,8 @@ body {
   text-decoration: none;
   color: #CDCDCD;
   position: relative;
+  bottom: 2px;
+  right: 2px;
 }
 .navigation__list-link::before {
   content: "";
@@ -146,11 +154,21 @@ body {
 .navigation__list-link.active::before {
   content: "";
   position: absolute;
-  top: 2rem;
+  top: 2.1rem;
   height: 0.3rem;
   left: 0;
   width: 100%;
   background: #F1CDB3;
+}
+.navigation__list-link.pets {
+  color: #545454;
+}
+.navigation__list-link.pets.active {
+  color: #292929;
+  cursor: default;
+}
+.navigation__list-link.pets:hover {
+  color: #292929;
 }
 
 /******************************/
@@ -240,7 +258,7 @@ body {
 .footer__contact--address {
   color: #F1CDB3;
   display: block;
-  letter-spacing: 0.15rem;
+  letter-spacing: 0.12rem;
   text-decoration: none;
 }
 
@@ -264,6 +282,9 @@ body {
   justify-content: space-between;
   align-items: center;
   padding: 3rem 0 9rem 0;
+}
+.header__wrapper.pets {
+  padding: 3rem 0 3rem 0;
 }
 
 .navigation__list {
@@ -446,6 +467,15 @@ body {
   border: 0.2rem solid #CDCDCD;
 }
 
+.act {
+  background-color: #F1CDB3;
+}
+.act:hover {
+  cursor: default;
+  background-color: #F1CDB3;
+  border: #F1CDB3;
+}
+
 .about-bg__wrapper {
   background-color: #FFFFFF;
 }
@@ -557,7 +587,7 @@ body {
   align-items: center;
   gap: 0;
   flex-wrap: wrap;
-  gap: 11.2rem;
+  gap: 12rem;
   row-gap: 5.5rem;
   max-width: 90%;
   margin: auto;
