@@ -1,4 +1,4 @@
-.our-friends-bg__wrapper{
+.our-friends-bg__wrapper {
     background-color: $color-light-l;
 }
 
@@ -7,37 +7,62 @@
     text-align: center;
 }
 
-.slider{
+.slider {
     @include flex($gap:9rem);
-    position:relative;
+    position: relative;
     margin-bottom: 6rem;
 }
-.slider__card{
+
+.slider__card {
+    max-width: 22.5%;
     border-radius: 0.9rem;
     background-color: $color-light-s;
-    padding-bottom: 3rem;
+    overflow: hidden;
+    @extend %transition;
+    &:hover {
+        cursor: pointer;
+        transform: scale(1.02);
+        box-shadow:  0 1rem 3rem rgba(74,74,74,0.1);
+
+        .slider__text-content{
+            background-color: $color-light-xl;
+        }
+    }
 }
 
-.slider__card__img{
-line-height: 0;
+.slider__text-content{
+    padding: 3rem 0;
+    @extend %transition;
 }
-.slider__btn{
+.slider__card__img {
+    line-height: 0;
+    @include flex();
+    img {
+        max-height: 27rem;
+    }
+}
+
+.slider__btn {
     position: absolute;
 }
-.slider__btn--rigth{
+
+.slider__btn--rigth {
     right: 0;
     @include flex();
-    span{
+
+    span {
         background-image: url(../img/icons/Arrow.svg);
         width: 1.4rem;
         height: 0.6rem;
         display: block;
     }
 }
-.slider__btn--left{
+
+.slider__btn--left {
     left: 0;
     @include flex();
-    span{
+
+    span {
         background-image: url(../img/icons/Arrow.svg);
         width: 1.4rem;
         height: 0.6rem;

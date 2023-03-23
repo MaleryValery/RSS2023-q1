@@ -1,0 +1,11 @@
+.slider__pets{
+    @include flex($gap:4rem);
+    flex-wrap: wrap;
+    row-gap: 3rem;
+    padding-bottom: 6rem;
+
+}
+
+.slider__pets--nav{
+    @include flex($gap:2rem)
+}    
