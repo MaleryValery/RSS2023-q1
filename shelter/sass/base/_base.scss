@@ -17,7 +17,14 @@ body{
 }
 
 .section{
-    max-width: 128rem;
+    max-width: $content-widht;
     margin: auto;
-    padding: 0 4rem;
+    padding: 0 $padding-desktop;
+
+    @include tablet{
+        padding: 0 $padding-tablet;
+    }
+    @include mobile{
+        padding: 0 $padding-mabile;
+    }
 }

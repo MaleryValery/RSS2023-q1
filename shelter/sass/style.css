@@ -71,6 +71,16 @@ body {
   margin: auto;
   padding: 0 4rem;
 }
+@media (max-width: 768px) {
+  .section {
+    padding: 0 3rem;
+  }
+}
+@media (max-width: 320px) {
+  .section {
+    padding: 0 1rem;
+  }
+}
 
 @font-face {
   font-family: "Georgia-Regular";
@@ -286,6 +296,11 @@ body {
 .header__wrapper.pets {
   padding: 3rem 0 3rem 0;
 }
+@media (max-width: 768px) {
+  .header__wrapper {
+    padding-bottom: 6rem;
+  }
+}
 
 .navigation__list {
   display: flex;
@@ -293,10 +308,20 @@ body {
 }
 
 .layout-2col.not-only__wrapper {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  gap: 4.2rem;
+  background-image: url(../img/start-screen-puppy.png);
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: bottom right;
+}
+@media (max-width: 1115px) {
+  .layout-2col.not-only__wrapper {
+    background-size: 45%;
+  }
+}
+@media (max-width: 768px) {
+  .layout-2col.not-only__wrapper {
+    background-size: 56.9rem;
+  }
 }
 .layout-2col.about__wrapper {
   display: flex;
@@ -399,17 +424,31 @@ body {
 }
 
 .not-only__content {
-  max-width: 38.3%;
-  margin-top: 16.3rem;
+  max-width: 46rem;
+  padding: 16.3rem 0 24.25rem 0;
+}
+@media (max-width: 1115px) {
+  .not-only__content {
+    padding-top: 6rem;
+  }
+}
+@media (max-width: 768px) {
+  .not-only__content {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 0;
+    flex-direction: column;
+    max-width: 46rem;
+    padding: 0rem 0 69.3rem 0;
+    margin: 0 auto;
+  }
 }
 
-.not-only__img {
-  max-width: 58.2%;
-  line-height: 0;
-}
-.not-only__img img {
-  max-width: 100%;
-  max-height: 100%;
+@media (max-width: 768px) {
+  .not-only__content-btn {
+    margin: 0 auto;
+  }
 }
 
 .button {

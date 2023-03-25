@@ -1,7 +1,16 @@
 .layout-2col{
 
-    &.not-only__wrapper{
-        @include flex($gap:4.2rem, $justify-content:space-between,$align-items: flex-start);
+    &.not-only__wrapper{    
+        background-image:  url(../img/start-screen-puppy.png);
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-position: bottom right;
+        @include small-desktop{
+            background-size: 45%;
+        }
+        @include tablet{
+            background-size: 56.9rem;
+        }
     }
 
     &.about__wrapper{

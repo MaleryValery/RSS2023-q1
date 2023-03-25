@@ -2,6 +2,7 @@
 .header-welcome__wrapper{
     background-image:  url(../img/95577108af837b8b441616746225b66e.png), radial-gradient(100% 215.42% at 0% 0%, #5B483A 0%, #262425 100%);
     background-repeat: repeat;
+    
 }
 .header__wrapper{
     display: flex;
@@ -12,8 +13,15 @@
     &.pets{
         padding: 3rem 0 3rem 0;
     }
+
+    @include tablet{
+        padding-bottom: 6rem;
+    }
 }
 .navigation__list{
     display: flex;  
     gap: 3.5rem;
+    ;
 }
+
+

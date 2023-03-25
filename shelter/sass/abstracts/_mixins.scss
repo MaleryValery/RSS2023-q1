@@ -11,3 +11,16 @@
     align-items: $align-items;
     gap: $gap;
 }
+
+@mixin small-desktop{
+    @media (max-width: $media-widht-desktop-s){@content;}
+}
+@mixin tablet{
+    @media (max-width:$media-widht-tablet){@content;}
+}
+@mixin small-tablet{
+    @media (max-width: $media-widht-tablet-s){@content;}
+}
+@mixin mobile{
+    @media (max-width: $media-widht-mobile){@content;}
+}

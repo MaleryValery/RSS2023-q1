@@ -1,14 +1,33 @@
 .not-only__content{
-    max-width: 38.3%;
-    margin-top: 16.3rem;
-}
+    max-width: 46rem;
+    padding: 16.3rem 0 24.25rem 0;
+    @include small-desktop{
+        padding-top:6rem;
+    }
 
-.not-only__img{
-    max-width: 58.2%;
-    line-height: 0;
-  
-    img{
-        max-width: 100%;
-        max-height: 100%;
+    @include tablet{
+        @include flex($align-items:flex-start);
+        flex-direction: column;
+        max-width: 46rem;
+        padding: 0rem 0 69.3rem 0;
+        margin: 0 auto;
     }
 }
+.not-only__content-btn{
+    @include tablet{
+      margin: 0 auto;
+    }
+}
+
+// .not-only__img{
+//     max-width: 58.2%;
+//     line-height: 0;
+//     position: absolute;
+//     bottom: 0;
+//     right: 0;
+  
+//     img{
+//         max-width: 100%;
+//         max-height: 100%;
+//     }
+// }
