@@ -13,6 +13,12 @@
         @include tablet {
             background-size: 56.9rem;
         }
+        @include small-tablet {
+            background-size: 90%;
+        }
+        @include mobile {
+            background-size: 26rem;
+        }
     }
 
     &.about__wrapper {
@@ -23,6 +29,11 @@
             flex-direction: column-reverse;
             gap: 8rem;
         }
+        @include mobile {
+            padding: $padding-mobile-top 0 $padding-mobile-bottom 0;
+            flex-direction: column-reverse;
+            gap: 4.24rem;
+        }
     }
 
     &.in-addition__wrapper {
@@ -31,6 +42,12 @@
         @include small-desktop {
             flex-direction: column-reverse;
             gap: 6rem;
+        }
+        @include mobile {
+            padding: $padding-mobile-top 0 $padding-mobile-bottom 0;
+            flex-direction: column-reverse;
+            gap: 4.2rem;
+            align-items: center;
         }
     }
 
@@ -43,7 +60,14 @@
         gap: 6rem;
     }
     @include tablet {
-        padding-bottom: 37.5rem;
+        padding-bottom: 37.3rem;
         justify-content: center;
+    }
+
+    @include mobile {
+        padding-bottom: 30.9rem;
+        flex-direction: column;
+        align-items: center;
+        gap: 4rem;
     }
 }

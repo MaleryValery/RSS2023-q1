@@ -18,12 +18,18 @@
     @include tablet {
         padding-bottom: 6rem;
     }
+    @include mobile{
+        padding:3rem 1rem 6rem 1rem;
+    }
 }
 
 .navigation__list {
     display: flex;
     gap: 3.5rem;
 
+    @include small-tablet {
+        display: none;
+    }
     @include small-tablet {
         display: none;
     }
