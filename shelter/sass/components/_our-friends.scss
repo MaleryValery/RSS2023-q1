@@ -1,5 +1,6 @@
 .our-friends-bg__wrapper {
     background-color: $color-light-l;
+    position: relative;
 }
 
 .our-friends__wrapper {
@@ -8,13 +9,31 @@
 }
 
 .slider {
-    @include flex($gap:9rem);
-    position: relative;
+    @include flex();
+    margin: 0 auto;
     margin-bottom: 6rem;
-}
+    @include tablet{
+    //   margin-top: -0.2rem;
+       }
 
+}
+.slider__cart-conteiner{
+    @include flex($gap:9rem,      $justify-content: flex-start);
+    max-width: 99rem;
+    overflow: hidden;
+    order: 2;
+    @include small-desktop{
+        gap: 4rem;
+        justify-content: flex-start;
+       }
+    @include tablet{
+     gap: 4rem;
+     justify-content: flex-start;
+    }
+}
 .slider__card {
-    max-width: 22.5%;
+    flex-shrink: 0;
+    max-width: 27rem;
     border-radius: 0.9rem;
     background-color: $color-light-s;
     overflow: hidden;
@@ -27,6 +46,10 @@
         .slider__text-content{
             background-color: $color-light-xl;
         }
+    }
+    @include tablet{
+        max-width: 58rem;
+        max-width: 27rem;
     }
 }
 
@@ -43,12 +66,13 @@
 }
 
 .slider__btn {
-    position: absolute;
+    @include flex();
 }
 
 .slider__btn--rigth {
-    right: 0;
-    @include flex();
+    flex-shrink: 0;
+    margin-left:5.3rem;
+    order: 3;
 
     span {
         background-image: url(../img/icons/Arrow.svg);
@@ -56,11 +80,15 @@
         height: 0.6rem;
         display: block;
     }
+    @include small-desktop{
+        margin-left:1.2rem;
+       }
 }
 
 .slider__btn--left {
-    left: 0;
-    @include flex();
+    flex-shrink: 0;
+    margin-right:5.3rem;
+    order: 1;
 
     span {
         background-image: url(../img/icons/Arrow.svg);
@@ -69,4 +97,7 @@
         display: block;
         transform: rotate(180deg);
     }
+    @include small-desktop{
+        margin-right:1.2rem;
+       }
 }

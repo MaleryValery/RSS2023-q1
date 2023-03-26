@@ -1,29 +1,49 @@
-.layout-2col{
+.layout-2col {
 
-    &.not-only__wrapper{    
-        background-image:  url(../img/start-screen-puppy.png);
+    &.not-only__wrapper {
+        background-image: url(../img/start-screen-puppy.png);
         background-size: contain;
         background-repeat: no-repeat;
         background-position: bottom right;
-        @include small-desktop{
+
+        @include small-desktop {
             background-size: 45%;
         }
-        @include tablet{
+
+        @include tablet {
             background-size: 56.9rem;
         }
     }
 
-    &.about__wrapper{
-        @include flex($gap:12rem,$justify-content:center);
+    &.about__wrapper {
+        @include flex($gap:12rem, $justify-content:center);
         padding: $padding-desktop-top 0 $padding-desktop-bottom 0;
+
+        @include tablet {
+            flex-direction: column-reverse;
+            gap: 8rem;
+        }
     }
-    
-    &.in-addition__wrapper{
+
+    &.in-addition__wrapper {
         @include flex($gap:3rem);
         padding: $padding-desktop-top 0 $padding-desktop-bottom 0;
+        @include small-desktop {
+            flex-direction: column-reverse;
+            gap: 6rem;
+        }
     }
+
 }
 
-.lauout-3col{
-    @include flex($gap:16rem, $align-items:flex-start);
+.lauout-3col {
+    @include flex($gap:16rem, $align-items:flex-start, $justify-content:flex-start);
+    padding-bottom: 5.5rem;
+    @include small-desktop {
+        gap: 6rem;
+    }
+    @include tablet {
+        padding-bottom: 37.5rem;
+        justify-content: center;
+    }
 }

@@ -14,10 +14,17 @@
     row-gap: 5.5rem;
     max-width: 90%;
     margin: auto;
+    @include tablet{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 6rem;
+    row-gap: 5.3rem;
+    }
 }
 .help__option{
     @include flex($gap:3rem);
     flex-direction: column;
+    align-self: center;
     .pet-food{
         background-image: url(../img/icons/icon-pet-food.svg);
         width: 6rem;

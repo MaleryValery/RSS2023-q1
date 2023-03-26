@@ -15,12 +15,14 @@
     @include font(3.2rem, 1.1);
     letter-spacing: 0.18rem;
     margin-bottom: 1rem;
-    a{
+
+    a {
         text-decoration: none;
         color: $color-primary;
     }
-    &.pets{
-        a{
+
+    &.pets {
+        a {
             color: $color-dark-l;
         }
     }
@@ -31,7 +33,8 @@
     @include font(1.3rem, 1.15);
     color: $color-light-xl;
     letter-spacing: 0.15rem;
-    &.pets{
+
+    &.pets {
         color: $color-dark-3xl;
     }
 }
@@ -39,6 +42,10 @@
 .navigation__list {
     font-family: "Arial-Regular";
     @include font(1.5rem, 1.6);
+
+    @include small-tablet {
+        @include font(3.2rem, 1.6, $weight:400);
+    }
 }
 
 .navigation__list-item {
@@ -61,6 +68,11 @@
         width: 0;
         left: 50%;
         @extend %transition;
+
+        @include small-tablet {
+            @include font(3.2rem, 1.6, $weight:400);
+            top: 4rem;
+        }
     }
 
     &:hover {
@@ -71,6 +83,11 @@
         left: 0;
         width: 100%;
         background: $color-primary;
+
+        @include small-tablet {
+            @include font(3.2rem, 1.6, $weight:400);
+            top: 4rem;
+        }
     }
 
     &.active {
@@ -87,17 +104,37 @@
         @extend %transition;
         width: 100%;
         background: $color-primary;
-       
+
+        @include small-tablet {
+            @include font(3.2rem, 1.6, $weight:400);
+            top: 4rem;
+        }
+
     }
 
-    &.pets{
+    &.pets {
         color: $color-dark-l;
+
+        @include small-tablet {
+            color: $color-dark-s;
+        }
+
         &.active {
             color: $color-dark-3xl;
             cursor: default;
+
+            @include small-tablet {
+                color: $color-light-s;
+            }
         }
+
         &:hover {
             color: $color-dark-3xl;
+
+            @include small-tablet {
+                color: $color-light-s;
+                ;
+            }
         }
     }
 }
@@ -141,20 +178,23 @@
 
 .our-friends__heading {
     @extend %h3;
-    max-width: 33.3%;
+    max-width: 40rem;
     margin: auto;
     margin-bottom: 6rem;
+    @include tablet{
+        max-width: 40rem;
+    }
 }
 
 /******************************/
 
 .help__heading {
     @extend %h3;
-    max-width: 37.16%;
+    max-width: 31rem;
     margin: auto;
     margin-bottom: 6rem;
-    
 }
+
 .help__option {
     p {
         @extend %h4;
@@ -180,7 +220,8 @@
     letter-spacing: 0.12rem;
     text-decoration: none;
     @extend %transition-hover;
-    &:hover{
+
+    &:hover {
         color: $color-dark-3xl;
         transform: scale(1.01);
     }
@@ -202,20 +243,21 @@
 
 .footer__contact,
 .footer__contact--address {
-        @extend %h4;
-        color: $color-primary;
-        display:block;
-        letter-spacing: 0.12rem;
-        text-decoration: none;
-       
-}  
- .first{
-   position: relative;
-   left: 2rem;
+    @extend %h4;
+    color: $color-primary;
+    display: block;
+    letter-spacing: 0.12rem;
+    text-decoration: none;
+
+}
+
+.first {
+    position: relative;
+    left: 2rem;
 }
 
 /******************************/
-.slider__card__name{
-    @extend  %h4;
+.slider__card__name {
+    @extend %h4;
     margin-bottom: 2.95rem;
 }
