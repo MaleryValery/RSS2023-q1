@@ -438,8 +438,9 @@ body {
   border: 0.2rem solid #F1CDB3;
 }
 .slider__card__btn:hover {
-  background-color: #FDDCC4;
-  border: 0.2rem solid #FDDCC4;
+  background-color: #F1CDB3;
+  border: 0.2rem solid #F1CDB3;
+  box-shadow: 0 0.2rem 1rem 1rem rgba(13, 13, 13, 0.04);
 }
 
 .button__round {
@@ -522,6 +523,10 @@ body {
 }
 .slider__card:hover .slider__text-content {
   background-color: #FFFFFF;
+}
+.slider__card:hover .slider__card__btn {
+  background-color: #F1CDB3;
+  border-radius: #F1CDB3;
 }
 
 .slider__text-content {
