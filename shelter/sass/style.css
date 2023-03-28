@@ -98,6 +98,12 @@ body {
 .header__logo-title.pets a {
   color: #545454;
 }
+.header__logo-box {
+  transition: all 0.3s ease-in-out;
+}
+.header__logo-box:hover {
+  transform: scale(1.03);
+}
 
 .header__logo-subtitle {
   font-family: "Arial-Regular";
