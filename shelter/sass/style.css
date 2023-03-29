@@ -148,7 +148,7 @@ body {
 .navigation__list-link:hover {
   color: #FAFAFA;
 }
-.navigation__list-link:hover::before {
+.navigation__list-link:active::before {
   left: 0;
   width: 100%;
   background: #F1CDB3;
@@ -478,9 +478,9 @@ body {
   background-color: #F1CDB3;
 }
 .act:hover {
-  cursor: default;
-  background-color: #F1CDB3;
-  border: #F1CDB3;
+  cursor: pointer;
+  background-color: #FDDCC4;
+  border: #FDDCC4;
 }
 
 .about-bg__wrapper {
