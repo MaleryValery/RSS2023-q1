@@ -28,6 +28,14 @@
     }
 }
 
+.header__logo-box {
+    transition: all .3s ease-in-out;
+
+    &:hover {
+        transform: scale(1.03);
+    }
+}
+
 .header__logo-subtitle {
     font-family: "Arial-Regular";
     @include font(1.3rem, 1.15);
@@ -37,7 +45,7 @@
     &.pets {
         color: $color-dark-3xl;
     }
-  
+
 }
 
 .navigation__list {
@@ -71,7 +79,7 @@
         @extend %transition;
 
         @include small-tablet {
-            @include font(3.2rem, 1.6, $weight:400);
+            //      @include font(3.2rem, 1.6, $weight:400);
             top: 4rem;
         }
     }
@@ -80,13 +88,13 @@
         color: $color-light-s;
     }
 
-    &:hover::before {
+    &:active::before {
         left: 0;
         width: 100%;
         background: $color-primary;
 
         @include small-tablet {
-            @include font(3.2rem, 1.6, $weight:400);
+            //      @include font(3.2rem, 1.6, $weight:400);
             top: 4rem;
         }
     }
@@ -107,7 +115,7 @@
         background: $color-primary;
 
         @include small-tablet {
-            @include font(3.2rem, 1.6, $weight:400);
+            //  @include font(3.2rem, 1.6, $weight:400);
             top: 4rem;
         }
 
@@ -159,7 +167,7 @@
 .not-only__content-subheading {
     font-family: "Arial-Regular";
     @include font(1.5rem, 1.6);
-    color: $color-light-xl;
+    color: $color-dark-s;
     margin-bottom: 4.2rem;
 
     @include mobile {
@@ -178,7 +186,7 @@
 
     @include mobile {
         max-width: 30rem;
-        font-size: 2.5rem;
+        //    font-size: 2.5rem;
         text-align: center;
         // margin-bottom: 2.35rem;
     }
@@ -195,6 +203,7 @@
         text-align: justify;
         padding: 0 1.25rem;
         line-height: 1.6;
+
         &:not(:last-child) {
             margin-bottom: 2.2rem;
         }
@@ -215,9 +224,20 @@
 
     @include mobile {
         max-width: 30rem;
-        font-size: 2.5rem;
+        //     font-size: 2.5rem;
         text-align: center;
         margin-bottom: 4.2rem;
+        letter-spacing: 0.14rem;
+    }
+
+    &.pets {
+        @include tablet {
+            margin-bottom: 3rem;
+        }
+
+        @include mobile {
+            margin-bottom: 4rem;
+        }
     }
 }
 
@@ -231,7 +251,7 @@
 
     @include mobile {
         max-width: 32rem;
-        font-size: 2.5rem;
+        //   font-size: 2.5rem;
         text-align: center;
         margin-bottom: 4.2rem;
     }
@@ -258,9 +278,9 @@
     margin-bottom: 1.5rem;
 
     @include mobile {
-        margin-bottom: 2rem;
+        margin-bottom: 1.8rem;
         max-width: unset;
-        font-size: 2.5rem;
+        //   font-size: 2.5rem;
         text-align: center;
         align-self: center
     }
@@ -269,9 +289,11 @@
 .in-addition__content-subheading {
     @extend %h5;
     margin-bottom: 1.5rem;
+
     @include tablet {
         margin-bottom: 2rem;
     }
+
     @include mobile {
         margin-bottom: 1.8rem;
         text-align: center;
@@ -289,7 +311,8 @@
         color: $color-dark-3xl;
         transform: scale(1.01);
     }
-    @include mobile{
+
+    @include mobile {
         font-size: 1.5rem;
         line-height: 1.1;
         letter-spacing: 0.09rem;
@@ -300,9 +323,10 @@
     font-family: "Arial-Regular";
     @include font(1.2rem, 1.5, $style:italic);
     color: $color-dark-m;
-    @include mobile{
+
+    @include mobile {
         padding: 0 1rem;
-      text-align: justify;
+        text-align: justify;
     }
 }
 
@@ -312,9 +336,18 @@
 .footer__contact-header {
     @extend %h3;
     color: $color-light-xl;
+
     @include mobile {
-        font-size: 2.5rem;
         text-align: center;
+    }
+
+    &.pets {
+        @include mobile {
+            max-width: 95%;
+            letter-spacing: 0.13rem;
+            margin-left: auto;
+            margin-right: auto;
+        }
     }
 }
 
@@ -325,16 +358,20 @@
     display: block;
     letter-spacing: 0.12rem;
     text-decoration: none;
+
     @include mobile {
         text-align: center;
     }
 }
 
+
 .first {
     position: relative;
     left: 2rem;
+
     @include mobile {
-        left: 0rem;
+        text-align: left;
+      //  left: 0rem;
     }
 }
 

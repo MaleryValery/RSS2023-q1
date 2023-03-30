@@ -10,7 +10,7 @@
         padding: $padding-tablet-top 0 $padding-tablet-bottom 0;
     }
     @include mobile {
-        padding: 3.9rem 0 $padding-mobile-bottom 0;
+        padding: $padding-mobile-top 0 $padding-mobile-bottom 0;
     }
 }
 
@@ -28,12 +28,18 @@
         gap: 6rem;
         row-gap: 5.3rem;
     }
-    @include mobile {
+    @include small-tablet{
         max-width: 100%;
-        grid-template-columns: 1fr 1fr;
-        gap: 3rem;
-        row-gap: 3rem;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            row-gap: 3rem;
     }
+    // @include mobile {
+    //     max-width: 100%;
+    //     grid-template-columns: 1fr 1fr;
+    //     gap: 3rem;
+    //     row-gap: 3rem;
+    // }
 }
 
 .help__option {

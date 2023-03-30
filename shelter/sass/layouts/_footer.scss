@@ -24,6 +24,7 @@
         background-position: bottom center;
         margin-right: 0;
     }
+
     @include mobile {
         background-size: 26rem
     }
@@ -35,16 +36,15 @@
 
     &>* {
         &:not(:last-child) {
-        margin-bottom: 4rem;
+            margin-bottom: 4rem;
         }
     }
 
     @include tablet {
         padding-top: 0;
     }
-      @include mobile {
-     
-    }
+
+    @include mobile {}
 }
 
 .footer__contact-address {
@@ -56,68 +56,80 @@
             margin-bottom: 3.4rem;
         }
     }
+
     @include tablet {
         padding-top: 0;
     }
+
     @include mobile {
         &>* {
             &:not(:last-child) {
                 margin-bottom: 4rem;
             }
+        }
+    }
+
+    &.pets {
+        @include mobile {
+            &>* {
+                &:not(:last-child) {
+                    margin-bottom: 3.9rem;
+                }
+            }
+        }
     }
 }
-}
+    .footer__icon {
+        &.email {
+            display: block;
+            background-image: url(../img/icons/icon-email.svg);
+            width: 4rem;
+            height: 3.2rem;
+            margin-right: 2rem;
+        }
 
-.footer__icon {
-    &.email {
-        display: block;
-        background-image: url(../img/icons/icon-email.svg);
-        width: 4rem;
-        height: 3.2rem;
-        margin-right: 2rem;
+        &.phone {
+            display: block;
+            background-image: url(../img/icons/icon-phone.svg);
+            width: 4rem;
+            height: 3.2rem;
+            margin-right: 2rem;
+        }
+
+        &.pin {
+            display: block;
+            background-image: url(../img/icons/pin.svg);
+            width: 4.03rem;
+            height: 3.15rem;
+
+        }
+
+        &.pin2 {
+            display: block;
+            background-image: url(../img/icons/pin.svg);
+            width: 2.2rem;
+            height: 3.2rem;
+            margin-right: 2rem;
+        }
     }
 
-    &.phone {
-        display: block;
-        background-image: url(../img/icons/icon-phone.svg);
-        width: 4rem;
-        height: 3.2rem;
-        margin-right: 2rem;
+    .footer__contact-email,
+    .footer__contact-phone,
+    .footer__contact-map {
+        @include flex($justify-content:flex-start);
+        @extend %transition-hover;
+
+        &:hover {
+            transform: scale(1.05);
+        }
+
+        @include mobile {
+            justify-content: center;
+        }
     }
 
-    &.pin {
-        display: block;
-        background-image: url(../img/icons/pin.svg);
-        width: 4.03rem;
-        height: 3.15rem;
-
+    .footer__contact-map {
+        @include mobile {
+            justify-content: flex-start;
+        }
     }
-
-    &.pin2 {
-        display: block;
-        background-image: url(../img/icons/pin.svg);
-        width: 2.2rem;
-        height: 3.2rem;
-        margin-right: 2rem;
-    }
-}
-
-.footer__contact-email,
-.footer__contact-phone,
-.footer__contact-map {
-    @include flex($justify-content:flex-start);
-    @extend %transition-hover;
-
-    &:hover {
-        transform: scale(1.05);
-    }
-    @include mobile{
-        justify-content: center;
-    }
-}
-
-.footer__contact-map {
-    @include mobile{
-        justify-content: flex-start;
-    }
-}

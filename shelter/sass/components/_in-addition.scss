@@ -12,6 +12,10 @@
     line-height: 0;
  
     img{
+        @include small-tablet{
+            max-width: 40rem;
+        }
+        
         @include mobile{
             max-width: 26rem;
         }

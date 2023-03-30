@@ -33,7 +33,27 @@
         }
     }
 
+
+&.pets{
+    &::after,
+    &::before{
+        background-color:  $color-dark-3xl;
+    }
+    & span{
+        background-color: $color-dark-3xl;
+    }
+}
+
 &.active{
     transform: rotate(90deg);
+    &.pets{
+        &::after,
+        &::before{
+            background-color:  $color-primary;
+        }
+        & span{
+            background-color: $color-primary;
+        }
+    }
 }
 }
