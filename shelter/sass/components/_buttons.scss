@@ -26,8 +26,9 @@
     border: 0.2rem solid $color-primary;
 
     &:hover {
-        background-color: $color-primary-light;
-        border: 0.2rem solid $color-primary-light;
+        background-color: $color-primary;
+        border: 0.2rem solid $color-primary;
+        box-shadow:0 0.2rem 1rem 1rem rgba(13, 13, 13, 0.04);
     }
 }
 
@@ -65,7 +66,8 @@
 .act{
     background-color: $color-primary;
     &:hover {
-        cursor: default;
-        background-color: $color-primary;
-       border: $color-primary;}
+        cursor: pointer;
+        background-color: $color-primary-light;
+       border: $color-primary-light;
+    }
 }

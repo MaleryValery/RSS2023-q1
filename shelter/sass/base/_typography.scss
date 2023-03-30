@@ -15,14 +15,24 @@
     @include font(3.2rem, 1.1);
     letter-spacing: 0.18rem;
     margin-bottom: 1rem;
-    a{
+
+    a {
         text-decoration: none;
         color: $color-primary;
     }
-    &.pets{
-        a{
+
+    &.pets {
+        a {
             color: $color-dark-l;
         }
+    }
+}
+
+.header__logo-box {
+    transition: all .3s ease-in-out;
+
+    &:hover {
+        transform: scale(1.03);
     }
 }
 
@@ -31,14 +41,20 @@
     @include font(1.3rem, 1.15);
     color: $color-light-xl;
     letter-spacing: 0.15rem;
-    &.pets{
+
+    &.pets {
         color: $color-dark-3xl;
     }
+
 }
 
 .navigation__list {
     font-family: "Arial-Regular";
     @include font(1.5rem, 1.6);
+
+    @include small-tablet {
+        @include font(3.2rem, 1.6, $weight:400);
+    }
 }
 
 .navigation__list-item {
@@ -61,16 +77,26 @@
         width: 0;
         left: 50%;
         @extend %transition;
+
+        @include small-tablet {
+            //      @include font(3.2rem, 1.6, $weight:400);
+            top: 4rem;
+        }
     }
 
     &:hover {
         color: $color-light-s;
     }
 
-    &:hover::before {
+    &:active::before {
         left: 0;
         width: 100%;
         background: $color-primary;
+
+        @include small-tablet {
+            //      @include font(3.2rem, 1.6, $weight:400);
+            top: 4rem;
+        }
     }
 
     &.active {
@@ -87,17 +113,36 @@
         @extend %transition;
         width: 100%;
         background: $color-primary;
-       
+
+        @include small-tablet {
+            //  @include font(3.2rem, 1.6, $weight:400);
+            top: 4rem;
+        }
+
     }
 
-    &.pets{
+    &.pets {
         color: $color-dark-l;
+
+        @include small-tablet {
+            color: $color-dark-s;
+        }
+
         &.active {
             color: $color-dark-3xl;
             cursor: default;
+
+            @include small-tablet {
+                color: $color-light-s;
+            }
         }
+
         &:hover {
             color: $color-dark-3xl;
+
+            @include small-tablet {
+                color: $color-light-s;
+            }
         }
     }
 }
@@ -105,18 +150,30 @@
 
 /******************************/
 .not-only__content-heading {
-    max-width: 67.4%;
+    max-width: 31rem;
     font-family: "Georgia-Regular";
     @include font(4.4rem, 1.3);
     color: $color-light-xl;
     margin-bottom: 4.2rem;
+
+    @include mobile {
+        max-width: 21.5rem;
+        font-size: 2.5rem;
+        text-align: center;
+        letter-spacing: 0.12rem;
+    }
 }
 
 .not-only__content-subheading {
     font-family: "Arial-Regular";
     @include font(1.5rem, 1.6);
-    color: $color-light-xl;
+    color: $color-dark-s;
     margin-bottom: 4.2rem;
+
+    @include mobile {
+        text-align: center;
+
+    }
 }
 
 
@@ -125,15 +182,31 @@
 .about__content-heading {
     @extend %h3;
     max-width: 86%;
-    margin-bottom: 2.5rem
+    margin-bottom: 2.5rem;
+
+    @include mobile {
+        max-width: 30rem;
+        //    font-size: 2.5rem;
+        text-align: center;
+        // margin-bottom: 2.35rem;
+    }
 }
 
 .about__content-subheading {
     @extend %subheading;
-    margin-bottom: 2.5rem;
 
-    &:last-child {
-        margin-bottom: 0;
+    &:not(:last-child) {
+        margin-bottom: 2.5rem;
+    }
+
+    @include mobile {
+        text-align: justify;
+        padding: 0 1.25rem;
+        line-height: 1.6;
+
+        &:not(:last-child) {
+            margin-bottom: 2.2rem;
+        }
     }
 }
 
@@ -141,23 +214,59 @@
 
 .our-friends__heading {
     @extend %h3;
-    max-width: 33.3%;
+    max-width: 40rem;
     margin: auto;
     margin-bottom: 6rem;
+
+    @include tablet {
+        max-width: 40rem;
+    }
+
+    @include mobile {
+        max-width: 30rem;
+        //     font-size: 2.5rem;
+        text-align: center;
+        margin-bottom: 4.2rem;
+        letter-spacing: 0.14rem;
+    }
+
+    &.pets {
+        @include tablet {
+            margin-bottom: 3rem;
+        }
+
+        @include mobile {
+            margin-bottom: 4rem;
+        }
+    }
 }
 
 /******************************/
 
 .help__heading {
     @extend %h3;
-    max-width: 37.16%;
+    max-width: 31rem;
     margin: auto;
     margin-bottom: 6rem;
-    
+
+    @include mobile {
+        max-width: 32rem;
+        //   font-size: 2.5rem;
+        text-align: center;
+        margin-bottom: 4.2rem;
+    }
 }
+
 .help__option {
     p {
         @extend %h4;
+
+        @include mobile {
+            font-size: 1.5rem;
+            line-height: 1.15;
+            letter-spacing: 0.08rem;
+            text-align: center;
+        }
     }
 }
 
@@ -166,13 +275,30 @@
 .in-addition__content-heading {
     @extend %h3;
     max-width: 78.9%;
-    margin-bottom: 2rem;
+    margin-bottom: 1.5rem;
+
+    @include mobile {
+        margin-bottom: 1.8rem;
+        max-width: unset;
+        //   font-size: 2.5rem;
+        text-align: center;
+        align-self: center
+    }
 }
 
 .in-addition__content-subheading {
     @extend %h5;
-    line-height: 1.1;
-    margin-bottom: 2rem;
+    margin-bottom: 1.5rem;
+
+    @include tablet {
+        margin-bottom: 2rem;
+    }
+
+    @include mobile {
+        margin-bottom: 1.8rem;
+        text-align: center;
+        letter-spacing: 0
+    }
 }
 
 .in-addition__card-number {
@@ -180,9 +306,16 @@
     letter-spacing: 0.12rem;
     text-decoration: none;
     @extend %transition-hover;
-    &:hover{
+
+    &:hover {
         color: $color-dark-3xl;
         transform: scale(1.01);
+    }
+
+    @include mobile {
+        font-size: 1.5rem;
+        line-height: 1.1;
+        letter-spacing: 0.09rem;
     }
 }
 
@@ -190,6 +323,11 @@
     font-family: "Arial-Regular";
     @include font(1.2rem, 1.5, $style:italic);
     color: $color-dark-m;
+
+    @include mobile {
+        padding: 0 1rem;
+        text-align: justify;
+    }
 }
 
 
@@ -198,24 +336,47 @@
 .footer__contact-header {
     @extend %h3;
     color: $color-light-xl;
+
+    @include mobile {
+        text-align: center;
+    }
+
+    &.pets {
+        @include mobile {
+            max-width: 95%;
+            letter-spacing: 0.13rem;
+            margin-left: auto;
+            margin-right: auto;
+        }
+    }
 }
 
 .footer__contact,
 .footer__contact--address {
-        @extend %h4;
-        color: $color-primary;
-        display:block;
-        letter-spacing: 0.12rem;
-        text-decoration: none;
-       
-}  
- .first{
-   position: relative;
-   left: 2rem;
+    @extend %h4;
+    color: $color-primary;
+    display: block;
+    letter-spacing: 0.12rem;
+    text-decoration: none;
+
+    @include mobile {
+        text-align: center;
+    }
+}
+
+
+.first {
+    position: relative;
+    left: 2rem;
+
+    @include mobile {
+        text-align: left;
+      //  left: 0rem;
+    }
 }
 
 /******************************/
-.slider__card__name{
-    @extend  %h4;
+.slider__card__name {
+    @extend %h4;
     margin-bottom: 2.95rem;
 }

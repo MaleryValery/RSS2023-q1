@@ -1,0 +1,9 @@
+.header__wrapper {
+    &.pets {
+        padding: 3rem 0;
+
+        @include mobile{
+            padding:3rem 1rem;
+        }
+    } 
+}
