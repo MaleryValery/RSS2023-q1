@@ -22,10 +22,8 @@
     display: flex;
     gap: 3.5rem;
 
-    @include small-tablet {
-        display: none;
-    }
-    @include small-tablet {
+   
+    @include ex-tablet{
         display: none;
     }
     &.active{
@@ -41,7 +39,7 @@
 .header__navigation {
     
     &.active{
-    @include small-tablet {
+    @include ex-tablet {
         transition: all .3s linear;
         position: absolute;
         padding-top: 24.8rem;
