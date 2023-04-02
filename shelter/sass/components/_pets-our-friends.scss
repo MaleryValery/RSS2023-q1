@@ -1,11 +1,39 @@
-.slider__pets{
+.our-friends__wrapper {
+    &.pets {
+        @include tablet {
+            padding-bottom: 7.7rem;
+        }
+        @include mobile {
+            padding-bottom: 4.4rem;
+        }
+    }
+}
+
+.slider__pets {
     @include flex($gap:4rem);
     flex-wrap: wrap;
     row-gap: 3rem;
-    padding-bottom: 6rem;
 
+    @include tablet {
+        max-height: 139.5rem;
+        overflow: hidden;
+    }
+    @include ex-tablet {
+        max-height: 139.3rem;
+        overflow: hidden;
+    }
 }
 
-.slider__pets--nav{
-    @include flex($gap:2rem)
-}    
+.slider__pets--nav {
+    @include flex($gap:2rem);
+    padding-top: 6rem;
+
+    @include tablet {
+        padding-top: 0.8rem;
+    }
+
+    @include mobile {
+        padding-top: 1.3rem;
+        gap: 1rem
+    }
+}

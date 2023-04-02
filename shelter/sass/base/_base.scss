@@ -9,15 +9,29 @@
 html{
     font-size: 62.5%;
     scroll-behavior: smooth;
+    overflow-x: hidden;
+    @include mobile-s{
+        font-size:60%;
+    }
 }
 
 body{
+    overflow-x: hidden;
     font-size:1.6rem;
     box-sizing: border-box;
+
+ 
 }
 
 .section{
-    max-width: 128rem;
+    max-width: $content-widht;
     margin: auto;
-    padding: 0 4rem;
+    padding: 0 $padding-desktop;
+
+    @include tablet{
+        padding: 0 $padding-tablet;
+    }
+    @include mobile{
+        padding: 0 $padding-mobile;
+    }
 }

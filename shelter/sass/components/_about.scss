@@ -7,8 +7,11 @@
     img {
         width: 100%;
     }
+    @include mobile{
+    max-width: 26rem;
+    }
 }
 
 .about__content {
-    max-width: 35.83%;
+    max-width: 43rem;
 }

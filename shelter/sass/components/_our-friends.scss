@@ -1,54 +1,111 @@
 .our-friends-bg__wrapper {
     background-color: $color-light-l;
+    position: relative;
 }
 
 .our-friends__wrapper {
     padding: $padding-desktop-top 0 $padding-desktop-bottom 0;
     text-align: center;
+
+    @include mobile{
+        padding: $padding-mobile-top 0 $padding-mobile-bottom 0;
+    }
 }
 
 .slider {
-    @include flex($gap:9rem);
     position: relative;
+    @include flex();
+    margin: 0 auto;
     margin-bottom: 6rem;
+
+    @include tablet {
+        //   margin-top: -0.2rem;
+    }
+
+    @include mobile {
+        flex-direction: column;
+        margin-bottom: 1rem;
+    }
+
+}
+
+.slider__cart-conteiner {
+    @include flex($gap:9rem, $justify-content: flex-start);
+    max-width: 99rem;
+    overflow: hidden;
+    order: 2;
+  
+   
+
+    @include desktop {
+        gap: 4rem;
+        max-width: 58rem;
+    }
+    @include small-desktop {
+       // justify-content: center;
+        gap: 4rem;
+    }
+    @include ex-tablet {
+        gap: 2rem;
+    }
+     @include  small-tablet {
+        max-width: 27rem;
+        gap: 4rem;
+        
+    }
 }
 
 .slider__card {
-    max-width: 22.5%;
+    flex-shrink: 0;
+    max-width: 27rem;
     border-radius: 0.9rem;
     background-color: $color-light-s;
     overflow: hidden;
     @extend %transition;
+
     &:hover {
         cursor: pointer;
-        transform: scale(1.02);
-        box-shadow:  0 1rem 3rem rgba(74,74,74,0.1);
+      //  transform: scale(0.95);
+        box-shadow:0 0.2rem 3.5rem 1.4rem rgba(13, 13, 13, 0.04);
 
-        .slider__text-content{
+        .slider__text-content {
             background-color: $color-light-xl;
         }
+        .slider__card__btn{
+            background-color: $color-primary;
+            border-radius: $color-primary;
+        }
+    }
+
+    @include tablet {
+      //  max-width: 58rem;
+    
     }
 }
 
-.slider__text-content{
+.slider__text-content {
     padding: 3rem 0;
     @extend %transition;
 }
+
 .slider__card__img {
     line-height: 0;
     @include flex();
+
     img {
         max-height: 27rem;
     }
 }
 
+
 .slider__btn {
-    position: absolute;
+    @include flex();
 }
 
 .slider__btn--rigth {
-    right: 0;
-    @include flex();
+    flex-shrink: 0;
+    margin-left: 5.3rem;
+    order: 3;
 
     span {
         background-image: url(../img/icons/Arrow.svg);
@@ -56,11 +113,22 @@
         height: 0.6rem;
         display: block;
     }
+
+    @include small-desktop {
+        margin-left: 1.2rem;
+    }
+    @include ex-tablet{
+        margin-left:13.5rem;
+        position: absolute;
+        bottom: -7rem;
+    }
+    
 }
 
 .slider__btn--left {
-    left: 0;
-    @include flex();
+    flex-shrink: 0;
+    margin-right: 5.3rem;
+    order: 1;
 
     span {
         background-image: url(../img/icons/Arrow.svg);
@@ -69,4 +137,27 @@
         display: block;
         transform: rotate(180deg);
     }
+
+    @include small-desktop {
+        margin-right: 1.2rem;
+    }
+
+    @include ex-tablet{
+        margin-right:13.5rem;
+        order: 2;
+        position: absolute;
+        bottom: -7rem;
+    }
+}
+.our-friends__btn{
+    @include ex-tablet{  
+        margin-top: 4.2rem;
+      }
+    @include small-tablet{  
+          margin-top: 4.2rem;
+        }
+        @include mobile{  
+            margin-top: 10.2rem;
+          }
+
 }

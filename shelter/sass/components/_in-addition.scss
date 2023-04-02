@@ -3,10 +3,23 @@
 }
 
 .in-addition__content{
-    max-width: 31.6%;
+    max-width: 38rem;
+    @include mobile{
+        max-width: 30rem;
+    }
 }
 .in-addition__img{
     line-height: 0;
+ 
+    img{
+        @include small-tablet{
+            max-width: 40rem;
+        }
+        
+        @include mobile{
+            max-width: 26rem;
+        }
+    }
 }
 .in-addition__card{
     margin-bottom: 1.8rem;
@@ -14,6 +27,13 @@
     background-color: $color-primary;
     border-radius: 0.9rem;
     display: inline-flex;
+
+    @include mobile{
+        padding: 1rem 1.4rem;
+        align-items: center;
+        margin: 0 1rem;
+        margin-bottom: 2rem;
+    }
 }
 .in-addition__card-ico{
     background-image: url(../img/icons/icon-credit-card.svg);
@@ -21,4 +41,9 @@
     height: 2.3rem;
     display: inline-block;
     margin-right: 1.5rem;
+    @include mobile{
+        width: 3rem;
+        height: 2.3rem;
+        align-items: center;
+    }
 }
