@@ -32,5 +32,5 @@
     @media (max-width: $media-widht-mobile){@content;}
 }
 @mixin mobile-s{
-    @media (max-width: 300px){@content;}
+    @media (max-width: $media-widht-mobile-s){@content;}
 }
