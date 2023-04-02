@@ -1224,7 +1224,7 @@ body {
   visibility: hidden;
   transition: all 0.5s ease-in-out;
 }
-@media (max-width: 690px) {
+@media (max-width: 767px) {
   .header__buger {
     visibility: visible;
     position: relative;
