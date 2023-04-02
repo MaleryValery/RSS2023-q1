@@ -489,12 +489,7 @@ body {
   display: flex;
   gap: 3.5rem;
 }
-@media (max-width: 690px) {
-  .navigation__list {
-    display: none;
-  }
-}
-@media (max-width: 690px) {
+@media (max-width: 767px) {
   .navigation__list {
     display: none;
   }
@@ -507,7 +502,7 @@ body {
   }
 }
 
-@media (max-width: 690px) {
+@media (max-width: 767px) {
   .header__navigation.active {
     transition: all 0.3s linear;
     position: absolute;
