@@ -14,26 +14,36 @@
     flex-wrap: wrap;
     row-gap: 3rem;
 
-    @include tablet {
-        max-height: 139.5rem;
-        overflow: hidden;
-    }
-    @include ex-tablet {
-        max-height: 139.3rem;
-        overflow: hidden;
-    }
 }
 
+.slider__card {
+    @include tablet {
+        // max-height: 139.5rem;
+        // overflow: hidden;
+        &:nth-child(7),
+        &:nth-child(8){
+            display: none;
+        }
+    }   @include mobile {
+        // max-height: 139.5rem;
+        // overflow: hidden;
+        &:nth-child(4),
+        &:nth-child(5),
+        &:nth-child(6){
+            display: none;
+        }
+    }
+}
 .slider__pets--nav {
     @include flex($gap:2rem);
     padding-top: 6rem;
 
     @include tablet {
-        padding-top: 0.8rem;
+        padding-top: 4rem;
     }
 
     @include mobile {
-        padding-top: 1.3rem;
+        padding-top: 4.2rem;
         gap: 1rem
     }
 }
