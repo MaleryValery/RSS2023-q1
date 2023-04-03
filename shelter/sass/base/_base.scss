@@ -16,13 +16,14 @@ html{
 }
 
 body{
+    position: relative;
     overflow-x: hidden;
     font-size:1.6rem;
     box-sizing: border-box;
-
- 
 }
-
+.body-scroll{
+    overflow: hidden;
+}
 .section{
     max-width: $content-widht;
     margin: auto;
