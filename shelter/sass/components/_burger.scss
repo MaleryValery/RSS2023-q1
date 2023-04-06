@@ -1,6 +1,7 @@
-.header__buger {
+.header__burger {
     visibility: hidden;
     transition: all .5s ease-in-out;
+    cursor: pointer;
 
     @include ex-tablet {
         visibility: visible;
@@ -52,17 +53,19 @@
 
     &.active {
         transform: rotate(90deg);
+    }
+}
 
-        &.pets {
+.overlay{
+    transition: all .3s linear;
+    &.active{
+    background-color: rgba(41, 41, 41, .6);
+    position: absolute;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
 
-            &::after,
-            &::before {
-                background-color: $color-primary;
-            }
-
-            & span {
-                background-color: $color-primary;
-            }
-        }
     }
 }

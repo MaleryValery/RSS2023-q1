@@ -125,7 +125,7 @@
         color: $color-dark-l;
 
         @include small-tablet {
-            color: $color-dark-s;
+            color: $color-dark-m;
         }
 
         &.active {
@@ -133,7 +133,7 @@
             cursor: default;
 
             @include small-tablet {
-                color: $color-light-s;
+                color: $color-dark-xl;
             }
         }
 
@@ -141,7 +141,7 @@
             color: $color-dark-3xl;
 
             @include small-tablet {
-                color: $color-light-s;
+                color: $color-dark-3xl;
             }
         }
     }

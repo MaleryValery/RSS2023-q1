@@ -13,42 +13,59 @@
     @include tablet {
         padding-bottom: 6rem;
     }
-    @include mobile{
-        padding:3rem 1rem 6rem 1rem;
+
+    @include mobile {
+        padding: 3rem 1rem 6rem 1rem;
     }
 }
 
 .navigation__list {
     display: flex;
     gap: 3.5rem;
+    transition: transform .3s linear;
 
-   
-    @include ex-tablet{
+    @include ex-tablet {
         display: none;
     }
-    &.active{
-    @include small-tablet {
-        display: flex;
 
-        flex-direction: column;
-        align-items: center;
+    &.active {
+        @include ex-tablet {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
     }
 }
+.close{
+    transition: all .3s linear;
 }
 
 .header__navigation {
+    transition: transform .3s linear;
+  //  right: -32rem;
+  transform: translateX(100%);
+    height: 0;
+    top: 24.8rem;
     
-    &.active{
-    @include ex-tablet {
-        transition: all .3s linear;
-        position: absolute;
-        padding-top: 24.8rem;
-        top: 0;
-        right: 0;
-        width: 32rem;
-        height: 100%;
-        background-color: $color-dark-3xl;
-        z-index: 2;
+    &.active {
+         transition: transform .3s linear;
+        @include ex-tablet {
+            position: absolute;
+            padding-top: 24.8rem;
+            top: 0;
+            right: 0;
+          transform: translateX(0%);
+            width: 32rem;
+            height: 100vh;
+            background-color: $color-dark-3xl;
+            z-index: 2;
+        }
+
+        &.pets {
+
+            @include ex-tablet {
+                background-color: $color-light-xl
+            }
+        }
     }
-}
 }

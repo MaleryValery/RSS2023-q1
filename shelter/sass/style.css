@@ -76,9 +76,14 @@ html {
 }
 
 body {
+  position: relative;
   overflow-x: hidden;
   font-size: 1.6rem;
   box-sizing: border-box;
+}
+
+.body-scroll {
+  overflow: hidden;
 }
 
 .section {
@@ -220,7 +225,7 @@ body {
 }
 @media (max-width: 690px) {
   .navigation__list-link.pets {
-    color: #CDCDCD;
+    color: #B2B2B2;
   }
 }
 .navigation__list-link.pets.active {
@@ -229,7 +234,7 @@ body {
 }
 @media (max-width: 690px) {
   .navigation__list-link.pets.active {
-    color: #FAFAFA;
+    color: #4C4C4C;
   }
 }
 .navigation__list-link.pets:hover {
@@ -237,7 +242,7 @@ body {
 }
 @media (max-width: 690px) {
   .navigation__list-link.pets:hover {
-    color: #FAFAFA;
+    color: #292929;
   }
 }
 
@@ -463,6 +468,54 @@ body {
   margin-bottom: 2.95rem;
 }
 
+@keyframes move-to-right {
+  0% {
+    right: -99rem;
+  }
+  100% {
+    right: 0rem;
+  }
+}
+.transition-rigth {
+  animation: move-to-right 0.5s;
+}
+
+@keyframes move-to-left {
+  0% {
+    left: 0;
+  }
+  100% {
+    left: 99rem;
+  }
+}
+.transition-left {
+  animation: move-to-right 2s;
+}
+
+@keyframes move-burger-right {
+  0% {
+    right: -32rem;
+  }
+  100% {
+    right: 0rem;
+  }
+}
+.transition-rigth {
+  animation: move-to-right 0.5s;
+}
+
+@keyframes move-burger-left {
+  0% {
+    right: 0rem;
+  }
+  100% {
+    right: -32rem;
+  }
+}
+.transition-left {
+  animation: move-to-right 2s;
+}
+
 .header-welcome__wrapper {
   background-image: url(../img/95577108af837b8b441616746225b66e.png), radial-gradient(100% 215.42% at 0% 0%, #5B483A 0%, #262425 100%);
   background-repeat: repeat;
@@ -488,13 +541,14 @@ body {
 .navigation__list {
   display: flex;
   gap: 3.5rem;
+  transition: transform 0.3s linear;
 }
 @media (max-width: 767px) {
   .navigation__list {
     display: none;
   }
 }
-@media (max-width: 690px) {
+@media (max-width: 767px) {
   .navigation__list.active {
     display: flex;
     flex-direction: column;
@@ -502,17 +556,35 @@ body {
   }
 }
 
+.close {
+  transition: all 0.3s linear;
+}
+
+.header__navigation {
+  transition: transform 0.3s linear;
+  transform: translateX(100%);
+  height: 0;
+  top: 24.8rem;
+}
+.header__navigation.active {
+  transition: transform 0.3s linear;
+}
 @media (max-width: 767px) {
   .header__navigation.active {
-    transition: all 0.3s linear;
     position: absolute;
     padding-top: 24.8rem;
     top: 0;
     right: 0;
+    transform: translateX(0%);
     width: 32rem;
-    height: 100%;
+    height: 100vh;
     background-color: #292929;
     z-index: 2;
+  }
+}
+@media (max-width: 767px) {
+  .header__navigation.active.pets {
+    background-color: #FFFFFF;
   }
 }
 
@@ -1215,12 +1287,13 @@ body {
   }
 }
 
-.header__buger {
+.header__burger {
   visibility: hidden;
   transition: all 0.5s ease-in-out;
+  cursor: pointer;
 }
 @media (max-width: 767px) {
-  .header__buger {
+  .header__burger {
     visibility: visible;
     position: relative;
     width: 30px;
@@ -1228,20 +1301,20 @@ body {
     margin-left: auto;
     z-index: 3;
   }
-  .header__buger::after, .header__buger::before {
+  .header__burger::after, .header__burger::before {
     content: "";
     position: absolute;
     background-color: #F1CDB3;
     width: 100%;
     height: 2px;
   }
-  .header__buger::after {
+  .header__burger::after {
     bottom: 0;
   }
-  .header__buger::before {
+  .header__burger::before {
     top: 0;
   }
-  .header__buger span {
+  .header__burger span {
     width: 100%;
     height: 2px;
     position: absolute;
@@ -1250,20 +1323,27 @@ body {
     background-color: #F1CDB3;
   }
 }
-.header__buger.pets::after, .header__buger.pets::before {
+.header__burger.pets::after, .header__burger.pets::before {
   background-color: #292929;
 }
-.header__buger.pets span {
+.header__burger.pets span {
   background-color: #292929;
 }
-.header__buger.active {
+.header__burger.active {
   transform: rotate(90deg);
 }
-.header__buger.active.pets::after, .header__buger.active.pets::before {
-  background-color: #F1CDB3;
+
+.overlay {
+  transition: all 0.3s linear;
 }
-.header__buger.active.pets span {
-  background-color: #F1CDB3;
+.overlay.active {
+  background-color: rgba(41, 41, 41, 0.6);
+  position: absolute;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
 }
 
 @media (max-width: 850px) {
