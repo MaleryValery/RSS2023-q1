@@ -36,25 +36,27 @@
         }
     }
 }
-.close{
-    transition: all .3s linear;
+.active{
+    transition: right .3s linear;
 }
+.header__navigation{
+&.close{
+    transition: right .3s linear;
+    right: -32rem;
+}}
 
 .header__navigation {
-    transition: transform .3s linear;
-  //  right: -32rem;
-  transform: translateX(100%);
+    transition: right .3s linear;
     height: 0;
     top: 24.8rem;
     
     &.active {
-         transition: transform .3s linear;
+         transition: right .3s linear;
         @include ex-tablet {
-            position: absolute;
+          position: absolute;
             padding-top: 24.8rem;
             top: 0;
             right: 0;
-          transform: translateX(0%);
             width: 32rem;
             height: 100vh;
             background-color: $color-dark-3xl;
