@@ -36,38 +36,41 @@
         }
     }
 }
-.active{
-    transition: right .3s linear;
+
+.active_navigation {
+
+
+    @include ex-tablet {
+        right: 0rem;
+    }
 }
-.header__navigation{
-&.close{
-    transition: right .3s linear;
-    right: -32rem;
-}}
+
+.close_navigation {
+
+
+    @include ex-tablet {
+        position: relative;
+       
+    }
+}
 
 .header__navigation {
-    transition: right .3s linear;
-    height: 0;
-    top: 24.8rem;
-    
-    &.active {
-         transition: right .3s linear;
+    @include ex-tablet {
+    position: absolute;
+    padding-top: 24.8rem;
+    top: 0;
+    right: -32rem;
+    width: 32rem;
+    height: 100vh;
+    background-color: $color-dark-3xl;
+    z-index: 2;
+    transition: right 2s;
+    }
+
+    &.pets {
+
         @include ex-tablet {
-          position: absolute;
-            padding-top: 24.8rem;
-            top: 0;
-            right: 0;
-            width: 32rem;
-            height: 100vh;
-            background-color: $color-dark-3xl;
-            z-index: 2;
-        }
-
-        &.pets {
-
-            @include ex-tablet {
-                background-color: $color-light-xl
-            }
+            background-color: $color-light-xl
         }
     }
 }
