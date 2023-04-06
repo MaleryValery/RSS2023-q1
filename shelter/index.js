@@ -19,18 +19,18 @@ const openMenu = function (e) {
         html.classList.toggle('body-scroll')
         overlay.classList.toggle("active")
         burgerIco.classList.toggle("active")
-        nav.classList.toggle("active")
+        nav.classList.toggle("active_navigation")
         navList.classList.toggle("active")
-        nav.classList.toggle("close")
+        nav.classList.toggle("close_navigation")
     }
 }
 const closeMenu = function (e) {
     html.classList.remove('body-scroll')
     overlay.classList.remove("active")
     burgerIco.classList.remove("active")
-    nav.classList.remove("active")
+    nav.classList.remove("active_navigation")
     navList.classList.remove("active")
-    nav.classList.add("close")
+    nav.classList.add("close_navigation")
     
 }
 
