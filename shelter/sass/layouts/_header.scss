@@ -37,40 +37,44 @@
     }
 }
 
-.active_navigation {
+// .active_navigation {
 
 
-    @include ex-tablet {
-        right: 0rem;
-    }
-}
+//     @include ex-tablet {
+//         right: 0rem;
+//     }
+// }
 
-.close_navigation {
+// .close_navigation {
 
 
-    @include ex-tablet {
-        position: relative;
+//     @include ex-tablet {
+//         position: relative;
        
-    }
-}
+//     }
+// }
 
 .header__navigation {
+    
+    &.active{
     @include ex-tablet {
-    position: absolute;
-    padding-top: 24.8rem;
-    top: 0;
-    right: -32rem;
-    width: 32rem;
-    height: 100vh;
-    background-color: $color-dark-3xl;
-    z-index: 2;
-    transition: right 2s;
+        transition: all .3s linear;
+        position: absolute;
+        padding-top: 24.8rem;
+        top: 0;
+        right: 0;
+        width: 32rem;
+        height: 100%;
+        background-color: $color-dark-3xl;
+        z-index: 2;
     }
+}
 
-    &.pets {
 
-        @include ex-tablet {
-            background-color: $color-light-xl
-        }
-    }
+    // &.pets {
+
+    //     @include ex-tablet {
+    //         background-color: $color-light-xl
+    //     }
+    // }
 }
