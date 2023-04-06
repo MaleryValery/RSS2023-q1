@@ -1,0 +1,49 @@
+@keyframes move-to-right{
+0%{
+    right: -99rem;
+}
+100%{
+    right: 0rem;
+}
+}
+
+.transition-rigth{
+    animation: move-to-right 0.5s;
+}
+
+@keyframes move-to-left{
+0%{
+    left: 0;
+}
+100%{
+    left: 99rem;
+}
+}
+.transition-left{
+    animation: move-to-right 2s;
+}
+
+@keyframes move-burger-right{
+    0%{
+        right: -32rem;
+    }
+    100%{
+        right: 0rem;
+    }
+    }
+    
+    .transition-rigth{
+        animation: move-to-right 0.5s;
+    }
+    
+    @keyframes move-burger-left{
+    0%{
+        right: 0rem;
+    }
+    100%{
+        right: -32rem;
+    }
+    }
+    .transition-left{
+        animation: move-to-right 2s;
+    }

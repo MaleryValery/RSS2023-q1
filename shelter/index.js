@@ -4,6 +4,7 @@ main: 60
 pets:40
 Итого: 100`);
 
+const html = document.querySelector('html');
 const body = document.querySelector('.body');
 const overlay = document.querySelector('.overlay');
 const burgerIco = document.querySelector('.header__burger');
@@ -15,19 +16,22 @@ const navList = document.querySelector('.navigation__list');
 const openMenu = function (e) {
     const target = e.target;
     if (target.classList.contains('header__burger') || target.closest('div > span')) {
-        body.classList.toggle('body-scroll')
+        html.classList.toggle('body-scroll')
         overlay.classList.toggle("active")
         burgerIco.classList.toggle("active")
         nav.classList.toggle("active")
         navList.classList.toggle("active")
+        nav.classList.toggle("close")
     }
 }
 const closeMenu = function (e) {
-    body.classList.remove('body-scroll')
+    html.classList.remove('body-scroll')
     overlay.classList.remove("active")
     burgerIco.classList.remove("active")
     nav.classList.remove("active")
     navList.classList.remove("active")
+    nav.classList.add("close")
+    
 }
 
 burgerIco.addEventListener('click', openMenu);
