@@ -25,11 +25,14 @@
     transition: transform .3s linear;
 
     @include ex-tablet {
-        display: none;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
     }
 
     &.active {
         @include ex-tablet {
+            visibility:visible;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -37,44 +40,35 @@
     }
 }
 
-// .active_navigation {
-
-
-//     @include ex-tablet {
-//         right: 0rem;
-//     }
-// }
-
-// .close_navigation {
-
-
-//     @include ex-tablet {
-//         position: relative;
-       
-//     }
-// }
-
-.header__navigation {
-    
-    &.active{
+.active_navigation {
     @include ex-tablet {
-        transition: all .3s linear;
-        position: absolute;
-        padding-top: 24.8rem;
-        top: 0;
-        right: 0;
-        width: 32rem;
-        height: 100%;
-        background-color: $color-dark-3xl;
-        z-index: 2;
+        right: 0rem;
     }
 }
 
+.close_navigation {
 
-    // &.pets {
+    @include ex-tablet {
+        position: relative;
+        right: -32rem;
+    }
+}
 
-    //     @include ex-tablet {
-    //         background-color: $color-light-xl
-    //     }
-    // }
+.header__navigation {
+    @include ex-tablet {
+    position: absolute;
+    transition: right .5s;
+    padding-top: 24.8rem;
+    top: 0;
+    width: 32rem;
+    height: 100%;
+    background-color: $color-dark-3xl;
+    z-index: 2;
+ 
+    }
+    &.pets {
+        @include ex-tablet {
+            background-color: $color-light-xl
+        }
+    }
 }

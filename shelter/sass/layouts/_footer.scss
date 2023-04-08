@@ -8,28 +8,6 @@
     }
 }
 
-.footer__section {
-    background-image: url(../img/footer-puppy.png);
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-position: bottom right;
-    margin-right: 4rem;
-
-    @include small-desktop {
-        background-size: 20%;
-    }
-
-    @include tablet {
-        background-size: 30rem;
-        background-position: bottom center;
-        margin-right: 0;
-    }
-
-    @include mobile {
-        background-size: 26rem
-    }
-}
-
 .footer__contact-info {
     max-width: 27.8rem;
     padding-top: 1.6rem;
@@ -133,3 +111,25 @@
             justify-content: flex-start;
         }
     }
+
+    //.footer__section {
+//     background-image: url(../img/footer-puppy.png);
+//     background-size: contain;
+//     background-repeat: no-repeat;
+//     background-position: bottom right;
+//     margin-right: 4rem;
+
+//     @include small-desktop {
+//         background-size: 20%;
+//     }
+
+//     @include tablet {
+//         background-size: 30rem;
+//         background-position: bottom center;
+//         margin-right: 0;
+//     }
+
+//     @include mobile {
+//         background-size: 26rem
+//     }
+//}

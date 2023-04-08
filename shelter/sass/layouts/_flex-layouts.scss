@@ -13,9 +13,11 @@
         @include tablet {
             background-size: 56.9rem;
         }
+
         @include small-tablet {
             background-size: 75%;
         }
+
         @include mobile {
             background-size: 26rem;
         }
@@ -29,6 +31,7 @@
             flex-direction: column-reverse;
             gap: 8rem;
         }
+
         @include mobile {
             padding: $padding-mobile-top 0 $padding-mobile-bottom 0;
             flex-direction: column-reverse;
@@ -39,10 +42,12 @@
     &.in-addition__wrapper {
         @include flex($gap:3rem);
         padding: $padding-desktop-top 0 $padding-desktop-bottom 0;
+
         @include small-desktop {
             flex-direction: column-reverse;
             gap: 6rem;
         }
+
         @include mobile {
             padding: $padding-mobile-top 0 $padding-mobile-bottom 0;
             flex-direction: column-reverse;
@@ -56,20 +61,32 @@
 .lauout-3col {
     @include flex($gap:16rem, $align-items:flex-start, $justify-content:flex-start);
     padding-bottom: 5.5rem;
+    background-image: url(../img/footer-puppy.png);
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: bottom right;
+
     @include small-desktop {
         gap: 6rem;
+        background-size: 20%;
     }
+
     @include tablet {
         padding-bottom: 37.3rem;
         justify-content: center;
+        background-size: 30rem;
+        background-position: bottom center;
+        margin-right: 0;
     }
-    @include small-tablet{
+
+    @include small-tablet {
         flex-direction: column;
         align-items: center;
         gap: 4rem;
     }
 
     @include mobile {
+        background-size: 26rem;
         padding-bottom: 30.9rem;
         flex-direction: column;
         align-items: center;
