@@ -52,7 +52,7 @@
     font-family: "Arial-Regular";
     @include font(1.5rem, 1.6);
 
-    @include small-tablet {
+    @include ex-tablet {
         @include font(3.2rem, 1.6, $weight:400);
     }
 }
@@ -78,8 +78,7 @@
         left: 50%;
         @extend %transition;
 
-        @include small-tablet {
-            //      @include font(3.2rem, 1.6, $weight:400);
+        @include ex-tablet {
             top: 4rem;
         }
     }
@@ -93,8 +92,7 @@
         width: 100%;
         background: $color-primary;
 
-        @include small-tablet {
-            //      @include font(3.2rem, 1.6, $weight:400);
+        @include ex-tablet {
             top: 4rem;
         }
     }
@@ -114,11 +112,9 @@
         width: 100%;
         background: $color-primary;
 
-        @include small-tablet {
-            //  @include font(3.2rem, 1.6, $weight:400);
+        @include ex-tablet {
             top: 4rem;
         }
-
     }
 
     &.pets {
@@ -146,8 +142,6 @@
         }
     }
 }
-
-
 /******************************/
 .not-only__content-heading {
     max-width: 31rem;

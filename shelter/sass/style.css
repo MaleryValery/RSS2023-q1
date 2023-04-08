@@ -156,7 +156,7 @@ body {
   font-style: normal;
   font-weight: 400;
 }
-@media (max-width: 690px) {
+@media (max-width: 767px) {
   .navigation__list {
     font-size: 3.2rem;
     line-height: 1.6;
@@ -184,7 +184,7 @@ body {
   width: 0;
   left: 50%;
 }
-@media (max-width: 690px) {
+@media (max-width: 767px) {
   .navigation__list-link::before {
     top: 4rem;
   }
@@ -197,7 +197,7 @@ body {
   width: 100%;
   background: #F1CDB3;
 }
-@media (max-width: 690px) {
+@media (max-width: 767px) {
   .navigation__list-link:active::before {
     top: 4rem;
   }
@@ -215,7 +215,7 @@ body {
   width: 100%;
   background: #F1CDB3;
 }
-@media (max-width: 690px) {
+@media (max-width: 767px) {
   .navigation__list-link.active::before {
     top: 4rem;
   }
@@ -492,30 +492,6 @@ body {
   animation: move-to-right 2s;
 }
 
-@keyframes move-burger-right {
-  0% {
-    right: -32rem;
-  }
-  100% {
-    right: 0rem;
-  }
-}
-.transition-rigth {
-  animation: move-to-right 0.5s;
-}
-
-@keyframes move-burger-left {
-  0% {
-    right: 0rem;
-  }
-  100% {
-    right: -32rem;
-  }
-}
-.transition-left {
-  animation: move-to-right 2s;
-}
-
 .header-welcome__wrapper {
   background-image: url(../img/95577108af837b8b441616746225b66e.png), radial-gradient(100% 215.42% at 0% 0%, #5B483A 0%, #262425 100%);
   background-repeat: repeat;
@@ -545,11 +521,14 @@ body {
 }
 @media (max-width: 767px) {
   .navigation__list {
-    display: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
 }
 @media (max-width: 767px) {
   .navigation__list.active {
+    visibility: visible;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -557,16 +536,33 @@ body {
 }
 
 @media (max-width: 767px) {
-  .header__navigation.active {
-    transition: all 0.3s linear;
+  .active_navigation {
+    right: 0rem;
+  }
+}
+
+@media (max-width: 767px) {
+  .close_navigation {
+    position: relative;
+    right: -32rem;
+  }
+}
+
+@media (max-width: 767px) {
+  .header__navigation {
     position: absolute;
+    transition: right 0.5s;
     padding-top: 24.8rem;
     top: 0;
-    right: 0;
     width: 32rem;
     height: 100%;
     background-color: #292929;
     z-index: 2;
+  }
+}
+@media (max-width: 767px) {
+  .header__navigation.pets {
+    background-color: #FFFFFF;
   }
 }
 
@@ -644,16 +640,24 @@ body {
   align-items: flex-start;
   gap: 16rem;
   padding-bottom: 5.5rem;
+  background-image: url(../img/footer-puppy.png);
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: bottom right;
 }
 @media (max-width: 1130px) {
   .lauout-3col {
     gap: 6rem;
+    background-size: 20%;
   }
 }
 @media (max-width: 850px) {
   .lauout-3col {
     padding-bottom: 37.3rem;
     justify-content: center;
+    background-size: 30rem;
+    background-position: bottom center;
+    margin-right: 0;
   }
 }
 @media (max-width: 690px) {
@@ -665,6 +669,7 @@ body {
 }
 @media (max-width: 420px) {
   .lauout-3col {
+    background-size: 26rem;
     padding-bottom: 30.9rem;
     flex-direction: column;
     align-items: center;
@@ -680,31 +685,6 @@ body {
 @media (max-width: 850px) {
   .footer__wrapper {
     padding-top: 3rem;
-  }
-}
-
-.footer__section {
-  background-image: url(../img/footer-puppy.png);
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: bottom right;
-  margin-right: 4rem;
-}
-@media (max-width: 1130px) {
-  .footer__section {
-    background-size: 20%;
-  }
-}
-@media (max-width: 850px) {
-  .footer__section {
-    background-size: 30rem;
-    background-position: bottom center;
-    margin-right: 0;
-  }
-}
-@media (max-width: 420px) {
-  .footer__section {
-    background-size: 26rem;
   }
 }
 
@@ -1039,24 +1019,24 @@ body {
   gap: 0;
 }
 
-.slider__btn--rigth {
+.slider__btn--right {
   flex-shrink: 0;
   margin-left: 5.3rem;
   order: 3;
 }
-.slider__btn--rigth span {
+.slider__btn--right span {
   background-image: url(../img/icons/Arrow.svg);
   width: 1.4rem;
   height: 0.6rem;
   display: block;
 }
 @media (max-width: 1130px) {
-  .slider__btn--rigth {
+  .slider__btn--right {
     margin-left: 1.2rem;
   }
 }
 @media (max-width: 767px) {
-  .slider__btn--rigth {
+  .slider__btn--right {
     margin-left: 13.5rem;
     position: absolute;
     bottom: -7rem;
