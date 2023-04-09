@@ -1,49 +1,40 @@
 @keyframes move-to-right{
 0%{
-    right: -99rem;
+    right: 108rem;
 }
 100%{
-    right: 0rem;
+    right: 216rem;
 }
+// @include small-desktop{
+//     0%{
+//         right: -62rem;
+//     }
+//     100%{
+//         right: 0rem;
+//     }
+// }
 }
 
-.transition-rigth{
-    animation: move-to-right 0.5s;
+.transition-right{
+    animation: move-to-right 2s;
 }
 
 @keyframes move-to-left{
 0%{
-    left: 0;
+    left: -108rem;
 }
 100%{
-    left: 99rem;
+    left: 0;
 }
-}
+// @include small-desktop{
+//     0%{
+//         left: 0;
+//     }
+//     100%{
+//         left: 62rem;
+//     } 
+// }
+ }
 .transition-left{
-    animation: move-to-right 2s;
+    animation: move-to-left 2s;
 }
-
-// @keyframes move-burger-right{
-//     0%{
-//         right: -32rem;
-//     }
-//     100%{
-//         right: 0rem;
-//     }
-//     }
-    
-//     .transition-rigth{
-//         animation: move-to-right 0.5s;
-//     }
-    
-//     @keyframes move-burger-left{
-//     0%{
-//         right: 0rem;
-//     }
-//     100%{
-//         right: -32rem;
-//     }
-//     }
-//     .transition-left{
-//         animation: move-to-right 2s;
-//     }

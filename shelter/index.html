@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html class="main" lang="en">
 
 <head>
     <meta charset="UTF-8">
@@ -13,6 +13,10 @@
 
 <body class="body">
     <div class="overlay"> </div>
+    <div class="popup close">
+
+     
+    </div>
     <div class="wrapper header-welcome__wrapper">
         <header class="header section">
             <div class="header__wrapper">
@@ -84,9 +88,10 @@
             <section class="our-friends section" id="our-friends">
                 <div class="our-friends__wrapper">
                     <h3 class="our-friends__heading">Our friends who<br> are looking for a house</h3>
+                    <div class="slider__wrapper" >
                     <div class="slider">
-                        <div class="slider__cart-conteiner">
-                            <div class="slider__card">
+                         <div class="slider__card-conteiner">
+                           <div class="slider__card left-cards" id="card-01">
                                 <div class="slider__card__img">
                                     <img src="img/pets/katrine.png" alt="katrine.png">
                                 </div>
@@ -95,7 +100,7 @@
                                     <button class="slider__card__btn button">Learn more</button>
                                 </div>
                             </div>
-                            <div class="slider__card">
+                            <div class="slider__card left-cards" id="card-02">
                                 <div class="slider__card__img">
                                     <img src="img/pets/jennifer.png" alt="jennifer.png">
                                 </div>
@@ -104,7 +109,7 @@
                                     <button class="slider__card__btn button">Learn more</button>
                                 </div>
                             </div>
-                            <div class="slider__card">
+                            <div class="slider__card left-cards" id="card-03">
                                 <div class="slider__card__img">
                                     <img src="img/pets/woody.png" alt="woody.png">
                                 </div>
@@ -113,55 +118,56 @@
                                     <button class="slider__card__btn button">Learn more</button>
                                 </div>
                             </div>
-                            <div class="slider__card">
+                            <div class="slider__card active-cards" id="card-04">
                                 <div class="slider__card__img">
-                                    <img src="../img/pets/sophia.png" alt="sophia.png">
+                                    <img src="img/pets/sophia.png" alt="sophia.png">
                                 </div>
                                 <div class=" slider__text-content">
                                     <p class="slider__card__name">Sophia</p>
                                     <button class="slider__card__btn button">Learn more</button>
                                 </div>
                             </div>
-                            <div class="slider__card">
+                            <div class="slider__card active-cards" id="card-05">
                                 <div class="slider__card__img">
-                                    <img src="../img/pets/timmy.png" alt="timmy.png">
+                                    <img src="img/pets/timmy.png" alt="timmy.png">
                                 </div>
                                 <div class=" slider__text-content">
                                     <p class="slider__card__name">Timmy</p>
                                     <button class="slider__card__btn button">Learn more</button>
                                 </div>
                             </div>
-                            <div class="slider__card">
+                            <div class="slider__card active-cards" id="card-06">
                                 <div class="slider__card__img">
-                                    <img src="../img/pets/charly.png" alt="charly.png">
+                                    <img src="img/pets/charly.png" alt="charly.png">
                                 </div>
                                 <div class=" slider__text-content">
                                     <p class="slider__card__name">Charly</p>
                                     <button class="slider__card__btn button">Learn more</button>
                                 </div>
                             </div>
-                            <div class="slider__card">
+                            <div class="slider__card right-cards" id="card-07">
                                 <div class="slider__card__img">
-                                    <img src="../img/pets/scarlett.png" alt="scarlett.png">
+                                    <img src="img/pets/scarlett.png" alt="scarlett.png">
                                 </div>
                                 <div class=" slider__text-content">
                                     <p class="slider__card__name">Scarlett</p>
                                     <button class="slider__card__btn button">Learn more</button>
                                 </div>
                             </div>
-                            <div class="slider__card">
+                            <div class="slider__card right-cards" id="card-08">
                                 <div class="slider__card__img">
-                                    <img src="../img/pets/freddie.png" alt="freddie.png">
+                                    <img src="img/pets/freddie.png" alt="freddie.png">
                                 </div>
                                 <div class=" slider__text-content">
                                     <p class="slider__card__name">Freddie</p>
                                     <button class="slider__card__btn button">Learn more</button>
                                 </div>
                             </div>
-                        </div>
-                        <button class="slider__btn slider__btn--left button__round "><span></span></button>
-                        <button class="slider__btn slider__btn--right button__round "><span></span></button>
+                        </div> 
                     </div>
+                    <button class="slider__btn slider__btn--left button__round "><span></span></button>
+                    <button class="slider__btn slider__btn--right button__round "><span></span></button>
+                   </div>
                     <a class="our-friends__btn button" href="pages/pets.html"> Get to know the rest</a>
 
                 </div>

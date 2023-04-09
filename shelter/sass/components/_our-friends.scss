@@ -12,15 +12,16 @@
     }
 }
 
-.slider {
+.slider__wrapper {
     position: relative;
     @include flex();
     margin: 0 auto;
     margin-bottom: 6rem;
+}
+.slider {
+    overflow: hidden;
+    order: 2;
 
-    @include tablet {
-        //   margin-top: -0.2rem;
-    }
 
     @include mobile {
         flex-direction: column;
@@ -29,13 +30,11 @@
 
 }
 
-.slider__cart-conteiner {
+.slider__card-conteiner {
     @include flex($gap:9rem, $justify-content: flex-start);
+    position: relative;
     max-width: 99rem;
-    overflow: hidden;
-    order: 2;
-  
-   
+    right: 108rem;
 
     @include desktop {
         gap: 4rem;
