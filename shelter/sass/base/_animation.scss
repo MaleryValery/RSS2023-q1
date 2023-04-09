@@ -1,9 +1,9 @@
 @keyframes move-to-right{
 0%{
-    right: 108rem;
+    left: -108rem;
 }
 100%{
-    right: 216rem;
+    left: -216rem;
 }
 // @include small-desktop{
 //     0%{

@@ -29,12 +29,33 @@
     }
 
 }
+.left-cards,
+.active-cards,
+.right-cards{
+    @include flex($gap:9rem, $justify-content: flex-start);
+    @include desktop {
+        gap: 4rem;
+        max-width: 58rem;
+    }
+    @include small-desktop {
+       // justify-content: center;
+        gap: 4rem;
+    }
+    @include ex-tablet {
+        gap: 2rem;
+    }
+     @include  small-tablet {
+        max-width: 27rem;
+        gap: 4rem;
+        
+    }
+}
 
 .slider__card-conteiner {
     @include flex($gap:9rem, $justify-content: flex-start);
     position: relative;
     max-width: 99rem;
-    right: 108rem;
+    left: -108rem;
 
     @include desktop {
         gap: 4rem;
