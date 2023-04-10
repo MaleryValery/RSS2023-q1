@@ -41,8 +41,12 @@ const closeMenu = function (e) {
 
 burgerIco.addEventListener('click', openMenu);
 overlay.addEventListener('click', closeMenu);
-navList.addEventListener('click', closeMenu);
-nav.addEventListener('click', closeMenu);
+navList.addEventListener('click', (e)=>{
+    if(e.target.classList.contains('navigation__list-link')){
+        closeMenu()
+    }
+});
+//nav.addEventListener('click', closeMenu);
 
 
 //MODAL////////////////////////////////////
