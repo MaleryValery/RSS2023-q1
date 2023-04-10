@@ -284,13 +284,20 @@ function moveToNext(e) {
             paginBtnPrev.addEventListener('click', moveToPrev)
             paginBtnPrevPrev.addEventListener('click', moveToPrevPrev)
         }
-        if (page !== 0) {
+        if ((page !== 0 )&& (page + 1 !== 48 / setOfCards)) {
             paginBtnPrevPrev.classList.remove('not-act')
             paginBtnPrev.classList.remove('not-act')
+            paginBtnNextNext.classList.remove('not-act')
+            paginBtnNext.classList.remove('not-act')
             paginBtnPrev.disabled = false;
             paginBtnPrevPrev.disabled = false;
             paginBtnNextNext.disabled = false;
             paginBtnNext.disabled = false;
+            paginBtnNextNext.addEventListener('click', moveToNextNext)
+            paginBtnNext.addEventListener('click', moveToNext)
+            paginBtnPrev.addEventListener('click', moveToPrev)
+            paginBtnPrevPrev.addEventListener('click', moveToPrevPrev)
+            
 
         }
     }
@@ -303,6 +310,7 @@ function moveToPrev(e) {
         page -= 1;
         sliderPets.insertAdjacentHTML('afterbegin', createCard(cardsArray[page]));
         paginBtnCurr.textContent = page + 2 - 1;
+
     if (page === 0) {
         paginBtnPrevPrev.classList.add('not-act')
         paginBtnPrev.classList.add('not-act')
@@ -316,13 +324,17 @@ function moveToPrev(e) {
         paginBtnPrev.removeEventListener('click', moveToPrev)
         paginBtnPrevPrev.removeEventListener('click', moveToPrevPrev)
 
-    } else if (page !== 0) {
+    } else if ((page !== 0 ) && (page + 1 !== 48 / setOfCards)) {
         paginBtnPrevPrev.classList.remove('not-act')
         paginBtnPrev.classList.remove('not-act')
+        paginBtnNextNext.classList.remove('not-act')
+        paginBtnNext.classList.remove('not-act')
         paginBtnPrev.disabled = false;
         paginBtnPrevPrev.disabled = false;
         paginBtnNextNext.disabled = false;
         paginBtnNext.disabled = false;
+        paginBtnNextNext.addEventListener('click', moveToNextNext)
+        paginBtnNext.addEventListener('click', moveToNext)
         paginBtnPrev.addEventListener('click', moveToPrev)
         paginBtnPrevPrev.addEventListener('click', moveToPrevPrev)
 
@@ -353,17 +365,22 @@ function moveToPrevPrev(e) {
         paginBtnPrev.removeEventListener('click', moveToPrev)
         paginBtnPrevPrev.removeEventListener('click', moveToPrevPrev)
 
-    } else if (page !== 0) {
-        paginBtnPrevPrev.classList.remove('not-act')
-        paginBtnPrev.classList.remove('not-act')
-        paginBtnPrev.disabled = false;
-        paginBtnPrevPrev.disabled = false;
-        paginBtnNextNext.disabled = false;
-        paginBtnNext.disabled = false;
-        paginBtnPrev.addEventListener('click', moveToPrev)
-        paginBtnPrevPrev.addEventListener('click', moveToPrevPrev)
-    }
+    } 
+    // else if (page !== 0) {
+    //     paginBtnPrevPrev.classList.remove('not-act')
+    //     paginBtnPrev.classList.remove('not-act')
+    //     paginBtnPrev.disabled = false;
+    //     paginBtnPrevPrev.disabled = false;
+    //     paginBtnNextNext.disabled = false;
+    //     paginBtnNext.disabled = false;
+    //     paginBtnPrev.addEventListener('click', moveToPrev)
+    //     paginBtnPrevPrev.addEventListener('click', moveToPrevPrev)
+    // }
 }
+
+}
+
+function checkPage(){
 
 }
 
