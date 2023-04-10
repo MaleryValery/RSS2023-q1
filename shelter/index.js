@@ -218,12 +218,10 @@ console.log(cards);
 
 function createCurrArr(mainArr) {
     let currArr = new Set();
-    for (let i = 0; i < mainArr.length; i++) {
-        if (currArr.size < setOfCards) {
-            currArr.add(mainArr[Math.trunc(Math.random() * mainArr.length)]);
+        while (currArr.size < setOfCards) {
+            currArr.add(mainArr[Math.trunc(Math.random() * mainArr.length)]);   
         }
-    }
-    return [...currArr]
+    return [...currArr];
 }
 
 function createNewArr(mainArr, currArr) {
@@ -244,32 +242,13 @@ function createNewArr(mainArr, currArr) {
         }
     }
     nextArr = [...newArr]
-    for (let i = 0; i < nextArr.length; i++) {
-        index = Math.trunc(Math.random() * nextArr.length)
-        if (nextArr.length > setOfCards) {
-            nextArr.splice(index, 1)
+   
+        while (nextArr.length > setOfCards) {
+            index = Math.trunc(Math.random() * nextArr.length)
+            nextArr.splice(index, 1)  
         }
-    }
     return nextArr;
 }
-
-// const saveLeft = function () {
-//     currArr = prevArr;
-//     newArr = currArr;
-//     prevArr = createNewArr(cardList, currArr);
-//     console.log('newArr', newArr);
-//     console.log('currArr', currArr);
-//     console.log('prevArr', prevArr);
-// }
-// const saveRight = function () {
-//     prevArr = currArr;
-//     currArr = newArr;
-//     newArr = createNewArr(cardList, currArr);
-//     console.log('newArr', newArr);
-//     console.log('currArr', currArr);
-//     console.log('prevArr', prevArr);
-
-// }
 
 const moveToLeft = function (e) {
     e.preventDefault()
@@ -293,25 +272,37 @@ sliderBtnLeft.addEventListener('click', moveToLeft)
 
 slider.addEventListener('animationend', (e) => {
     console.log(e);
-    let movedCards;
-    let newSet;
+
     if (slider.classList.contains('transition-right')) {
         slider.classList.remove('transition-right');
 
-        movedCards = rightCards;
+        // [l] [c] [r]
+        // --->
+        // [c] [r] [new]
+        prevArr = currArr;
+        currArr = newArr;
+        newArr = createNewArr(petList, currArr);
+        
+        leftCards.innerHTML = activeCards.innerHTML;
         activeCards.innerHTML = rightCards.innerHTML;
+        rightCards.innerHTML = createCard(newArr);
     }
 
     if (slider.classList.contains('transition-left')) {
         slider.classList.remove('transition-left');
 
-        movedCards = leftCards;
+        // [l] [c] [r]
+        // <---
+        // [new] [l] [c]
+        newArr = currArr;
+        currArr = prevArr;
+        prevArr = createNewArr(petList, currArr);
+        
+        rightCards.innerHTML = activeCards.innerHTML;
         activeCards.innerHTML = leftCards.innerHTML;
+        leftCards.innerHTML = createCard(prevArr);
     }
 
-    movedCards.innerHTML ='';
-    newSet = createCurrArr(petList)
-    movedCards.insertAdjacentHTML('afterbegin',createCard(newSet));
     sliderBtnRight.addEventListener('click', moveToRight);
     sliderBtnLeft.addEventListener('click', moveToLeft);
 
@@ -333,3 +324,203 @@ function createCard(arr) {
     }
     return newCards;
 }
+
+/*
+paginBtnNextNext.addEventListener("click", (e)=>{
+    let target = e.target;
+    if (target.closest('.slider__btn--next-next')) {
+        sliderPets.innerHTML = ''
+        page = cardsArray.length-1;
+        sliderPets.insertAdjacentHTML('afterbegin', createCard(cardsArray[page]));
+        paginBtnCurr.textContent = page + 1;
+        if (page+1 === 48 / setOfCards) {
+            paginBtnNextNext.classList.add('not-act')
+            paginBtnNext.classList.add('not-act')
+            paginBtnNextNext.disabled = true;
+            paginBtnNext.disabled = true;
+      
+            paginBtnPrevPrev.classList.remove('not-act')
+            paginBtnPrev.classList.remove('not-act')
+            paginBtnNextNext.removeEventListener('click',(e)={})
+        }
+        if (page !== 0) {
+            paginBtnPrevPrev.classList.remove('not-act')
+            paginBtnPrev.classList.remove('not-act')
+            paginBtnPrev.disabled = false;
+            paginBtnPrevPrev.disabled = false;
+            paginBtnNextNext.disabled = false;
+            paginBtnNext.disabled = false;
+            
+        }
+    }
+})
+paginBtnNext.addEventListener('click', (event) => {
+    let target = event.target;
+    if (target.closest('.slider__btn--next')) {
+        sliderPets.innerHTML = ''
+        page += 1;
+        sliderPets.insertAdjacentHTML('afterbegin', createCard(cardsArray[page]));
+        paginBtnCurr.textContent = page + 1;
+        if (page+1 === 48 / setOfCards) {
+            paginBtnNextNext.classList.add('not-act')
+            paginBtnNext.classList.add('not-act')
+            paginBtnNextNext.disabled = true;
+            paginBtnNext.disabled = true;
+      
+            paginBtnPrevPrev.classList.remove('not-act')
+            paginBtnPrev.classList.remove('not-act')
+            paginBtnNext.removeEventListener('click',(e)={})
+        }
+        if (page !== 0) {
+            paginBtnPrevPrev.classList.remove('not-act')
+            paginBtnPrev.classList.remove('not-act')
+            paginBtnPrev.disabled = false;
+            paginBtnPrevPrev.disabled = false;
+            paginBtnNextNext.disabled = false;
+            paginBtnNext.disabled = false;
+            
+        }
+    }
+}
+)
+paginBtnPrev.addEventListener('click', (e)=>{
+    let target = e.target;
+    if (target.closest('.slider__btn--prev')) {
+        sliderPets.innerHTML = ''
+        page -= 1;
+        sliderPets.insertAdjacentHTML('afterbegin', createCard(cardsArray[page]));
+        paginBtnCurr.textContent = page +2-1 ;
+    }
+     if (page === 0) {
+        paginBtnPrevPrev.classList.add('not-act')
+        paginBtnPrev.classList.add('not-act')
+        paginBtnPrev.disabled = true;
+        paginBtnPrevPrev.disabled = true;
+        
+        paginBtnNextNext.classList.remove('not-act')
+        paginBtnNext.classList.remove('not-act')
+        paginBtnPrev.removeEventListener('click',(e)={})
+        paginBtnPrevPrev.removeEventListener('click',(e)={})
+   
+    }
+    else if (page !== 0) {
+        paginBtnPrevPrev.classList.remove('not-act')
+        paginBtnPrev.classList.remove('not-act')
+        paginBtnPrev.disabled = false;
+        paginBtnPrevPrev.disabled = false;
+        paginBtnNextNext.disabled = false;
+        paginBtnNext.disabled = false;
+        
+    }
+})
+paginBtnPrevPrev.addEventListener('click', (e)=>{
+    let target = e.target;
+    if (target.closest('.slider__btn--pre-prev')) {
+        sliderPets.innerHTML = ''
+        page = 0;
+        sliderPets.insertAdjacentHTML('afterbegin', createCard(cardsArray[page]));
+        paginBtnCurr.textContent = 1 ;
+    }
+    if (page === 0) {
+        paginBtnPrevPrev.classList.add('not-act')
+        paginBtnPrev.classList.add('not-act')
+        paginBtnPrev.disabled = true;
+        paginBtnPrevPrev.disabled = true;
+        
+        paginBtnNextNext.classList.remove('not-act')
+        paginBtnNext.classList.remove('not-act')
+        paginBtnPrev.removeEventListener('click',(e)={})
+        paginBtnPrevPrev.removeEventListener('click',(e)={})
+   
+    }
+    else if (page !== 0) {
+        paginBtnPrevPrev.classList.remove('not-act')
+        paginBtnPrev.classList.remove('not-act')
+        paginBtnPrev.disabled = false;
+        paginBtnPrevPrev.disabled = false;
+        paginBtnNextNext.disabled = false;
+        paginBtnNext.disabled = false;
+        
+    }
+
+})
+    
+*/
+
+
+
+
+
+
+/*
+
+sliderPets.insertAdjacentHTML('afterbegin', createCard(cardsArray[page]));
+paginControls.addEventListener('click', (event) => {
+    let target = event.target;
+    if (target.closest('.slider__btn--next')) {
+        sliderPets.innerHTML = ''
+        page += 1;
+        sliderPets.insertAdjacentHTML('afterbegin', createCard(cardsArray[page]));
+        paginBtnCurr.textContent = page + 1;
+        if (page+1 >= (48 / setOfCards)) {
+            paginBtnNextNext.classList.add('not-act')
+            paginBtnNext.classList.add('not-act')
+            paginBtnNextNext.disabled = true;
+            paginBtnNext.disabled = true;
+      
+            paginBtnPrevPrev.classList.remove('not-act')
+            paginBtnPrev.classList.remove('not-act')
+        }
+    } if (target.closest('.slider__btn--next')&& paginBtnNext.disabled){}
+
+    if (target.closest('.slider__btn--next-next')) {
+        sliderPets.innerHTML = ''
+        page = cardsArray.length-1;
+        sliderPets.insertAdjacentHTML('afterbegin', createCard(cardsArray[page]));
+        paginBtnCurr.textContent = page + 1;
+        if (page+1 >= (48 / setOfCards)) {
+            paginBtnNextNext.classList.add('not-act')
+            paginBtnNext.classList.add('not-act')
+            paginBtnNextNext.disabled = true;
+            paginBtnNext.disabled = true;
+      
+            paginBtnPrevPrev.classList.remove('not-act')
+            paginBtnPrev.classList.remove('not-act')
+        }
+    }
+
+    if (target.closest('.slider__btn--prev')) {
+        sliderPets.innerHTML = ''
+        page -= 1;
+        sliderPets.insertAdjacentHTML('afterbegin', createCard(cardsArray[page]));
+        paginBtnCurr.textContent = page +2-1 ;
+    }
+    if (target.closest('.slider__btn--pre-prev')) {
+        sliderPets.innerHTML = ''
+        page = 0;
+        sliderPets.insertAdjacentHTML('afterbegin', createCard(cardsArray[page]));
+        paginBtnCurr.textContent = 1 ;
+        
+    }
+
+    if (page === 0) {
+        paginBtnPrevPrev.classList.add('not-act')
+        paginBtnPrev.classList.add('not-act')
+        paginBtnPrev.disabled = true;
+        paginBtnPrevPrev.disabled = true;
+        
+        paginBtnNextNext.classList.remove('not-act')
+        paginBtnNext.classList.remove('not-act')
+   
+    } else if (page > 0) {
+        paginBtnPrevPrev.classList.remove('not-act')
+        paginBtnPrev.classList.remove('not-act')
+        paginBtnPrev.disabled = false;
+        paginBtnPrevPrev.disabled = false;
+        paginBtnNextNext.disabled = false;
+        paginBtnNext.disabled = false;
+        
+    }
+   
+})
+*/
