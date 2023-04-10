@@ -3,7 +3,8 @@ console.log(`готовы:
 Реализация burger menu на обеих страницах: +26
 Реализация слайдера-карусели на странице Main: +28 (нет адаптива)
 Реализация попап на обеих страницах: +12
-Итого: 64`);
+Реализация пагинации: +32 не готов последний пункт, количество страциц обновляется только после перезагрузки.
+Итого: 98`);
 
 const main = document.querySelector('.main');
 const body = document.querySelector('.body');
@@ -156,7 +157,7 @@ const showModal = function (e) {
 
     let target = e.target
     let choosencard = target.closest('.slider__card').getAttribute('id')
-    console.log(choosencard);
+
 
     let el = petList.find(card => choosencard === card.id)
 
@@ -224,7 +225,6 @@ let prevArr = cards[0];
 let currArr = cards[1];
 let newArr = cards[2];
 
-console.log(cards);
 
 function createCurrArr(mainArr) {
     let currArr = new Set();
@@ -281,7 +281,7 @@ sliderBtnRight.addEventListener('click', moveToRight)
 sliderBtnLeft.addEventListener('click', moveToLeft)
 
 slider.addEventListener('animationend', (e) => {
-    console.log(e);
+   
 
     if (slider.classList.contains('transition-right')) {
         slider.classList.remove('transition-right');

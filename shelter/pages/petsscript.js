@@ -190,14 +190,15 @@ sliderPets.addEventListener('click', showModal)
 overlay.addEventListener('click', closePopup)
 
 /*Pagination******************************/
-
-let setOfCards =
-    window.innerWidth > 768 ? 8 : window.innerWidth <= 320 ? 4 : 6;
-window.addEventListener("resize", () => {
-    let newSetOfCards = window.innerWidth > 768 ? 8 : window.innerWidth <= 320 ? 4 : 6;
-    if (newSetOfCards !== setOfCards) setOfCards = newSetOfCards;
-});
 let page = 0;
+let setOfCards = window.innerWidth > 768 ? 8 : window.innerWidth <= 320 ? 3 : 6;
+window.addEventListener("resize", () => {
+    let newSetOfCards = window.innerWidth > 768 ? 8 : window.innerWidth <= 320 ? 3 : 6;
+    if (newSetOfCards !== setOfCards) setOfCards = newSetOfCards;
+    sliderPets.innerHTML = ''
+    sliderPets.insertAdjacentHTML('afterbegin', createCard(cardsArray[page]));
+});
+
 
 function shufleArr(mainArr, qtyPerPage) {
     let poolOfArr = [];
@@ -227,16 +228,12 @@ function shufleEl(mainArr, qtyPerPage) {
             subArr.push(mainArr[random]);
         }
     }
-    console.log(subArr);
+
     return subArr
 }
 
 let cardsArray = shufleArr(petList, setOfCards)
 
-function mainPagination() {
-    let currentPage = 1;
-    let rows = setOfCards;
-}
 
 sliderPets.insertAdjacentHTML('afterbegin', createCard(cardsArray[page]));
 
@@ -264,7 +261,6 @@ function moveToNextNext(e) {
         }
     }
 }
-
 
 function moveToNext(e) {
     let target = e.target;
@@ -378,7 +374,7 @@ paginBtnPrevPrev.addEventListener('click', moveToPrevPrev)
 
 function createCard(arr) {
     let newCards = '';
-    console.log(arr);
+
     for (let i = 0; i < arr.length; i++) {
         newCards += ` <div class="slider__card" id="${arr[i].id}">
                                     <div class="slider__card__img">

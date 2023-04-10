@@ -102,8 +102,19 @@
     }
 
     @include tablet {
-      //  max-width: 58rem;
-    
+        
+        // &:nth-child(7),
+        // &:nth-child(8){
+        //     display: none;
+        // }
+    }   @include mobile {
+        // max-height: 139.5rem;
+        // overflow: hidden;
+        // &:nth-child(4),
+        // &:nth-child(5),
+        // &:nth-child(6){
+        //     display: none;
+        // }
     }
 }
 
