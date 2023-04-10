@@ -12,15 +12,16 @@
     }
 }
 
-.slider {
+.slider__wrapper {
     position: relative;
     @include flex();
     margin: 0 auto;
     margin-bottom: 6rem;
+}
+.slider {
+    overflow: hidden;
+    order: 2;
 
-    @include tablet {
-        //   margin-top: -0.2rem;
-    }
 
     @include mobile {
         flex-direction: column;
@@ -28,15 +29,11 @@
     }
 
 }
-
-.slider__cart-conteiner {
+.left-cards,
+.active-cards,
+.right-cards{
+    transition: all 1s ease-in-out;
     @include flex($gap:9rem, $justify-content: flex-start);
-    max-width: 99rem;
-    overflow: hidden;
-    order: 2;
-  
-   
-
     @include desktop {
         gap: 4rem;
         max-width: 58rem;
@@ -51,6 +48,33 @@
      @include  small-tablet {
         max-width: 27rem;
         gap: 4rem;
+        
+    }
+}
+
+.slider__card-conteiner {
+    @include flex($gap:9rem, $justify-content: flex-start);
+    position: relative;
+    max-width: 99rem;
+    left: -108rem;
+
+    @include desktop {
+        gap: 4rem;
+        max-width: 58rem;
+        left: -62rem;
+    }
+    @include small-desktop {
+       // justify-content: center;
+        gap: 4rem;
+        left: -60rem;
+    }
+    @include ex-tablet {
+        gap: 2rem;
+    }
+     @include  small-tablet {
+        max-width: 27rem;
+        gap: 4rem;
+        left: -31rem;
         
     }
 }

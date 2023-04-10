@@ -1,49 +1,86 @@
-@keyframes move-to-right{
-0%{
-    right: -99rem;
-}
-100%{
-    right: 0rem;
-}
+@keyframes move-to-right {
+    0% {
+        left: -108rem;
+    }
+
+    100% {
+        left: -216rem;
+    }
+
 }
 
-.transition-rigth{
-    animation: move-to-right 0.5s;
-}
-
-@keyframes move-to-left{
-0%{
-    left: 0;
-}
-100%{
-    left: 99rem;
-}
-}
-.transition-left{
+.transition-right {
     animation: move-to-right 2s;
 }
 
-// @keyframes move-burger-right{
-//     0%{
-//         right: -32rem;
-//     }
-//     100%{
-//         right: 0rem;
-//     }
-//     }
-    
-//     .transition-rigth{
-//         animation: move-to-right 0.5s;
-//     }
-    
-//     @keyframes move-burger-left{
-//     0%{
-//         right: 0rem;
-//     }
-//     100%{
-//         right: -32rem;
-//     }
-//     }
-//     .transition-left{
-//         animation: move-to-right 2s;
-//     }
+@keyframes move-to-left {
+    0% {
+        left: -108rem;
+    }
+
+    100% {
+        left: 0;
+    }
+}
+
+.transition-left {
+    animation: move-to-left 2s;
+}
+
+@keyframes move-to-right-tablet {
+    0% {
+        left: -62rem;
+    }
+
+    100% {
+        left: -124rem;
+    }
+
+}
+
+.transition-right-tablet {
+    animation: move-to-right 2s;
+}
+
+@keyframes move-to-left-tablet {
+    0% {
+        left: -62rem;
+    }
+
+    100% {
+        left: 0;
+    }
+}
+
+.transition-left-tablet {
+    animation: move-to-left 2s;
+}
+
+@keyframes move-to-right-mobile {
+    0% {
+        left: -31rem;
+    }
+
+    100% {
+        left: -62rem;
+    }
+
+}
+
+.transition-right-mobile {
+    animation: move-to-right 2s;
+}
+
+@keyframes move-to-left-mobile {
+    0% {
+        left: -31rem;
+    }
+
+    100% {
+        left: 0;
+    }
+}
+
+.transition-left-mobile {
+    animation: move-to-left 2s;
+}
