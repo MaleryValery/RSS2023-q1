@@ -188,9 +188,9 @@ overlay.addEventListener('click', closePopup)
 /*Pagination******************************/
 
 let setOfCards =
-    window.innerWidth > 850 ? 8 : window.innerWidth <= 420 ? 4 : 6;
+    window.innerWidth > 768 ? 8 : window.innerWidth <= 320 ? 4 : 6;
 window.addEventListener("resize", () => {
-    let newSetOfCards = window.innerWidth > 850 ? 8 : window.innerWidth <= 420 ? 4 : 6;
+    let newSetOfCards = window.innerWidth > 768 ? 8 : window.innerWidth <= 320 ? 4 : 6;
     if (newSetOfCards !== setOfCards) setOfCards = newSetOfCards;
 });
 let page = 0;
@@ -303,7 +303,6 @@ function moveToPrev(e) {
         page -= 1;
         sliderPets.insertAdjacentHTML('afterbegin', createCard(cardsArray[page]));
         paginBtnCurr.textContent = page + 2 - 1;
-    }
     if (page === 0) {
         paginBtnPrevPrev.classList.add('not-act')
         paginBtnPrev.classList.add('not-act')
@@ -324,8 +323,11 @@ function moveToPrev(e) {
         paginBtnPrevPrev.disabled = false;
         paginBtnNextNext.disabled = false;
         paginBtnNext.disabled = false;
+        paginBtnPrev.addEventListener('click', moveToPrev)
+        paginBtnPrevPrev.addEventListener('click', moveToPrevPrev)
 
     }
+}
 }
 
 function moveToPrevPrev(e) {
@@ -335,12 +337,14 @@ function moveToPrevPrev(e) {
         page = 0;
         sliderPets.insertAdjacentHTML('afterbegin', createCard(cardsArray[page]));
         paginBtnCurr.textContent = 1;
-    }
+
     if (page === 0) {
         paginBtnPrevPrev.classList.add('not-act')
         paginBtnPrev.classList.add('not-act')
         paginBtnPrev.disabled = true;
         paginBtnPrevPrev.disabled = true;
+        paginBtnNextNext.disabled = false;
+        paginBtnNext.disabled = false;
 
         paginBtnNextNext.classList.remove('not-act')
         paginBtnNext.classList.remove('not-act')
@@ -356,8 +360,10 @@ function moveToPrevPrev(e) {
         paginBtnPrevPrev.disabled = false;
         paginBtnNextNext.disabled = false;
         paginBtnNext.disabled = false;
-
+        paginBtnPrev.addEventListener('click', moveToPrev)
+        paginBtnPrevPrev.addEventListener('click', moveToPrevPrev)
     }
+}
 
 }
 
