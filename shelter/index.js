@@ -182,6 +182,12 @@ const showModal = function (e) {
 
     const closePopupBtn = document.querySelector('.popup__close-btn');
     closePopupBtn.addEventListener('click', closePopup)
+    closePopupBtn.addEventListener('mouseenter',()=>{
+        closePopupBtn.style.backgroundColor = '#F1CDB3'
+    })
+    closePopupBtn.addEventListener('mouseleave',()=>{
+        closePopupBtn.style.backgroundColor = 'transparent'
+    })
 }
 
 const closePopup = function (e) {
