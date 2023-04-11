@@ -195,22 +195,22 @@ overlay.addEventListener('click', closePopup)
 
 /*Pagination******************************/
 let page = 0;
+
 let setOfCards = window.innerWidth > 768 ? 8 : window.innerWidth <= 320 ? 3 : 6;
 window.addEventListener("resize", () => {
     let newSetOfCards = window.innerWidth > 768 ? 8 : window.innerWidth <= 320 ? 3 : 6;
     if (newSetOfCards !== setOfCards) setOfCards = newSetOfCards;
     sliderPets.innerHTML = ''
     sliderPets.insertAdjacentHTML('afterbegin', createCard(cardsArray[page]));
-});
 
+});
 
 function shufleArr(mainArr, qtyPerPage) {
     let poolOfArr = [];
     let qtyOfPage = 48 / qtyPerPage; //6 , 8 , 12  
 
-
     while (poolOfArr.length < qtyOfPage) {
-        poolOfArr.push(shufleEl(petList, setOfCards))
+        poolOfArr.push(shufleEl(mainArr, setOfCards))
     }
     return poolOfArr
 }
@@ -237,9 +237,8 @@ function shufleEl(mainArr, qtyPerPage) {
 }
 
 let cardsArray = shufleArr(petList, setOfCards)
+let onPage = cardsArray[0].length
 
-
-sliderPets.insertAdjacentHTML('afterbegin', createCard(cardsArray[page]));
 
 function moveToNextNext(e) {
     let target = e.target;
@@ -248,7 +247,7 @@ function moveToNextNext(e) {
         page = cardsArray.length - 1;
         sliderPets.insertAdjacentHTML('afterbegin', createCard(cardsArray[page]));
         paginBtnCurr.textContent = page + 1;
-        if (page + 1 === (48 / setOfCards)) {
+        if (page + 1 === cardsArray.length) {
             paginBtnNextNext.classList.add('not-act')
             paginBtnNext.classList.add('not-act')
             paginBtnNextNext.disabled = true;
@@ -273,7 +272,7 @@ function moveToNext(e) {
         page += 1;
         sliderPets.insertAdjacentHTML('afterbegin', createCard(cardsArray[page]));
         paginBtnCurr.textContent = page + 1;
-        if (page + 1 === 48 / setOfCards) {
+        if (page + 1 === cardsArray.length) {
             paginBtnNextNext.classList.add('not-act')
             paginBtnNext.classList.add('not-act')
             paginBtnNextNext.disabled = true;
@@ -288,7 +287,7 @@ function moveToNext(e) {
             paginBtnPrev.addEventListener('click', moveToPrev)
             paginBtnPrevPrev.addEventListener('click', moveToPrevPrev)
         }
-        if ((page !== 0 )&& (page + 1 !== 48 / setOfCards)) {
+        if ((page !== 0 )&& (page + 1 !== cardsArray.length)) {
             paginBtnPrevPrev.classList.remove('not-act')
             paginBtnPrev.classList.remove('not-act')
             paginBtnNextNext.classList.remove('not-act')
@@ -328,7 +327,7 @@ function moveToPrev(e) {
         paginBtnPrev.removeEventListener('click', moveToPrev)
         paginBtnPrevPrev.removeEventListener('click', moveToPrevPrev)
 
-    } else if ((page !== 0 ) && (page + 1 !== 48 / setOfCards)) {
+    } else if ((page !== 0 ) && (page + 1 !== cardsArray.length)) {
         paginBtnPrevPrev.classList.remove('not-act')
         paginBtnPrev.classList.remove('not-act')
         paginBtnNextNext.classList.remove('not-act')
@@ -384,14 +383,12 @@ function moveToPrevPrev(e) {
 
 }
 
-function checkPage(){
-
-}
-
 paginBtnNextNext.addEventListener("click", moveToNextNext)
 paginBtnNext.addEventListener('click', moveToNext)
 paginBtnPrev.addEventListener('click', moveToPrev)
 paginBtnPrevPrev.addEventListener('click', moveToPrevPrev)
+
+
 
 function createCard(arr) {
     let newCards = '';
@@ -410,3 +407,5 @@ function createCard(arr) {
     }
     return newCards;
 }
+document.addEventListener('DOMContentLoaded', 
+sliderPets.insertAdjacentHTML('afterbegin', createCard(cardsArray[0])));
