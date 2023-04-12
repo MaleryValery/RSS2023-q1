@@ -9,8 +9,8 @@
         width: 63rem;
     }
 
-    @include tablet {
-        width: 27rem;
+    @include small-tablet {
+        width: 24rem;
     }
 }
 
@@ -18,8 +18,8 @@
 .popup__close-btn {
     cursor: pointer;
     position: absolute;
-    right: -5rem;
-    top: -5rem;
+    right: -4.3rem;
+    top: -5.2rem;
 
     display: flex;
     justify-content: center;
@@ -34,9 +34,13 @@
     border: 2px solid $color-primary;
 
 
-    @include tablet {
-        right: -3.5rem;
-        top: -5rem;
+    @include small-desktop {
+        right: -4.3rem;
+        top: -5.2rem;
+    }
+    @include  small-tablet {
+        right: -3rem;
+        top: -5.2rem;
     }
  
 }
@@ -50,6 +54,11 @@
     padding: 5rem 2rem 5rem 3rem;
     @include small-desktop {
         padding: 1rem;
+
+       }
+    @include small-tablet {
+        text-align: justify;
+        padding-bottom: 0.4rem;
        }
    
       
@@ -58,33 +67,37 @@
 .popup__pet-name {
     @extend %h3;
     margin-bottom: 1rem;
-    @include tablet {
-        text-align: center
+    @include small-tablet {
+        text-align: center;
+        font-size: 3.5rem;
         }
+ 
 }
 
 .popup__pet-type {
     @extend %h4;
-    margin-bottom: 3rem;
+    margin-bottom: 4rem;
     @include small-desktop {
-        margin-bottom: 1rem;
+        margin-bottom: 2rem;
        }
    
-       @include tablet {
+       @include small-tablet {
        text-align: center
        }
 }
 
 .popup__pet-discr {
     @extend %h5;
-    margin-bottom: 3rem;
+    margin-bottom: 4rem;
     line-height: 1.1;
+   
     @include small-desktop {
      font-size: 1.3rem;
-     margin-bottom: 1rem;
+     margin-bottom: 1.2rem;
     }
-    @include tablet {
-       
+    @include small-tablet {
+        margin-bottom: 2.2rem;
+        letter-spacing: 0.05rem;
     }
 }
 
@@ -92,7 +105,7 @@
     @extend %h5;
     letter-spacing: 0.14rem;
     color: #000;
-    margin-bottom: 1rem;
+    margin-bottom: 0.4rem;
     position: relative;
     margin-left: 1.3rem;
 
@@ -103,8 +116,10 @@
         margin-bottom: 0rem;
        }
    
-       @include tablet {
-          
+       @include small-tablet {
+        line-height: 1.1;
+        margin-bottom: 0.65rem;
+
        }
 }
 
@@ -131,11 +146,11 @@
     position: fixed;
     z-index: 3;
     @include small-desktop {
-        top: 40%;
+        top: 50%;
     }
 
     @include tablet {
-         top: 45%;
+         top: 50%;
     }
 
     &.pets{
@@ -156,7 +171,7 @@
    
     }
 
-    @include tablet {
+    @include small-tablet {
        display: none;
     }
 
