@@ -29,21 +29,24 @@
 }
 
 .cell {
-  border: 1px solid gray;
-  background-color: lightblue;
+  border: 1px solid darken(#add8e6,8%);
+  background-color: #add8e6;
   width: 24px;
   height: 24px;
   border-radius: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
   &.open {
-    background-color: lightgreen;
+    background-color: lighten(#90ee90,5%);
     &.boom {
-      background-color: lightcoral;
+      background-color: light;
     }
   }
 
   &.flag {
-    background-color: lightpink;
+    background-color: rgb(159, 233, 159);
   }
 
 }

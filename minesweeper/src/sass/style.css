@@ -29,20 +29,23 @@
 }
 
 .cell {
-  border: 1px solid gray;
-  background-color: lightblue;
+  border: 1px solid #8ec9dc;
+  background-color: #add8e6;
   width: 24px;
   height: 24px;
   border-radius: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 .cell.open {
-  background-color: lightgreen;
+  background-color: #a6f1a6;
 }
 .cell.open.boom {
-  background-color: lightcoral;
+  background-color: light;
 }
 .cell.flag {
-  background-color: lightpink;
+  background-color: rgb(159, 233, 159);
 }
 
 .level-wrapper {
