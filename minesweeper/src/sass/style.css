@@ -29,8 +29,8 @@
 }
 
 .cell {
-  border: 1px solid #8ec9dc;
-  background-color: #add8e6;
+  border: 1px solid #c9c9c9;
+  background-color: #ddd;
   width: 24px;
   height: 24px;
   border-radius: 2px;
@@ -44,8 +44,11 @@
 .cell.open.boom {
   background-color: light;
 }
-.cell.flag {
-  background-color: rgb(159, 233, 159);
+@media (max-width: 500px) {
+  .cell {
+    width: 18px;
+    height: 18px;
+  }
 }
 
 .level-wrapper {
@@ -56,7 +59,19 @@
 }
 
 .btn {
-  padding: 5px 10px;
+  padding: 5px;
+}
+
+.level-bomb {
+  background-color: transparent;
+  border: 1px solid #ddd;
+  padding: 0 5px;
+  width: 35px;
+}
+
+.level-bomb::-webkit-outer-spin-button,
+.level-bomb::-webkit-inner-spin-button {
+  -webkit-appearance: none;
 }
 
 .overlay {
