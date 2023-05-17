@@ -27,6 +27,24 @@
   padding-bottom: 20px;
   letter-spacing: 1px;
 }
+@media (max-width: 700px) {
+  .header {
+    padding-bottom: 15px;
+    font-size: 24px;
+  }
+}
+@media (max-width: 600px) {
+  .header {
+    padding-bottom: 12px;
+    font-size: 20px;
+  }
+}
+@media (max-width: 500px) {
+  .header {
+    padding-bottom: 10px;
+    font-size: 18px;
+  }
+}
 
 .cell {
   border: 1px solid #c9c9c9;
@@ -43,6 +61,18 @@
 }
 .cell.open.boom {
   background-color: light;
+}
+@media (max-width: 700px) {
+  .cell {
+    width: 22px;
+    height: 22px;
+  }
+}
+@media (max-width: 600px) {
+  .cell {
+    width: 20px;
+    height: 20px;
+  }
 }
 @media (max-width: 500px) {
   .cell {

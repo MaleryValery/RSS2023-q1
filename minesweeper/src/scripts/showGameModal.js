@@ -63,14 +63,14 @@ function showGameModal(gameStatus, arr) {
 
 function checkIfwin(arr, cells, emptysArr, booms, gameStatus) {
   let cellOpen = 0;
-  let flagAndBoom = 0;
+  // let flagAndBoom = 0;
   cells.forEach((cell, i) => {
     if ((cell.classList.contains('open') && arr[i] !== 'boom')) {
       cellOpen += 1;
     }
-    if (cell.classList.contains('flag') && arr[i] === 'boom') {
-      flagAndBoom += 1;
-    }
+    // if (cell.classList.contains('flag') && arr[i] === 'boom') {
+    //   flagAndBoom += 1;
+    // }
     if (cellOpen === emptysArr.length) {
       gameStatus = 'win';
       showGameModal(gameStatus, arr);

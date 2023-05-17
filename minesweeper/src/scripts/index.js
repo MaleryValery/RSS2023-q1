@@ -1,16 +1,17 @@
+/* eslint-disable no-loop-func */
 /* eslint-disable no-unused-expressions */
 /* eslint-disable no-use-before-define */
 /* eslint-disable no-param-reassign */
 /* eslint-disable no-useless-return */
 import generateNumbers from './generateNumbers.js';
 import { showGameModal, checkIfwin } from './showGameModal.js';
+import changeWidth from './changeWidth.js';
 
 const body = document.querySelector('.body');
 let isOver = '';
 const sizeCell = 24;
 const widthField = 5;
 const heightField = 5;
-const arrLenght = widthField * heightField;
 
 const modal = document.createElement('div');
 modal.className = 'modal hide';
@@ -72,27 +73,37 @@ levelBomb.className = 'level-bomb';
 levelBomb.placeholder = '10';
 levelBox.insertAdjacentElement('beforeend', levelBomb);
 
-const qtyBoom = +levelBomb.textContent || 10;
-const qtyFlag = qtyBoom;
-let move = 0;
+let arrLenght;
+let qtyBoom;
+let qtyFlag;
+let move;
 
-const lenghtEmptyArr = arrLenght - qtyBoom;
-const boomArr = new Array(qtyBoom).fill('boom');
-const emptysArr = new Array(lenghtEmptyArr).fill('empty');
-const mainArr = boomArr.concat(emptysArr);
+let lenghtEmptyArr;
+let boomArr;
+let emptysArr;
+let mainArr;
 let randomArr;
 let chengetArr;
 console.log(levelBomb.value);
 
-function init(sizeX, sizeY) {
+function init(sizeWidth, sizeHeight) {
+  qtyBoom = levelBomb.value || 10;
+  qtyFlag = qtyBoom;
+  arrLenght = sizeWidth * sizeHeight;
+  console.log('arrLenght', arrLenght, sizeWidth, sizeHeight);
+  lenghtEmptyArr = arrLenght - qtyBoom;
+  boomArr = new Array(qtyBoom).fill('boom');
+  emptysArr = new Array(lenghtEmptyArr).fill('empty');
+  mainArr = boomArr.concat(emptysArr);
   move = 0;
+
   const tempArr = [];
   randomArr = mainArr.sort(() => Math.random() - 0.5);
   for (let i = 0; i < randomArr.length; i += 1) {
     if (randomArr[i] === 'empty') tempArr.push(i);
   }
   console.log(randomArr);
-  for (let i = 0; i < sizeX * sizeY; i += 1) {
+  for (let i = 0; i < sizeWidth * sizeHeight; i += 1) {
     const cell = document.createElement('div');
     cell.className = 'cell';
     cell.id = i;
@@ -120,7 +131,6 @@ function init(sizeX, sizeY) {
   }
 }
 init(widthField, heightField);
-
 generateNumbers(widthField, heightField, randomArr);
 
 function pickFlag(cell, flags) {
@@ -218,18 +228,12 @@ function closeModal(e) {
 }
 
 document.addEventListener('click', closeModal);
-
-// function checkIfwin(arr, cells, emptysArr, gameStatus) {
-//   let cellOpen = 0;
-//   cells.forEach((cell, i) => {
-//     if (cell.classList.contains('open') && arr[i] !== 'boom') {
-//       cellOpen += 1;
-//       console.log(cellOpen, emptysArr.length);
-//     }
-//     if (cellOpen === emptysArr.length) {
-//       gameStatus = 'win';
-//       console.log(gameStatus, gameStatus === 'win');
-//       showGameModal(gameStatus, arr);
-//     }
-//   });
-// }
+levelBomb.addEventListener('change', init);
+document.addEventListener('DOMContentLoaded', () => {
+  const { innerWidth } = window;
+  changeWidth(innerWidth, sizeCell, field, widthField, heightField);
+});
+window.addEventListener('resize', (e) => {
+  const { innerWidth } = e.target;
+  changeWidth(innerWidth, sizeCell, field, widthField, heightField);
+});
