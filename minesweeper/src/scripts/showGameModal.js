@@ -1,5 +1,6 @@
 /* eslint-disable no-param-reassign */
-function showGameModal(gameStatus, arr) {
+function showGameModal(gameStatus, arr, icon) {
+  const body = document.querySelector('.body');
   const cells = document.querySelectorAll('.cell');
   if (gameStatus === 'loose') {
     cells.forEach((el, i) => {
@@ -7,7 +8,7 @@ function showGameModal(gameStatus, arr) {
       if (arr[i] === 'boom') {
         el.classList.add('boom');
         if (el.classList.contains('boom') && !el.classList.contains('flag')) {
-          el.insertAdjacentHTML('afterbegin', '<img src = \'assets/game-icons/bomb.png\' width=22px height =22px>');
+          el.insertAdjacentHTML('afterbegin', '<img src = \'assets/game-icons/bomb.png\' width=18px height =18px>');
         }
       } else {
         el.classList.add('open');
@@ -23,12 +24,13 @@ function showGameModal(gameStatus, arr) {
         if (qtyBomb === 8) el.style.backgroundColor = '#D65DB1';
       }
     });
+    icon.innerHTML = '<img src = \'assets/game-icons/game-lose2.png\' width = 50px>';
     document.querySelector('.overlay').classList.remove('hide');
     document.querySelector('.modal').classList.remove('hide');
     document.querySelector('.modal').innerHTML = '\nYou lose! Try again!\n';
     document.querySelector('.modal')
-      // eslint-disable-next-line quotes
-      .insertAdjacentHTML('afterbegin', `<img src='assets/game-icons/boom.png' alt='Boom'/>`);
+      .insertAdjacentHTML('afterbegin', '<img src=\'assets/game-icons/boom.png\' alt=\'Boom\'/>');
+    body.classList.add('no-scroll');
   }
   if (gameStatus === 'win') {
     cells.forEach((el, i) => {
@@ -37,7 +39,7 @@ function showGameModal(gameStatus, arr) {
         el.classList.add('boom');
         if (el.classList.contains('boom') && !el.classList.contains('flag')) {
           el.innerHTML = '';
-          el.insertAdjacentHTML('afterbegin', '<img src = \'assets/game-icons/red-flag.png\' width=18px height =18px>');
+          el.insertAdjacentHTML('afterbegin', '<img src = \'assets/game-icons/red-flag.png\' width=17px height =17px>');
         }
       } else {
         el.classList.add('open');
@@ -53,11 +55,13 @@ function showGameModal(gameStatus, arr) {
         if (qtyBomb === 8) el.style.backgroundColor = '#D65DB1';
       }
     });
+    icon.innerHTML = '<img src = \'assets/game-icons/game-win2.png\' width = 50px>';
     document.querySelector('.overlay').classList.remove('hide');
     document.querySelector('.modal').classList.remove('hide');
     document.querySelector('.modal').innerHTML = '\nYou win! Well done!\n';
     document.querySelector('.modal')
       .insertAdjacentHTML('afterbegin', '<img src=\'assets/game-icons/winner.png\' alt=\'winner\'/>');
+    body.classList.add('no-scroll');
   }
 }
 
@@ -65,6 +69,7 @@ function checkIfwin(arr, cells, emptysArr, booms, gameStatus) {
   let cellOpen = 0;
   // let flagAndBoom = 0;
   cells.forEach((cell, i) => {
+    const gameIcon = document.querySelector('.game-icon');
     if ((cell.classList.contains('open') && arr[i] !== 'boom')) {
       cellOpen += 1;
     }
@@ -73,7 +78,7 @@ function checkIfwin(arr, cells, emptysArr, booms, gameStatus) {
     // }
     if (cellOpen === emptysArr.length) {
       gameStatus = 'win';
-      showGameModal(gameStatus, arr);
+      showGameModal(gameStatus, arr, gameIcon);
     }
   });
 }

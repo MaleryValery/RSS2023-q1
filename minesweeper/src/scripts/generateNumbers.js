@@ -16,6 +16,8 @@ function generateNumbers(width, height, arr) {
       if (!bottomSide && !leftSide && arr[i + width - 1] === 'boom') countBoom += 1;
       if (!bottomSide && !rigthSide && arr[i + width + 1] === 'boom') countBoom += 1;
       cell.setAttribute('number', countBoom);
+    } else {
+      cell.setAttribute('numbers', 0);
     }
   });
 }

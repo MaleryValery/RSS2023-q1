@@ -3,15 +3,23 @@
 /* eslint-disable no-use-before-define */
 /* eslint-disable no-param-reassign */
 /* eslint-disable no-useless-return */
-import generateNumbers from './generateNumbers.js';
 import { showGameModal, checkIfwin } from './showGameModal.js';
+import generateNumbers from './generateNumbers.js';
 import changeWidth from './changeWidth.js';
 
 const body = document.querySelector('.body');
 let isOver = '';
-const sizeCell = 24;
-const widthField = 5;
-const heightField = 5;
+let sizeCell;
+let widthField = 10;
+let heightField = 10;
+document.addEventListener('DOMContentLoaded', () => {
+  const { innerWidth } = window;
+  changeWidth(innerWidth, sizeCell, field, widthField, heightField);
+});
+window.addEventListener('resize', (e) => {
+  const { innerWidth } = e.target;
+  changeWidth(innerWidth, sizeCell, field, widthField, heightField);
+});
 
 const modal = document.createElement('div');
 modal.className = 'modal hide';
@@ -32,8 +40,8 @@ mainWrapper.insertAdjacentElement('beforeend', header);
 
 const field = document.createElement('div');
 field.className = 'minefield';
-field.style.width = `${widthField * sizeCell}px`;
-field.style.height = `${heightField * sizeCell}px`;
+// field.style.width = `${widthField * sizeCell}px`;
+// field.style.height = `${heightField * sizeCell}px`;
 mainWrapper.insertAdjacentElement('beforeend', field);
 
 const levelBox = document.createElement('div');
@@ -73,6 +81,30 @@ levelBomb.className = 'level-bomb';
 levelBomb.placeholder = '10';
 levelBox.insertAdjacentElement('beforeend', levelBomb);
 
+const settingBox = document.createElement('div');
+settingBox.className = 'level-wrapper';
+levelBox.insertAdjacentElement('afterend', settingBox);
+
+const gameTimer = document.createElement('div');
+gameTimer.className = 'timer';
+gameTimer.innerHTML = 'timer';
+settingBox.insertAdjacentElement('beforeend', gameTimer);
+
+const gameIcon = document.createElement('div');
+gameIcon.className = 'game-icon';
+// gameIcon.innerHTML = '<img src = \'assets/game-icons/init-game.png\'>';
+settingBox.insertAdjacentElement('beforeend', gameIcon);
+
+const gameMove = document.createElement('div');
+gameMove.className = 'move';
+gameMove.innerHTML = 'gameMove';
+settingBox.insertAdjacentElement('beforeend', gameMove);
+
+const gameFlag = document.createElement('div');
+gameFlag.className = 'flags';
+gameFlag.innerHTML = 'gameFlag';
+settingBox.insertAdjacentElement('beforeend', gameFlag);
+
 let arrLenght;
 let qtyBoom;
 let qtyFlag;
@@ -81,35 +113,34 @@ let move;
 let lenghtEmptyArr;
 let boomArr;
 let emptysArr;
-let mainArr;
+// let mainArr;
 let randomArr;
-let chengetArr;
-console.log(levelBomb.value);
 
-function init(sizeWidth, sizeHeight) {
-  qtyBoom = levelBomb.value || 10;
-  qtyFlag = qtyBoom;
+function init(sizeWidth = 10, sizeHeight = 10, booms = 10) {
+  field.innerHTML = '';
+  booms = +levelBomb.value || 10;
   arrLenght = sizeWidth * sizeHeight;
-  console.log('arrLenght', arrLenght, sizeWidth, sizeHeight);
-  lenghtEmptyArr = arrLenght - qtyBoom;
-  boomArr = new Array(qtyBoom).fill('boom');
+  lenghtEmptyArr = arrLenght - booms;
+  boomArr = new Array(booms).fill('boom');
   emptysArr = new Array(lenghtEmptyArr).fill('empty');
-  mainArr = boomArr.concat(emptysArr);
+  randomArr = boomArr.concat(emptysArr).sort(() => Math.random() - 0.5);
   move = 0;
 
+  qtyFlag = booms;
+  console.log('arrLenght', arrLenght, sizeWidth, sizeHeight);
+
   const tempArr = [];
-  randomArr = mainArr.sort(() => Math.random() - 0.5);
+  // randomArr = mainArr.sort(() => Math.random() - 0.5);
   for (let i = 0; i < randomArr.length; i += 1) {
     if (randomArr[i] === 'empty') tempArr.push(i);
   }
-  console.log(randomArr);
+  console.log('randomArr', randomArr, '\nboomArr', boomArr, '\nemptysArr', emptysArr);
   for (let i = 0; i < sizeWidth * sizeHeight; i += 1) {
     const cell = document.createElement('div');
     cell.className = 'cell';
     cell.id = i;
     field.insertAdjacentElement('beforeend', cell);
 
-    // eslint-disable-next-line no-loop-func
     cell.addEventListener('click', () => {
       move += 1;
       console.log(move);
@@ -118,10 +149,9 @@ function init(sizeWidth, sizeHeight) {
         const index = Math.floor(Math.random() * tempArr.length);
         randomArr[tempArr[index]] = 'boom';
         randomArr[firstBoom] = 'empty';
-        chengetArr = [...randomArr];
-        generateNumbers(widthField, heightField, chengetArr);
+        generateNumbers(widthField, heightField, randomArr);
       }
-      clickOpen(cell, chengetArr);
+      clickOpen(cell, randomArr);
     });
 
     cell.addEventListener('contextmenu', (e) => {
@@ -133,10 +163,43 @@ function init(sizeWidth, sizeHeight) {
 init(widthField, heightField);
 generateNumbers(widthField, heightField, randomArr);
 
+function restartGame() {
+  const minefield = document.querySelector('.minefield');
+  gameIcon.innerHTML = '';
+  minefield.innerHTML = '';
+  init(widthField, heightField);
+  generateNumbers(widthField, heightField, randomArr);
+}
+
+function changeSize(e) {
+  const { target } = e;
+  const btns = document.querySelectorAll('.btn');
+  if (target.classList.contains('btn')) {
+    if (!target.classList.contains('active')) {
+      btns.forEach((el) => el.classList.remove('active'));
+      target.classList.add('active');
+      widthField = +target.getAttribute('width');
+      heightField = +target.getAttribute('width');
+      field.innerHTML = '';
+      init(widthField, heightField);
+      changeWidth(innerWidth, sizeCell, field, widthField, heightField);
+      generateNumbers(widthField, heightField, randomArr);
+    } else {
+      target.classList.remove('active');
+      widthField = 10;
+      heightField = 10;
+      field.innerHTML = '';
+      init(widthField, heightField);
+      changeWidth(innerWidth, sizeCell, field, widthField, heightField);
+      generateNumbers(widthField, heightField, randomArr);
+    }
+  }
+}
+
 function pickFlag(cell, flags) {
   if (!cell.classList.contains('open') && !cell.classList.contains('flag')) {
     cell.classList.add('flag');
-    cell.insertAdjacentHTML('afterbegin', '<img src = \'assets/game-icons/red-flag.png\' width=16px height =18px>');
+    cell.insertAdjacentHTML('afterbegin', '<img src = \'assets/game-icons/red-flag.png\' width=14px height =16px>');
     flags -= 1;
   } else if (!cell.classList.contains('open') && cell.classList.contains('flag')) {
     cell.classList.remove('flag');
@@ -148,12 +211,13 @@ function pickFlag(cell, flags) {
 
 function clickOpen(cell, arrCells = randomArr) {
   const currentNumber = +cell.getAttribute('number');
-  const currentId = +cell.getAttribute('id');
+  const currentId = +cell.id;
+  console.log(currentNumber, currentId);
   const cells = document.querySelectorAll('.cell');
   if (cell.classList.contains('open') || cell.classList.contains('flag') || cell.classList.contains('boom')) return;
   if (arrCells[currentId] === 'boom') {
     isOver = 'loose';
-    showGameModal(isOver, arrCells);
+    showGameModal(isOver, arrCells, gameIcon);
   } else if (currentNumber === 0) {
     checkArea(currentId);
     cell.classList.add('open');
@@ -181,8 +245,8 @@ function clickOpen(cell, arrCells = randomArr) {
 function checkArea(id) {
   const leftSide = id % widthField === 0;
   const rigthSide = id % widthField === widthField - 1;
-  const topSide = id / heightField < 1;
-  const bottomSide = id / heightField >= heightField - 1;
+  const topSide = (id / heightField) < 1;
+  const bottomSide = (id / heightField) >= (heightField - 1);
   setTimeout(() => {
     if (!leftSide) {
       const newCell = document.getElementById(id - 1);
@@ -224,16 +288,18 @@ function closeModal(e) {
   if (target.classList.contains('overlay')) {
     document.querySelector('.overlay').classList.add('hide');
     document.querySelector('.modal').classList.add('hide');
+    body.classList.remove('no-scroll');
   }
 }
 
 document.addEventListener('click', closeModal);
-levelBomb.addEventListener('change', init);
-document.addEventListener('DOMContentLoaded', () => {
-  const { innerWidth } = window;
-  changeWidth(innerWidth, sizeCell, field, widthField, heightField);
+gameIcon.addEventListener('click', restartGame);
+levelBomb.addEventListener('change', (e) => {
+  e.preventDefault();
+  init(widthField, heightField, levelBomb.value);
+  generateNumbers(widthField, heightField, randomArr);
 });
-window.addEventListener('resize', (e) => {
-  const { innerWidth } = e.target;
-  changeWidth(innerWidth, sizeCell, field, widthField, heightField);
+levelBox.addEventListener('click', (e) => {
+  e.preventDefault();
+  changeSize(e);
 });
