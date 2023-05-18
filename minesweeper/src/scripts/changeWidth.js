@@ -1,7 +1,5 @@
 /* eslint-disable no-param-reassign */
 function changeWidth(innerWidth, sizeCell, field, widthField, heightField) {
-  const gameIcon = document.querySelector('.game-icon');
-  gameIcon.innerHTML = '';
   if (innerWidth > 700) {
     sizeCell = 24;
     field.style.width = `${widthField * sizeCell}px`;

@@ -87,6 +87,7 @@ levelBox.insertAdjacentElement('afterend', settingBox);
 
 const gameTimer = document.createElement('div');
 gameTimer.className = 'timer';
+gameTimer.innerHTML = 0;
 settingBox.insertAdjacentElement('beforeend', gameTimer);
 
 const gameIcon = document.createElement('div');
@@ -96,7 +97,6 @@ settingBox.insertAdjacentElement('beforeend', gameIcon);
 
 const gameMove = document.createElement('div');
 gameMove.className = 'move';
-gameMove.innerHTML = 'gameMove';
 settingBox.insertAdjacentElement('beforeend', gameMove);
 
 const gameFlag = document.createElement('div');
@@ -112,7 +112,6 @@ let move;
 let lenghtEmptyArr;
 let boomArr;
 let emptysArr;
-// let mainArr;
 let randomArr;
 let timer;
 
@@ -140,7 +139,6 @@ function init(sizeWidth = 10, sizeHeight = 10, booms = 10) {
     cell.className = 'cell';
     cell.id = i;
     field.insertAdjacentElement('beforeend', cell);
-
     cell.addEventListener('click', () => {
       setTimer(timer);
       move += 1;
@@ -166,6 +164,9 @@ generateNumbers(widthField, heightField, randomArr);
 
 function restartGame() {
   const minefield = document.querySelector('.minefield');
+  clearTimer();
+  timer = 0;
+  gameTimer.innerHTML = 0;
   gameIcon.innerHTML = '';
   minefield.innerHTML = '';
   init(widthField, heightField);
@@ -181,18 +182,14 @@ function changeSize(e) {
       target.classList.add('active');
       widthField = +target.getAttribute('width');
       heightField = +target.getAttribute('width');
-      field.innerHTML = '';
-      init(widthField, heightField);
+      restartGame();
       changeWidth(innerWidth, sizeCell, field, widthField, heightField);
-      generateNumbers(widthField, heightField, randomArr);
     } else {
       target.classList.remove('active');
       widthField = 10;
       heightField = 10;
-      field.innerHTML = '';
-      init(widthField, heightField);
+      restartGame();
       changeWidth(innerWidth, sizeCell, field, widthField, heightField);
-      generateNumbers(widthField, heightField, randomArr);
     }
   }
 }
@@ -211,17 +208,15 @@ function pickFlag(cell, flags) {
 }
 
 function setTimer() {
-  const gameTimer = document.querySelector('.timer');
   if (timer) return;
   let time = 0;
-  gameTimer.innerHTML = time;
   timer = setInterval(() => {
     time += 1;
     gameTimer.innerHTML = time;
   }, 1000);
 }
 
-function clearTimer(timer) {
+function clearTimer() {
   clearInterval(timer);
 }
 
