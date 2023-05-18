@@ -6,7 +6,7 @@ function showGameModal(gameStatus, arr, icon) {
   clearTimer(timer);
   const body = document.querySelector('.body');
   const cells = document.querySelectorAll('.cell');
-  if (gameStatus === 'loose') {
+  if (gameStatus === 'lose') {
     cells.forEach((el, i) => {
       const qtyBomb = +el.getAttribute('number');
       if (arr[i] === 'boom') {

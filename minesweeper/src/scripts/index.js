@@ -97,6 +97,7 @@ settingBox.insertAdjacentElement('beforeend', gameIcon);
 
 const gameMove = document.createElement('div');
 gameMove.className = 'move';
+gameMove.innerHTML = 0;
 settingBox.insertAdjacentElement('beforeend', gameMove);
 
 const gameFlag = document.createElement('div');
@@ -116,6 +117,7 @@ let randomArr;
 let timer;
 
 function init(sizeWidth = 10, sizeHeight = 10, booms = 10) {
+  isOver = '';
   field.innerHTML = '';
   booms = +levelBomb.value || 10;
   arrLenght = sizeWidth * sizeHeight;
@@ -124,25 +126,20 @@ function init(sizeWidth = 10, sizeHeight = 10, booms = 10) {
   emptysArr = new Array(lenghtEmptyArr).fill('empty');
   randomArr = boomArr.concat(emptysArr).sort(() => Math.random() - 0.5);
   move = 0;
-  isOver = '';
   qtyFlag = booms;
-  console.log('arrLenght', arrLenght, sizeWidth, sizeHeight);
 
   const tempArr = [];
   // randomArr = mainArr.sort(() => Math.random() - 0.5);
   for (let i = 0; i < randomArr.length; i += 1) {
     if (randomArr[i] === 'empty') tempArr.push(i);
   }
-  console.log('randomArr', randomArr, '\nboomArr', boomArr, '\nemptysArr', emptysArr);
   for (let i = 0; i < sizeWidth * sizeHeight; i += 1) {
     const cell = document.createElement('div');
     cell.className = 'cell';
     cell.id = i;
     field.insertAdjacentElement('beforeend', cell);
     cell.addEventListener('click', () => {
-      setTimer(timer);
-      move += 1;
-      console.log(move);
+      countMoves(isOver, cell);
       if (move === 1 && randomArr[cell.id] === 'boom') {
         const firstBoom = cell.id;
         const index = Math.floor(Math.random() * tempArr.length);
@@ -150,6 +147,7 @@ function init(sizeWidth = 10, sizeHeight = 10, booms = 10) {
         randomArr[firstBoom] = 'empty';
         generateNumbers(widthField, heightField, randomArr);
       }
+      setTimer(timer);
       clickOpen(cell, randomArr);
     });
 
@@ -166,6 +164,8 @@ function restartGame() {
   const minefield = document.querySelector('.minefield');
   clearTimer();
   timer = 0;
+  move = 0;
+  gameMove.innerHTML = 0;
   gameTimer.innerHTML = 0;
   gameIcon.innerHTML = '';
   minefield.innerHTML = '';
@@ -220,14 +220,21 @@ function clearTimer() {
   clearInterval(timer);
 }
 
+function countMoves(isOver, cell) {
+  if (cell.classList.contains('open') || cell.classList.contains('flag')) return
+  if (isOver === 'win' || isOver === 'lose') return;
+  move += 1;
+  gameMove.innerHTML = move;
+  console.log(isOver);
+}
+
 function clickOpen(cell, arrCells = randomArr) {
   const currentNumber = +cell.getAttribute('number');
   const currentId = +cell.id;
-  console.log(currentNumber, currentId);
   const cells = document.querySelectorAll('.cell');
   if (cell.classList.contains('open') || cell.classList.contains('flag') || cell.classList.contains('boom')) return;
   if (arrCells[currentId] === 'boom') {
-    isOver = 'loose';
+    isOver = 'lose';
     showGameModal(isOver, arrCells, gameIcon);
   } else if (currentNumber === 0) {
     checkArea(currentId);
