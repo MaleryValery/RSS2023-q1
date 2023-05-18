@@ -1,5 +1,9 @@
 /* eslint-disable no-param-reassign */
+// eslint-disable-next-line import/no-cycle
+import { clearTimer, timer } from './index.js';
+
 function showGameModal(gameStatus, arr, icon) {
+  clearTimer(timer);
   const body = document.querySelector('.body');
   const cells = document.querySelectorAll('.cell');
   if (gameStatus === 'loose') {

@@ -189,4 +189,8 @@
 
 .active {
   color: red;
+}
+
+.timer::before {
+  content: "timer";
 }/*# sourceMappingURL=style.css.map */

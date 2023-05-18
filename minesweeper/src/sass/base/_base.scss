@@ -178,3 +178,8 @@ $widht-large: 700px;
 .active {
   color: red;
 }
+
+.timer::before{
+  content: 'timer';
+  
+}

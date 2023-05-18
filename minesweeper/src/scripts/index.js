@@ -87,7 +87,6 @@ levelBox.insertAdjacentElement('afterend', settingBox);
 
 const gameTimer = document.createElement('div');
 gameTimer.className = 'timer';
-gameTimer.innerHTML = 'timer';
 settingBox.insertAdjacentElement('beforeend', gameTimer);
 
 const gameIcon = document.createElement('div');
@@ -115,6 +114,7 @@ let boomArr;
 let emptysArr;
 // let mainArr;
 let randomArr;
+let timer;
 
 function init(sizeWidth = 10, sizeHeight = 10, booms = 10) {
   field.innerHTML = '';
@@ -125,7 +125,7 @@ function init(sizeWidth = 10, sizeHeight = 10, booms = 10) {
   emptysArr = new Array(lenghtEmptyArr).fill('empty');
   randomArr = boomArr.concat(emptysArr).sort(() => Math.random() - 0.5);
   move = 0;
-
+  isOver = '';
   qtyFlag = booms;
   console.log('arrLenght', arrLenght, sizeWidth, sizeHeight);
 
@@ -142,6 +142,7 @@ function init(sizeWidth = 10, sizeHeight = 10, booms = 10) {
     field.insertAdjacentElement('beforeend', cell);
 
     cell.addEventListener('click', () => {
+      setTimer(timer);
       move += 1;
       console.log(move);
       if (move === 1 && randomArr[cell.id] === 'boom') {
@@ -207,6 +208,21 @@ function pickFlag(cell, flags) {
     flags += 1;
   }
   if (isOver === 'lose' || isOver === 'win') return;
+}
+
+function setTimer() {
+  const gameTimer = document.querySelector('.timer');
+  if (timer) return;
+  let time = 0;
+  gameTimer.innerHTML = time;
+  timer = setInterval(() => {
+    time += 1;
+    gameTimer.innerHTML = time;
+  }, 1000);
+}
+
+function clearTimer(timer) {
+  clearInterval(timer);
 }
 
 function clickOpen(cell, arrCells = randomArr) {
@@ -280,7 +296,7 @@ function checkArea(id) {
       const newCell = document.getElementById(id + widthField + 1);
       clickOpen(newCell);
     }
-  }, 20);
+  }, 5);
 }
 
 function closeModal(e) {
@@ -303,3 +319,5 @@ levelBox.addEventListener('click', (e) => {
   e.preventDefault();
   changeSize(e);
 });
+
+export { timer, clearTimer};
