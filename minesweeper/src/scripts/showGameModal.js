@@ -73,15 +73,11 @@ function showGameModal(gameStatus, arr, icon) {
 function checkIfwin(arr, cells, emptysArr, booms, gameStatus) {
   const gameSound = document.querySelector('.sound');
   let cellOpen = 0;
-  // let flagAndBoom = 0;
   cells.forEach((cell, i) => {
     const gameIcon = document.querySelector('.game-icon');
     if ((cell.classList.contains('open') && arr[i] !== 'boom')) {
       cellOpen += 1;
     }
-    // if (cell.classList.contains('flag') && arr[i] === 'boom') {
-    //   flagAndBoom += 1;
-    // }
     if (cellOpen === emptysArr.length) {
       gameStatus = 'win';
       if (gameSound.innerHTML !== 'off') winSound.play();

@@ -53,6 +53,11 @@ const levelBox = document.createElement('div');
 levelBox.className = 'level-wrapper';
 header.insertAdjacentElement('afterend', levelBox);
 
+const themeSwicher = document.createElement('div');
+themeSwicher.className = 'theme';
+themeSwicher.innerHTML = '<img src=\'assets/game-icons/light.png\' alt=\'theme\'/>';
+levelBox.insertAdjacentElement('beforeend', themeSwicher);
+
 const levelBeginner = document.createElement('a');
 levelBeginner.setAttribute('width', 10);
 levelBeginner.className = 'level-beginner btn';
@@ -150,11 +155,16 @@ function init(sizeWidth = 10, sizeHeight = 10, booms = 10) {
     cell.addEventListener('click', () => {
       countMoves(cell);
       setTimer(timer);
-      if (gameSound.innerHTML !== 'off') clickSound.play();
+      if (gameSound.innerHTML !== 'off') {
+        if (!cell.classList.contains('open')) {
+          clickSound.play();
+        }
+        if (cell.classList.contains('flag')) clickSound.pause();
+      }
       if (move === 1) {
         qtyFlag = booms;
         gameFlag.innerHTML = qtyFlag;
-      };
+      }
       if (move === 1 && randomArr[cell.id] === 'boom') {
         const firstBoom = cell.id;
         const index = Math.floor(Math.random() * tempArr.length);
@@ -212,6 +222,7 @@ function changeSize(e) {
 
 function pickFlag(cell) {
   if (move === 0) return;
+  if (cell.classList.contains('open')) return;
   if (gameSound.innerHTML !== 'off') flagSound.play();
   if (!cell.classList.contains('open') && !cell.classList.contains('flag')) {
     if (qtyFlag === 0) return;
@@ -342,6 +353,8 @@ document.addEventListener('click', closeModal);
 gameIcon.addEventListener('click', restartGame);
 levelBomb.addEventListener('change', (e) => {
   e.preventDefault();
+  if (+levelBomb.value > e.target.getAttribute('max')) levelBomb.value = 99;
+  if (+levelBomb.value < e.target.getAttribute('min')) levelBomb.value = 10;
   gameIcon.innerHTML = '';
   init(widthField, heightField, levelBomb.value);
   generateNumbers(widthField, heightField, randomArr);
@@ -352,5 +365,13 @@ levelBox.addEventListener('click', (e) => {
 });
 
 gameSound.addEventListener('click', playSound);
-
+themeSwicher.addEventListener('click', (e) => {
+  if (body.hasAttribute('theme')) {
+    body.removeAttribute('theme');
+    themeSwicher.innerHTML = '<img src=\'assets/game-icons/dark2.png\' alt=\'theme\'/>';
+  } else {
+    body.setAttribute('theme', 'dark');
+    themeSwicher.innerHTML = '<img src=\'assets/game-icons/light.png\' alt=\'theme\'/>';
+  }
+})
 export { timer, clearTimer };

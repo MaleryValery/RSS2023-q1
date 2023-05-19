@@ -11,13 +11,24 @@ $widht-large: 700px;
 
 .body {
   font-family: 'Rubik', sans-serif;
-  background-color: antiquewhite;
+  background-color: lighten(#90C8AC, 10%);
   margin: 0 auto;
+  color: darken(#73A9AD, 20%);
+  transition: all .5s ease-in-out;
   @media (max-width: $widht-medium ) {
     font-size: 14px;
   }
 }
 
+.body[theme='dark']{
+  font-family: 'Rubik', sans-serif;
+  background-color: darken(#73A9AD,30%);
+  margin: 0 auto;
+  color: #F5F0BB;
+  @media (max-width: $widht-medium ) {
+    font-size: 14px;
+  }
+}
 .wrapper {
   margin: 0 auto;
   padding: 50px;
@@ -55,8 +66,13 @@ $widht-large: 700px;
     font-size: 18px;
   }
 }
-
+.minefield{
+  background-color: #ddd;
+  border-radius: 2px;
+}
 .cell {
+  cursor: pointer;
+  color: #222;
   border: 1px solid darken(#ddd,8%);
   background-color: #ddd;
   width: 24px;
@@ -65,7 +81,9 @@ $widht-large: 700px;
   display: flex;
   align-items: center;
   justify-content: center;
-
+  &:active{
+    background-color: lighten(#ddd,2%);
+  }
   &.open {
     background-color: lighten(#90ee90,5%);
     
@@ -131,6 +149,7 @@ $widht-large: 700px;
 }
 
 .modal{
+  color: #222;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -152,6 +171,7 @@ $widht-large: 700px;
   }
 }
 .game-icon{
+  cursor: pointer;
   background-image: url(../assets/game-icons/init-game.png);
   width: 50px;
   height: 50px;
@@ -197,4 +217,10 @@ $widht-large: 700px;
 
 .flags::before{
   content: 'flags';
+}
+
+.theme{
+  img{
+    width: 40px;
+  }
 }
