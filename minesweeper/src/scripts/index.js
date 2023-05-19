@@ -7,6 +7,11 @@ import { showGameModal, checkIfwin } from './showGameModal.js';
 import generateNumbers from './generateNumbers.js';
 import changeWidth from './changeWidth.js';
 
+const clickSound = new Audio('assets/sounds/click-soundCrop.mp3');
+const flagSound = new Audio('assets/sounds/flag-soundCrop.mp3');
+const loseSound = new Audio('assets/sounds/lose-sound.mp3');
+const restartSound = new Audio('assets/sounds/restart-soundCrop.mp3');
+
 const body = document.querySelector('.body');
 let isOver = '';
 let sizeCell;
@@ -85,6 +90,11 @@ const settingBox = document.createElement('div');
 settingBox.className = 'level-wrapper';
 levelBox.insertAdjacentElement('afterend', settingBox);
 
+const gameSound = document.createElement('div');
+gameSound.className = 'sound';
+gameSound.innerHTML = 'off';
+settingBox.insertAdjacentElement('beforeend', gameSound);
+
 const gameTimer = document.createElement('div');
 gameTimer.className = 'timer';
 gameTimer.innerHTML = 0;
@@ -102,7 +112,7 @@ settingBox.insertAdjacentElement('beforeend', gameMove);
 
 const gameFlag = document.createElement('div');
 gameFlag.className = 'flags';
-gameFlag.innerHTML = 'gameFlag';
+gameFlag.innerHTML = '0';
 settingBox.insertAdjacentElement('beforeend', gameFlag);
 
 let arrLenght;
@@ -126,7 +136,6 @@ function init(sizeWidth = 10, sizeHeight = 10, booms = 10) {
   emptysArr = new Array(lenghtEmptyArr).fill('empty');
   randomArr = boomArr.concat(emptysArr).sort(() => Math.random() - 0.5);
   move = 0;
-  qtyFlag = booms;
 
   const tempArr = [];
   // randomArr = mainArr.sort(() => Math.random() - 0.5);
@@ -139,7 +148,13 @@ function init(sizeWidth = 10, sizeHeight = 10, booms = 10) {
     cell.id = i;
     field.insertAdjacentElement('beforeend', cell);
     cell.addEventListener('click', () => {
-      countMoves(isOver, cell);
+      countMoves(cell);
+      setTimer(timer);
+      if (gameSound.innerHTML !== 'off') clickSound.play();
+      if (move === 1) {
+        qtyFlag = booms;
+        gameFlag.innerHTML = qtyFlag;
+      };
       if (move === 1 && randomArr[cell.id] === 'boom') {
         const firstBoom = cell.id;
         const index = Math.floor(Math.random() * tempArr.length);
@@ -147,13 +162,12 @@ function init(sizeWidth = 10, sizeHeight = 10, booms = 10) {
         randomArr[firstBoom] = 'empty';
         generateNumbers(widthField, heightField, randomArr);
       }
-      setTimer(timer);
       clickOpen(cell, randomArr);
     });
 
     cell.addEventListener('contextmenu', (e) => {
       e.preventDefault();
-      pickFlag(cell, qtyFlag);
+      pickFlag(cell);
     });
   }
 }
@@ -163,11 +177,13 @@ generateNumbers(widthField, heightField, randomArr);
 function restartGame() {
   const minefield = document.querySelector('.minefield');
   clearTimer();
+  if (gameSound.innerHTML !== 'off') restartSound.play();
   timer = 0;
   move = 0;
   gameMove.innerHTML = 0;
   gameTimer.innerHTML = 0;
   gameIcon.innerHTML = '';
+  gameFlag.innerHTML = 0;
   minefield.innerHTML = '';
   init(widthField, heightField);
   generateNumbers(widthField, heightField, randomArr);
@@ -194,15 +210,20 @@ function changeSize(e) {
   }
 }
 
-function pickFlag(cell, flags) {
+function pickFlag(cell) {
+  if (move === 0) return;
+  if (gameSound.innerHTML !== 'off') flagSound.play();
   if (!cell.classList.contains('open') && !cell.classList.contains('flag')) {
+    if (qtyFlag === 0) return;
     cell.classList.add('flag');
     cell.insertAdjacentHTML('afterbegin', '<img src = \'assets/game-icons/red-flag.png\' width=14px height =16px>');
-    flags -= 1;
+    qtyFlag -= 1;
+    gameFlag.innerHTML = qtyFlag;
   } else if (!cell.classList.contains('open') && cell.classList.contains('flag')) {
     cell.classList.remove('flag');
     cell.innerHTML = '';
-    flags += 1;
+    qtyFlag += 1;
+    gameFlag.innerHTML = qtyFlag;
   }
   if (isOver === 'lose' || isOver === 'win') return;
 }
@@ -220,12 +241,18 @@ function clearTimer() {
   clearInterval(timer);
 }
 
-function countMoves(isOver, cell) {
-  if (cell.classList.contains('open') || cell.classList.contains('flag')) return
+function countMoves(cell) {
+  if (cell.classList.contains('open') || cell.classList.contains('flag')) return;
   if (isOver === 'win' || isOver === 'lose') return;
   move += 1;
   gameMove.innerHTML = move;
-  console.log(isOver);
+}
+
+function playSound(e) {
+  const { target } = e;
+  if (target.innerHTML === 'off') {
+    target.innerHTML = 'on';
+  } else target.innerHTML = 'off';
 }
 
 function clickOpen(cell, arrCells = randomArr) {
@@ -234,6 +261,7 @@ function clickOpen(cell, arrCells = randomArr) {
   const cells = document.querySelectorAll('.cell');
   if (cell.classList.contains('open') || cell.classList.contains('flag') || cell.classList.contains('boom')) return;
   if (arrCells[currentId] === 'boom') {
+    if (gameSound.innerHTML !== 'off') loseSound.play();
     isOver = 'lose';
     showGameModal(isOver, arrCells, gameIcon);
   } else if (currentNumber === 0) {
@@ -314,6 +342,7 @@ document.addEventListener('click', closeModal);
 gameIcon.addEventListener('click', restartGame);
 levelBomb.addEventListener('change', (e) => {
   e.preventDefault();
+  gameIcon.innerHTML = '';
   init(widthField, heightField, levelBomb.value);
   generateNumbers(widthField, heightField, randomArr);
 });
@@ -322,4 +351,6 @@ levelBox.addEventListener('click', (e) => {
   changeSize(e);
 });
 
-export { timer, clearTimer};
+gameSound.addEventListener('click', playSound);
+
+export { timer, clearTimer };

@@ -193,4 +193,19 @@
 
 .timer::before {
   content: "timer";
+}
+
+.move::before {
+  content: "move";
+}
+
+.sound {
+  cursor: pointer;
+}
+.sound::before {
+  content: "sound";
+}
+
+.flags::before {
+  content: "flags";
 }/*# sourceMappingURL=style.css.map */

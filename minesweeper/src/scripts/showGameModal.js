@@ -1,6 +1,7 @@
 /* eslint-disable no-param-reassign */
 // eslint-disable-next-line import/no-cycle
 import { clearTimer, timer } from './index.js';
+const winSound = new Audio('assets/sounds/win-sound2.mp3');
 
 function showGameModal(gameStatus, arr, icon) {
   clearTimer(timer);
@@ -70,6 +71,7 @@ function showGameModal(gameStatus, arr, icon) {
 }
 
 function checkIfwin(arr, cells, emptysArr, booms, gameStatus) {
+  const gameSound = document.querySelector('.sound');
   let cellOpen = 0;
   // let flagAndBoom = 0;
   cells.forEach((cell, i) => {
@@ -82,6 +84,7 @@ function checkIfwin(arr, cells, emptysArr, booms, gameStatus) {
     // }
     if (cellOpen === emptysArr.length) {
       gameStatus = 'win';
+      if (gameSound.innerHTML !== 'off') winSound.play();
       showGameModal(gameStatus, arr, gameIcon);
     }
   });

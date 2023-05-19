@@ -181,5 +181,20 @@ $widht-large: 700px;
 
 .timer::before{
   content: 'timer';
-  
+}
+
+.move::before{
+  content: 'move';
+}
+.sound{
+  cursor: pointer;
+  &::before{
+    content: 'sound';
+  }
+
+}
+
+
+.flags::before{
+  content: 'flags';
 }
