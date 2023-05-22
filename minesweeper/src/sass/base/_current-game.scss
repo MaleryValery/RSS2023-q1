@@ -1,0 +1,96 @@
+.wrapper-current-game {
+  padding: 5px 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+
+  & .setiing {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    width: 50px;
+
+    @media (max-width: $widht-medium) {
+      width: 40px;
+      font-size: 14px;
+    }
+  }
+}
+
+.game-icon {
+  cursor: pointer;
+  background-image: url(../assets/game-icons/init-game.png);
+  background-size: contain;
+  background-repeat: no-repeat;
+  width: 50px;
+  height: 50px;
+
+  &:active {
+    background-image: url(../assets/game-icons/restart-3.png);
+  }
+
+  @media (max-width: $widht-medium) {
+    width: 45px;
+  }
+
+  @media (max-width: $widht-small) {
+    width: 40px;
+  }
+
+  img {
+    &:active {
+      display: none;
+    }
+
+    @media (max-width: $widht-medium) {
+      width: 45px;
+    }
+
+    @media (max-width: $widht-small) {
+      width: 40px;
+    }
+  }
+}
+
+.flags::before,
+.timer::before,
+.move::before,
+.sound::before {
+  position: absolute;
+  bottom: 20px;
+  font-size: 16px;
+  font-weight: 300;
+  letter-spacing: 0.5px;
+
+  @media (max-width: $widht-medium) {
+    bottom: 18px;
+    font-size: 14px;
+  }
+}
+
+.flags {
+  &::before {
+    content: 'flags';
+  }
+}
+
+.timer {
+  &::before {
+    content: 'timer';
+  }
+}
+
+.move {
+  &::before {
+    content: 'move';
+  }
+}
+
+.sound {
+  cursor: pointer;
+
+  &::before {
+    content: 'sound';
+  }
+}

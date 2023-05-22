@@ -1,0 +1,49 @@
+.minefield {
+  display: flex;
+  margin: auto;
+  flex-wrap: wrap;
+  background-color: #ddd;
+  border-radius: 2px;
+}
+
+.cell {
+  cursor: pointer; 
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 2px;
+  border: 1px solid darken(#ddd,8%);
+  background-color: #ddd;
+  color: #343;
+
+  &:active{
+    background-color: lighten(#ddd,2%);
+  }
+  &.open {
+    background-color: lighten(#90ee90,5%);
+  }
+  @media (max-width: $widht-large) {
+    width: 22px;
+    height: 22px;
+  }
+  @media (max-width: $widht-medium) {
+    width: 20px;
+    height: 20px;
+  }
+  @media (max-width: $widht-small) {
+    width: 18px;
+    height: 18px;
+  }
+  &.boom {
+    background-color: lightpink;
+    border: lightpink;
+  }
+}
+
+.dark{
+  border: 1px solid darken($body-bg-dark,8%);
+  background-color: $body-bg-dark;
+
+}

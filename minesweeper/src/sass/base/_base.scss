@@ -1,0 +1,70 @@
+$widht-small: 550px;
+$widht-medium: 600px;
+$widht-large: 700px;
+$body-bg-light: #F5F0BB; 
+$body-bg-dark: #73A9AD;
+$body-text-light: #73A9AD; 
+$body-text-dark: #F5F0BB;
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+.body {
+  margin: 0 auto;
+  user-select: none;
+  font-family: 'Rubik', sans-serif;
+  background-color: lighten($body-bg-light, 10%);
+  color: darken($body-text-light, 20%);
+  transition: all .5s ease-in-out;
+  @media (max-width: $widht-medium ) {
+    font-size: 14px;
+  }
+}
+
+.body[theme='dark']{
+  margin: 0 auto;
+  user-select: none;
+  font-family: 'Rubik', sans-serif;
+  background-color: darken($body-bg-dark,30%);
+  color: $body-text-dark;
+  transition: all .5s ease-in-out;
+  @media (max-width: $widht-medium ) {
+    font-size: 14px;
+  }
+}
+
+.wrapper {
+  margin: 0 auto;
+  padding: 50px;
+  @media (max-width: $widht-large) {
+    padding: 30px;
+  }
+  @media (max-width: $widht-medium) {
+    padding: 15px;
+  }
+  @media (max-width: $widht-small) {
+    padding: 10px;
+  }
+}
+
+.header {
+  padding: 20px 0;
+  text-align: center;
+  letter-spacing: 1px;
+
+  @media (max-width: $widht-large) {
+    padding-bottom: 15px;
+    font-size: 24px;
+  }
+  @media (max-width: $widht-medium) {
+    padding-bottom: 12px;
+    font-size: 20px;
+  }
+  @media (max-width: $widht-small) {
+    padding-bottom: 10px;
+    font-size: 18px;
+  }
+}
