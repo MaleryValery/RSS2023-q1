@@ -1,4 +1,4 @@
-(https://www.youtube.com/watch?v=OZFzlQGNk3o)
+[Link to self-introduction video](https://www.youtube.com/watch?v=OZFzlQGNk3o)
 
 Hi everyone, my name is Valeria, I am 33 years old and I am junior front end developer.
 
