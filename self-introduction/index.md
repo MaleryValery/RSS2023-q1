@@ -23,7 +23,7 @@ All materials is free and in very good structure. So everything depends on my mo
 My last pet project is Minesweeper. I think this project is the biggest one.
 So I learned how to have deal with recursion, how to build JS modules and how to split big task to several small tasks.
 
-And additional I would like to just say thank you everyone who have related to creation RS Scholl.
+And additional I would like to just say thank you everyone who have related to creation RS School.
 This is a grate place to learn and learning how to learn.
 
 Thank you for always push me out of my comfort zone because in this case I learn mush faster.
