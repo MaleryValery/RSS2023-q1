@@ -1,7 +1,10 @@
 $widht-small: 550px;
 $widht-medium: 600px;
 $widht-large: 700px;
-
+$body-bg-light: #F5F0BB; 
+$body-bg-dark: #73A9AD;
+$body-text-light: #73A9AD; 
+$body-text-dark: #F5F0BB;
 
 * {
   padding: 0;
@@ -10,10 +13,11 @@ $widht-large: 700px;
 }
 
 .body {
-  font-family: 'Rubik', sans-serif;
-  background-color: lighten(#90C8AC, 10%);
   margin: 0 auto;
-  color: darken(#73A9AD, 20%);
+  user-select: none;
+  font-family: 'Rubik', sans-serif;
+  background-color: lighten($body-bg-light, 10%);
+  color: darken($body-text-light, 20%);
   transition: all .5s ease-in-out;
   @media (max-width: $widht-medium ) {
     font-size: 14px;
@@ -21,14 +25,17 @@ $widht-large: 700px;
 }
 
 .body[theme='dark']{
-  font-family: 'Rubik', sans-serif;
-  background-color: darken(#73A9AD,30%);
   margin: 0 auto;
-  color: #F5F0BB;
+  user-select: none;
+  font-family: 'Rubik', sans-serif;
+  background-color: darken($body-bg-dark,30%);
+  color: $body-text-dark;
+  transition: all .5s ease-in-out;
   @media (max-width: $widht-medium ) {
     font-size: 14px;
   }
 }
+
 .wrapper {
   margin: 0 auto;
   padding: 50px;
@@ -43,16 +50,11 @@ $widht-large: 700px;
   }
 }
 
-.minefield {
-  display: flex;
-  flex-wrap: wrap;
-  margin: auto;
-}
-
 .header {
+  padding: 20px 0;
   text-align: center;
-  padding-bottom: 20px;
   letter-spacing: 1px;
+
   @media (max-width: $widht-large) {
     padding-bottom: 15px;
     font-size: 24px;
@@ -64,163 +66,5 @@ $widht-large: 700px;
   @media (max-width: $widht-small) {
     padding-bottom: 10px;
     font-size: 18px;
-  }
-}
-.minefield{
-  background-color: #ddd;
-  border-radius: 2px;
-}
-.cell {
-  cursor: pointer;
-  color: #222;
-  border: 1px solid darken(#ddd,8%);
-  background-color: #ddd;
-  width: 24px;
-  height: 24px;
-  border-radius: 2px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  &:active{
-    background-color: lighten(#ddd,2%);
-  }
-  &.open {
-    background-color: lighten(#90ee90,5%);
-    
-    &.boom {
-      background-color: light;
-    }
-  }
-  @media (max-width: $widht-large) {
-    width: 22px;
-    height: 22px;
-  }
-  @media (max-width: $widht-medium) {
-    width: 20px;
-    height: 20px;
-  }
-  @media (max-width: $widht-small) {
-    width: 18px;
-    height: 18px;
-  }
-}
-
-.level-wrapper {
-  padding: 20px 0;
-  display: flex;
-  justify-content: center;
-  gap: 20px;
-}
-
-.btn {
-  padding: 5px;
-  font-size: 18px;
-  cursor: pointer;
-  @media (max-width: $widht-large) {
-    font-size: 16px;
-  }
-  @media (max-width: $widht-medium) {
-
-    font-size: 14px;
-  }
-  @media (max-width: $widht-small) {
-
-  }
-}
-.level-bomb{
-  background-color: transparent;
-  border: 1px solid #ddd;
-  padding: 0 5px;
-  width: 35px;
-}
-.level-bomb::-webkit-outer-spin-button,
-.level-bomb::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-}
-
-.overlay{
-  background-color: rgba(19, 43, 35, 0.58);
-  position: fixed;
-  top: 0vh;
-  left: 0vh;
-  height: 100%;
-  width: 100%;
-
-}
-
-.modal{
-  color: #222;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  width: 200px;
-  height: 200px;
-  background-color: beige;
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  z-index: 2;
-  border-radius: 10px;
-
-  img{
-    margin-bottom: 10px;
-    text-align: center;
-    width: 100px;
-  }
-}
-.game-icon{
-  cursor: pointer;
-  background-image: url(../assets/game-icons/init-game.png);
-  width: 50px;
-  height: 50px;
-  background-size: contain;
-  background-repeat: no-repeat;
-
-  &:active{
-    background-image: url(../assets/game-icons/restart-3.png);
-  }
-  img{
-    &:active{
-      transform: scale(0.99);
-    display: none ;
-  }
-}
-}
-.hide{
-  display: none;
-}
-.no-scroll{
-  overflow-y: hidden;
-}
-
-.active {
-  color: red;
-}
-
-.timer::before{
-  content: 'timer';
-}
-
-.move::before{
-  content: 'move';
-}
-.sound{
-  cursor: pointer;
-  &::before{
-    content: 'sound';
-  }
-
-}
-
-
-.flags::before{
-  content: 'flags';
-}
-
-.theme{
-  img{
-    width: 40px;
   }
 }

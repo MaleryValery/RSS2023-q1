@@ -1,7 +1,11 @@
+/* eslint-disable no-use-before-define */
 /* eslint-disable no-param-reassign */
 // eslint-disable-next-line import/no-cycle
 import { clearTimer, timer } from './index.js';
+
 const winSound = new Audio('assets/sounds/win-sound2.mp3');
+let wins = [];
+const resultTable = document.createElement('ol');
 
 function showGameModal(gameStatus, arr, icon) {
   clearTimer(timer);
@@ -72,6 +76,8 @@ function showGameModal(gameStatus, arr, icon) {
 
 function checkIfwin(arr, cells, emptysArr, booms, gameStatus) {
   const gameSound = document.querySelector('.sound');
+  const time = document.querySelector('.timer');
+  const move = document.querySelector('.move');
   let cellOpen = 0;
   cells.forEach((cell, i) => {
     const gameIcon = document.querySelector('.game-icon');
@@ -80,10 +86,31 @@ function checkIfwin(arr, cells, emptysArr, booms, gameStatus) {
     }
     if (cellOpen === emptysArr.length) {
       gameStatus = 'win';
-      if (gameSound.innerHTML !== 'off') winSound.play();
+      if (gameSound.innerHTML !== 'OFF') winSound.play();
       showGameModal(gameStatus, arr, gameIcon);
     }
   });
+  if (gameStatus === 'win') {
+    const currentWin = [time.innerHTML, move.innerHTML, booms];
+    if (wins.length === 10) wins.shift();
+    wins.push(currentWin);
+    localStorage.setItem('wins', JSON.stringify(wins));
+    getWinResult();
+  }
 }
 
-export { showGameModal, checkIfwin };
+function getWinResult() {
+  if (localStorage.getItem('wins') === null) return;
+  const field = document.querySelector('.minefield');
+  const result = JSON.parse(localStorage.getItem('wins'));
+  wins = result;
+  field.insertAdjacentElement('afterend', resultTable);
+  resultTable.innerHTML = '';
+  result.forEach((line) => {
+    const resultLine = document.createElement('li');
+    resultTable.insertAdjacentElement('beforeend', resultLine);
+    resultLine.innerHTML = `time: ${line[0]}, moves: ${line[1]}, bombs: ${line[2]}`;
+  });
+}
+
+export { showGameModal, checkIfwin, getWinResult };

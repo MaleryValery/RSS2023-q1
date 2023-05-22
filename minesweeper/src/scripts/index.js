@@ -1,15 +1,18 @@
+/* eslint-disable no-restricted-globals */
+/* eslint-disable import/no-mutable-exports */
+/* eslint-disable import/no-cycle */
 /* eslint-disable no-loop-func */
 /* eslint-disable no-unused-expressions */
 /* eslint-disable no-use-before-define */
 /* eslint-disable no-param-reassign */
 /* eslint-disable no-useless-return */
-import { showGameModal, checkIfwin } from './showGameModal.js';
 import generateNumbers from './generateNumbers.js';
 import changeWidth from './changeWidth.js';
+import { clickOpen, addColor } from './clickOpen.js';
+import { getWinResult } from './showGameModal.js';
 
 const clickSound = new Audio('assets/sounds/click-soundCrop.mp3');
 const flagSound = new Audio('assets/sounds/flag-soundCrop.mp3');
-const loseSound = new Audio('assets/sounds/lose-sound.mp3');
 const restartSound = new Audio('assets/sounds/restart-soundCrop.mp3');
 
 const body = document.querySelector('.body');
@@ -45,8 +48,6 @@ mainWrapper.insertAdjacentElement('beforeend', header);
 
 const field = document.createElement('div');
 field.className = 'minefield';
-// field.style.width = `${widthField * sizeCell}px`;
-// field.style.height = `${heightField * sizeCell}px`;
 mainWrapper.insertAdjacentElement('beforeend', field);
 
 const levelBox = document.createElement('div');
@@ -55,31 +56,31 @@ header.insertAdjacentElement('afterend', levelBox);
 
 const themeSwicher = document.createElement('div');
 themeSwicher.className = 'theme';
-themeSwicher.innerHTML = '<img src=\'assets/game-icons/light.png\' alt=\'theme\'/>';
+themeSwicher.innerHTML = '<img src=\'assets/game-icons/dark2.png\' alt=\'theme\'/>';
 levelBox.insertAdjacentElement('beforeend', themeSwicher);
 
-const levelBeginner = document.createElement('a');
+const levelBeginner = document.createElement('div');
 levelBeginner.setAttribute('width', 10);
 levelBeginner.className = 'level-beginner btn';
-levelBeginner.innerHTML = 'Easy';
+levelBeginner.innerHTML = '<img src=\'assets/game-icons/easy.png\' alt=\'eay\'/>';
 levelBox.insertAdjacentElement('beforeend', levelBeginner);
 
-const levelInt = document.createElement('a');
+const levelInt = document.createElement('div');
 levelInt.setAttribute('width', 15);
 levelInt.className = 'level-int btn';
-levelInt.innerHTML = 'Medium';
+levelInt.innerHTML = '<img src=\'assets/game-icons/inter.png\' alt=\'eay\'/>';
 levelBox.insertAdjacentElement('beforeend', levelInt);
 
-const levelExpert = document.createElement('a');
+const levelExpert = document.createElement('div');
 levelExpert.setAttribute('width', 25);
 levelExpert.className = 'level-expert btn';
-levelExpert.innerHTML = 'Hard';
+levelExpert.innerHTML = '<img src=\'assets/game-icons/hard.png\' alt=\'eay\'/>';
 levelBox.insertAdjacentElement('beforeend', levelExpert);
 
 const labelBomb = document.createElement('lable');
 labelBomb.setAttribute('for', 'bomb-input');
 labelBomb.className = 'lable-bomb-qty';
-labelBomb.innerHTML = 'Bombs';
+labelBomb.innerHTML = '<img src=\'assets/game-icons/hard2.png\' alt=\'eay\'/>';
 levelBox.insertAdjacentElement('beforeend', labelBomb);
 
 const levelBomb = document.createElement('input');
@@ -92,33 +93,42 @@ levelBomb.placeholder = '10';
 levelBox.insertAdjacentElement('beforeend', levelBomb);
 
 const settingBox = document.createElement('div');
-settingBox.className = 'level-wrapper';
+settingBox.className = 'wrapper-current-game';
 levelBox.insertAdjacentElement('afterend', settingBox);
 
 const gameSound = document.createElement('div');
-gameSound.className = 'sound';
-gameSound.innerHTML = 'off';
+gameSound.className = 'sound setiing';
+gameSound.innerHTML = 'OFF';
 settingBox.insertAdjacentElement('beforeend', gameSound);
 
 const gameTimer = document.createElement('div');
-gameTimer.className = 'timer';
+gameTimer.className = 'timer setiing';
 gameTimer.innerHTML = 0;
 settingBox.insertAdjacentElement('beforeend', gameTimer);
 
 const gameIcon = document.createElement('div');
 gameIcon.className = 'game-icon';
-// gameIcon.innerHTML = '<img src = \'assets/game-icons/init-game.png\'>';
 settingBox.insertAdjacentElement('beforeend', gameIcon);
 
 const gameMove = document.createElement('div');
-gameMove.className = 'move';
+gameMove.className = 'move setiing';
 gameMove.innerHTML = 0;
 settingBox.insertAdjacentElement('beforeend', gameMove);
 
 const gameFlag = document.createElement('div');
-gameFlag.className = 'flags';
+gameFlag.className = 'flags setiing';
 gameFlag.innerHTML = '0';
 settingBox.insertAdjacentElement('beforeend', gameFlag);
+
+const saveGame = document.createElement('button');
+saveGame.className = 'save';
+saveGame.innerHTML = 'save';
+field.insertAdjacentElement('afterend', saveGame);
+
+const continueGame = document.createElement('button');
+continueGame.className = 'continue';
+continueGame.innerHTML = 'continue';
+saveGame.insertAdjacentElement('afterend', continueGame);
 
 let arrLenght;
 let qtyBoom;
@@ -141,25 +151,28 @@ function init(sizeWidth = 10, sizeHeight = 10, booms = 10) {
   emptysArr = new Array(lenghtEmptyArr).fill('empty');
   randomArr = boomArr.concat(emptysArr).sort(() => Math.random() - 0.5);
   move = 0;
-
+  qtyBoom = booms;
+  getWinResult();
   const tempArr = [];
-  // randomArr = mainArr.sort(() => Math.random() - 0.5);
+
   for (let i = 0; i < randomArr.length; i += 1) {
     if (randomArr[i] === 'empty') tempArr.push(i);
   }
   for (let i = 0; i < sizeWidth * sizeHeight; i += 1) {
     const cell = document.createElement('div');
-    cell.className = 'cell';
+    if (body.hasAttribute('theme')) {
+      cell.className = 'cell dark';
+    } else cell.className = 'cell';
     cell.id = i;
     field.insertAdjacentElement('beforeend', cell);
     cell.addEventListener('click', () => {
       countMoves(cell);
       setTimer(timer);
-      if (gameSound.innerHTML !== 'off') {
+      if (gameSound.innerHTML !== 'OFF') {
         if (!cell.classList.contains('open')) {
           clickSound.play();
         }
-        if (cell.classList.contains('flag')) clickSound.pause();
+        if (cell.classList.contains('flag') || cell.classList.contains('boom')) clickSound.pause();
       }
       if (move === 1) {
         qtyFlag = booms;
@@ -172,7 +185,7 @@ function init(sizeWidth = 10, sizeHeight = 10, booms = 10) {
         randomArr[firstBoom] = 'empty';
         generateNumbers(widthField, heightField, randomArr);
       }
-      clickOpen(cell, randomArr);
+      clickOpen(cell, isOver, randomArr);
     });
 
     cell.addEventListener('contextmenu', (e) => {
@@ -187,7 +200,7 @@ generateNumbers(widthField, heightField, randomArr);
 function restartGame() {
   const minefield = document.querySelector('.minefield');
   clearTimer();
-  if (gameSound.innerHTML !== 'off') restartSound.play();
+  if (gameSound.innerHTML !== 'OFF') restartSound.play();
   timer = 0;
   move = 0;
   gameMove.innerHTML = 0;
@@ -199,10 +212,20 @@ function restartGame() {
   generateNumbers(widthField, heightField, randomArr);
 }
 
+function changeBombQty(e) {
+  e.preventDefault();
+  if (+levelBomb.value > e.target.getAttribute('max')) levelBomb.value = 99;
+  if (+levelBomb.value < e.target.getAttribute('min')) levelBomb.value = 10;
+  gameIcon.innerHTML = '';
+  init(widthField, heightField, levelBomb.value);
+  generateNumbers(widthField, heightField, randomArr);
+}
+
 function changeSize(e) {
-  const { target } = e;
+  let { target } = e;
   const btns = document.querySelectorAll('.btn');
-  if (target.classList.contains('btn')) {
+  if (target.closest('.btn')) {
+    target = target.closest('.btn');
     if (!target.classList.contains('active')) {
       btns.forEach((el) => el.classList.remove('active'));
       target.classList.add('active');
@@ -221,9 +244,8 @@ function changeSize(e) {
 }
 
 function pickFlag(cell) {
-  if (move === 0) return;
-  if (cell.classList.contains('open')) return;
-  if (gameSound.innerHTML !== 'off') flagSound.play();
+  if (move === 0 || cell.classList.contains('open') || cell.classList.contains('boom')) return;
+  if (gameSound.innerHTML !== 'OFF') flagSound.play();
   if (!cell.classList.contains('open') && !cell.classList.contains('flag')) {
     if (qtyFlag === 0) return;
     cell.classList.add('flag');
@@ -261,83 +283,26 @@ function countMoves(cell) {
 
 function playSound(e) {
   const { target } = e;
-  if (target.innerHTML === 'off') {
-    target.innerHTML = 'on';
-  } else target.innerHTML = 'off';
+  if (target.innerHTML === 'OFF') {
+    target.innerHTML = 'ON';
+  } else target.innerHTML = 'OFF';
 }
 
-function clickOpen(cell, arrCells = randomArr) {
-  const currentNumber = +cell.getAttribute('number');
-  const currentId = +cell.id;
+function changeTheme() {
   const cells = document.querySelectorAll('.cell');
-  if (cell.classList.contains('open') || cell.classList.contains('flag') || cell.classList.contains('boom')) return;
-  if (arrCells[currentId] === 'boom') {
-    if (gameSound.innerHTML !== 'off') loseSound.play();
-    isOver = 'lose';
-    showGameModal(isOver, arrCells, gameIcon);
-  } else if (currentNumber === 0) {
-    checkArea(currentId);
-    cell.classList.add('open');
-    if (currentNumber === 0) cell.style.backgroundColor = '#a6f1a6';
-    cell.style.border = 'none';
-    checkIfwin(arrCells, cells, emptysArr, qtyBoom, isOver);
+  if (body.hasAttribute('theme')) {
+    body.removeAttribute('theme');
+    cells.forEach((cell) => {
+      cell.classList.remove('dark');
+    });
+    themeSwicher.innerHTML = '<img src=\'assets/game-icons/dark2.png\' alt=\'theme\'/>';
   } else {
-    cell.textContent = currentNumber;
-    cell.classList.add('open');
-    cell.style.border = 'none';
-    if (currentNumber === 1) cell.style.backgroundColor = '#90ee90';
-    if (currentNumber === 2) cell.style.backgroundColor = '#C4E97D';
-    if (currentNumber === 3) cell.style.backgroundColor = '#FFDA84';
-    if (currentNumber === 4) cell.style.backgroundColor = '#FFC75F';
-    if (currentNumber === 5) cell.style.backgroundColor = '#FF9671';
-    if (currentNumber === 6) cell.style.backgroundColor = '#FF847D';
-    if (currentNumber === 7) cell.style.backgroundColor = '#FF6F91';
-    if (currentNumber === 8) cell.style.backgroundColor = '#D65DB1';
-    checkIfwin(arrCells, cells, emptysArr, qtyBoom, isOver);
-    // eslint-disable-next-line no-useless-return
-    return;
+    body.setAttribute('theme', 'dark');
+    themeSwicher.innerHTML = '<img src=\'assets/game-icons/light.png\' alt=\'theme\'/>';
+    cells.forEach((cell) => {
+      cell.classList.add('dark');
+    });
   }
-}
-
-function checkArea(id) {
-  const leftSide = id % widthField === 0;
-  const rigthSide = id % widthField === widthField - 1;
-  const topSide = (id / heightField) < 1;
-  const bottomSide = (id / heightField) >= (heightField - 1);
-  setTimeout(() => {
-    if (!leftSide) {
-      const newCell = document.getElementById(id - 1);
-      clickOpen(newCell);
-    }
-    if (!rigthSide) {
-      const newCell = document.getElementById(id + 1);
-      clickOpen(newCell);
-    }
-    if (!topSide) {
-      const newCell = document.getElementById(id - widthField);
-      clickOpen(newCell);
-    }
-    if (!bottomSide) {
-      const newCell = document.getElementById(id + widthField);
-      clickOpen(newCell);
-    }
-    if (!topSide && !leftSide) {
-      const newCell = document.getElementById(id - widthField - 1);
-      clickOpen(newCell);
-    }
-    if (!topSide && !rigthSide) {
-      const newCell = document.getElementById(id - widthField + 1);
-      clickOpen(newCell);
-    }
-    if (!bottomSide && !leftSide) {
-      const newCell = document.getElementById(id + widthField - 1);
-      clickOpen(newCell);
-    }
-    if (!bottomSide && !rigthSide) {
-      const newCell = document.getElementById(id + widthField + 1);
-      clickOpen(newCell);
-    }
-  }, 5);
 }
 
 function closeModal(e) {
@@ -349,29 +314,89 @@ function closeModal(e) {
   }
 }
 
+gameSound.addEventListener('click', playSound);
+themeSwicher.addEventListener('click', changeTheme);
 document.addEventListener('click', closeModal);
 gameIcon.addEventListener('click', restartGame);
-levelBomb.addEventListener('change', (e) => {
-  e.preventDefault();
-  if (+levelBomb.value > e.target.getAttribute('max')) levelBomb.value = 99;
-  if (+levelBomb.value < e.target.getAttribute('min')) levelBomb.value = 10;
-  gameIcon.innerHTML = '';
-  init(widthField, heightField, levelBomb.value);
-  generateNumbers(widthField, heightField, randomArr);
-});
+levelBomb.addEventListener('change', changeBombQty);
 levelBox.addEventListener('click', (e) => {
   e.preventDefault();
   changeSize(e);
 });
 
-gameSound.addEventListener('click', playSound);
-themeSwicher.addEventListener('click', (e) => {
-  if (body.hasAttribute('theme')) {
-    body.removeAttribute('theme');
-    themeSwicher.innerHTML = '<img src=\'assets/game-icons/dark2.png\' alt=\'theme\'/>';
+saveGame.addEventListener('click', (e) => {
+  e.preventDefault();
+  const cells = document.querySelectorAll('.cell');
+  const btns = document.querySelectorAll('.btn');
+  const saveTimer = document.querySelector('.timer');
+  const saveSound = document.querySelector('.sound');
+  const saveMove = document.querySelector('.move');
+  const saveFlags = document.querySelector('.flags');
+  const mainRandomArr = [...randomArr];
+  const tempClassArr = [];
+  const tempBtnsActive = [];
+  cells.forEach((cell) => {
+    tempClassArr.push(cell.className);
+  });
+  btns.forEach((btn) => {
+    tempBtnsActive.push(btn.className);
+  });
+  localStorage.setItem('fieldSize', JSON.stringify(tempBtnsActive));
+  localStorage.setItem('mainArr', JSON.stringify(mainRandomArr));
+  localStorage.setItem('classArr', JSON.stringify(tempClassArr));
+  localStorage.setItem('saveTime', +saveTimer.innerHTML);
+  localStorage.setItem('sound', saveSound.innerHTML);
+  localStorage.setItem('move', +saveMove.innerHTML);
+  localStorage.setItem('flags', +saveFlags.innerHTML);
+});
+
+continueGame.addEventListener('click', (e) => {
+  e.preventDefault();
+  if (localStorage.getItem('mainArr') !== null) {
+    continueGame.disabled = false;
+    continueSavedGame();
   } else {
-    body.setAttribute('theme', 'dark');
-    themeSwicher.innerHTML = '<img src=\'assets/game-icons/light.png\' alt=\'theme\'/>';
+    continueGame.disabled = true;
   }
-})
-export { timer, clearTimer };
+});
+
+function continueSavedGame() {
+  const saveTimer = document.querySelector('.timer');
+  const saveSound = document.querySelector('.sound');
+  const saveMove = document.querySelector('.move');
+  const saveFlags = document.querySelector('.flags');
+  const btns = document.querySelectorAll('.btn');
+
+  const saveSizeField = JSON.parse(localStorage.getItem('fieldSize'));
+  const sevedGame = JSON.parse(localStorage.getItem('mainArr'));
+  const sevedClasses = JSON.parse(localStorage.getItem('classArr'));
+
+  field.innerHTML = '';
+  init(Math.sqrt(sevedGame.length), Math.sqrt(sevedGame.length), sevedGame);
+  changeWidth(innerWidth, sizeCell, field, Math.sqrt(sevedGame.length), Math.sqrt(sevedGame.length))
+  generateNumbers(Math.sqrt(sevedGame.length), Math.sqrt(sevedGame.length), sevedGame);
+  
+  const cells = document.querySelectorAll('.cell');
+  cells.forEach((cell, i) => {
+    cell.className = sevedClasses[i];
+    if (cell.classList.contains('open')) {
+      const currentNumber = cell.getAttribute('number');
+      if (currentNumber === 0) {
+        cell.innerHTML = '';
+      } else cell.innerHTML = currentNumber;
+      addColor(currentNumber, cell);
+    }
+  });
+  btns.forEach((btn, i) => {
+    btn.className = saveSizeField[i];
+  });
+  saveTimer.innerHTML = localStorage.getItem('saveTime');
+  saveSound.innerHTML = localStorage.getItem('sound');
+  saveMove.innerHTML = localStorage.getItem('move');
+  saveFlags.innerHTML = localStorage.getItem('flags');
+}
+
+export {
+  timer, clearTimer, randomArr, gameSound, isOver, gameIcon, emptysArr, qtyBoom,
+  widthField, heightField,
+};

@@ -5,9 +5,12 @@
 }
 
 .body {
-  font-family: "Rubik", sans-serif;
-  background-color: #b2d9c6;
   margin: 0 auto;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+          user-select: none;
+  font-family: "Rubik", sans-serif;
+  background-color: #fcfae7;
   color: #457275;
   transition: all 0.5s ease-in-out;
 }
@@ -18,10 +21,14 @@
 }
 
 .body[theme=dark] {
+  margin: 0 auto;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+          user-select: none;
   font-family: "Rubik", sans-serif;
   background-color: #325355;
-  margin: 0 auto;
   color: #F5F0BB;
+  transition: all 0.5s ease-in-out;
 }
 @media (max-width: 600px) {
   .body[theme=dark] {
@@ -49,15 +56,9 @@
   }
 }
 
-.minefield {
-  display: flex;
-  flex-wrap: wrap;
-  margin: auto;
-}
-
 .header {
+  padding: 20px 0;
   text-align: center;
-  padding-bottom: 20px;
   letter-spacing: 1px;
 }
 @media (max-width: 700px) {
@@ -80,30 +81,30 @@
 }
 
 .minefield {
+  display: flex;
+  margin: auto;
+  flex-wrap: wrap;
   background-color: #ddd;
   border-radius: 2px;
 }
 
 .cell {
   cursor: pointer;
-  color: #222;
-  border: 1px solid #c9c9c9;
-  background-color: #ddd;
-  width: 24px;
-  height: 24px;
-  border-radius: 2px;
   display: flex;
   align-items: center;
   justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 2px;
+  border: 1px solid #c9c9c9;
+  background-color: #ddd;
+  color: #343;
 }
 .cell:active {
   background-color: #e2e2e2;
 }
 .cell.open {
   background-color: #a6f1a6;
-}
-.cell.open.boom {
-  background-color: light;
 }
 @media (max-width: 700px) {
   .cell {
@@ -123,34 +124,68 @@
     height: 18px;
   }
 }
+.cell.boom {
+  background-color: lightpink;
+  border: lightpink;
+}
+
+.dark {
+  border: 1px solid #5b979c;
+  background-color: #73A9AD;
+}
 
 .level-wrapper {
-  padding: 20px 0;
+  padding: 5px 0;
   display: flex;
   justify-content: center;
-  gap: 20px;
+  align-items: center;
+  gap: 10px;
+}
+@media (max-width: 600px) {
+  .level-wrapper {
+    gap: 5px;
+  }
 }
 
 .btn {
+  transition: all 0.3s;
   padding: 5px;
   font-size: 18px;
   cursor: pointer;
 }
-@media (max-width: 700px) {
-  .btn {
-    font-size: 16px;
-  }
+.btn img {
+  width: 45px;
 }
 @media (max-width: 600px) {
-  .btn {
-    font-size: 14px;
+  .btn img {
+    width: 40px;
   }
 }
+@media (max-width: 550px) {
+  .btn img {
+    width: 35px;
+  }
+}
+
 .level-bomb {
-  background-color: transparent;
-  border: 1px solid #ddd;
-  padding: 0 5px;
+  position: relative;
+  padding: 5px 0;
   width: 35px;
+  text-align: center;
+  background-color: transparent;
+  border: none;
+  font-size: inherit;
+  color: #639fa4;
+  border-bottom: 2px solid #73A9AD;
+}
+.level-bomb:focus-visible {
+  outline: none;
+}
+.level-bomb::-moz-placeholder {
+  font-size: inherit2;
+}
+.level-bomb::placeholder {
+  font-size: inherit2;
 }
 
 .level-bomb::-webkit-outer-spin-button,
@@ -158,51 +193,73 @@
   -webkit-appearance: none;
 }
 
+.active {
+  transform: scale(0.85);
+  border-radius: 2px;
+}
+
+.theme {
+  cursor: pointer;
+  transition: all 0.3s;
+}
+.theme img {
+  width: 45px;
+}
+@media (max-width: 600px) {
+  .theme img {
+    width: 40px;
+  }
+}
+@media (max-width: 550px) {
+  .theme img {
+    width: 35px;
+  }
+}
+
+.lable-bomb-qty img {
+  width: 45px;
+}
+@media (max-width: 600px) {
+  .lable-bomb-qty img {
+    width: 40px;
+  }
+}
+@media (max-width: 550px) {
+  .lable-bomb-qty img {
+    width: 35px;
+  }
+}
+
 .overlay {
-  background-color: rgba(19, 43, 35, 0.58);
   position: fixed;
   top: 0vh;
   left: 0vh;
   height: 100%;
   width: 100%;
+  background-color: rgba(19, 43, 35, 0.58);
+  z-index: 2;
 }
 
 .modal {
-  color: #222;
+  position: fixed;
+  top: 45%;
+  left: 50%;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
-  flex-direction: column;
   width: 200px;
-  height: 200px;
-  background-color: beige;
-  position: fixed;
-  top: 50%;
-  left: 50%;
+  height: 150px;
+  background-color: #F5F0BB;
+  border-radius: 10px;
+  color: #222;
   transform: translate(-50%, -50%);
   z-index: 2;
-  border-radius: 10px;
 }
 .modal img {
   margin-bottom: 10px;
   text-align: center;
   width: 100px;
-}
-
-.game-icon {
-  cursor: pointer;
-  background-image: url(../assets/game-icons/init-game.png);
-  width: 50px;
-  height: 50px;
-  background-size: contain;
-  background-repeat: no-repeat;
-}
-.game-icon:active {
-  background-image: url(../assets/game-icons/restart-3.png);
-}
-.game-icon img:active {
-  transform: scale(0.99);
-  display: none;
 }
 
 .hide {
@@ -213,8 +270,83 @@
   overflow-y: hidden;
 }
 
-.active {
-  color: red;
+.wrapper-current-game {
+  padding: 5px 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+.wrapper-current-game .setiing {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  width: 50px;
+}
+@media (max-width: 600px) {
+  .wrapper-current-game .setiing {
+    width: 40px;
+    font-size: 14px;
+  }
+}
+
+.game-icon {
+  cursor: pointer;
+  background-image: url(../assets/game-icons/init-game.png);
+  background-size: contain;
+  background-repeat: no-repeat;
+  width: 50px;
+  height: 50px;
+}
+.game-icon:active {
+  background-image: url(../assets/game-icons/restart-3.png);
+}
+@media (max-width: 600px) {
+  .game-icon {
+    width: 45px;
+  }
+}
+@media (max-width: 550px) {
+  .game-icon {
+    width: 40px;
+  }
+}
+.game-icon img:active {
+  display: none;
+}
+@media (max-width: 600px) {
+  .game-icon img {
+    width: 45px;
+  }
+}
+@media (max-width: 550px) {
+  .game-icon img {
+    width: 40px;
+  }
+}
+
+.flags::before,
+.timer::before,
+.move::before,
+.sound::before {
+  position: absolute;
+  bottom: 20px;
+  font-size: 16px;
+  font-weight: 300;
+  letter-spacing: 0.5px;
+}
+@media (max-width: 600px) {
+  .flags::before,
+  .timer::before,
+  .move::before,
+  .sound::before {
+    bottom: 18px;
+    font-size: 14px;
+  }
+}
+
+.flags::before {
+  content: "flags";
 }
 
 .timer::before {
@@ -230,12 +362,4 @@
 }
 .sound::before {
   content: "sound";
-}
-
-.flags::before {
-  content: "flags";
-}
-
-.theme img {
-  width: 40px;
 }/*# sourceMappingURL=style.css.map */
