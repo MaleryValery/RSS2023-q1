@@ -1,24 +1,25 @@
 import './sources.css';
-import { Sourses } from '../../app/types';
+import { Sourses, HTMLEl } from '../../app/types';
 
 class Sources {
   public draw = (data: Sourses[]): void => {
     const fragment: DocumentFragment = document.createDocumentFragment();
-    const sourceItemTemp = document.querySelector('#sourceItemTemp') as HTMLTemplateElement;
-    const sourceBlock: Element | null = document.querySelector('.sources') as HTMLElement;
+    const sourceItemTemp: HTMLTemplateElement | null = document.querySelector('#sourceItemTemp');
+    const sourceBlock: HTMLEl = document.querySelector('.sources');
 
     data.forEach((item) => {
-      const sourceClone = sourceItemTemp.content.cloneNode(true) as HTMLElement;
-
-      const sourceName = sourceClone.querySelector('.source__item-name') as HTMLElement;
-      sourceName.textContent = item.name;
-      const sourceItem = sourceClone.querySelector('.source__item') as HTMLElement;
-      sourceItem.setAttribute('data-source-id', item.id);
+      const sourceClone = sourceItemTemp?.content.cloneNode(true) as DocumentFragment;
+      if (sourceClone) {
+        const sourceName: HTMLEl = sourceClone.querySelector('.source__item-name');
+        const sourceItem: HTMLEl = sourceClone.querySelector('.source__item');
+        if (sourceName) sourceName.textContent = item.name;
+        if (sourceItem) sourceItem.setAttribute('data-source-id', item.id);
+      }
 
       fragment.append(sourceClone);
     });
 
-    sourceBlock.append(fragment);
+    sourceBlock?.append(fragment);
   };
 }
 

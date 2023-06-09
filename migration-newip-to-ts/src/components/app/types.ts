@@ -16,3 +16,21 @@ export type Sourses = {
   name: string;
   url: string;
 };
+
+export type ArticleSourse = {
+  id: string;
+  name: string;
+};
+
+export type Articles = {
+  author: string | null;
+  content: string;
+  description: string;
+  publishedAt: string;
+  source: ArticleSourse;
+  title: string;
+  url: string;
+  urlToImage: string;
+};
+
+export type HTMLEl = HTMLElement | null;
