@@ -34,3 +34,14 @@ export type Articles = {
 };
 
 export type HTMLEl = HTMLElement | null;
+
+export type RespNewsType = {
+  articles: Articles[];
+  status: string;
+  totalResults: number;
+};
+
+export type RespSourceType = {
+  sources: Sourses[];
+  status: string;
+};

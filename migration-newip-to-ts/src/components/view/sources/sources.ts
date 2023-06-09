@@ -1,11 +1,12 @@
 import './sources.css';
 import { Sourses, HTMLEl } from '../../app/types';
+import { SourcesDrawInterface } from '../../app/interface';
 
-class Sources {
+class Sources implements SourcesDrawInterface {
   public draw = (data: Sourses[]): void => {
     const fragment: DocumentFragment = document.createDocumentFragment();
     const sourceItemTemp: HTMLTemplateElement | null = document.querySelector('#sourceItemTemp');
-    const sourceBlock: HTMLEl = document.querySelector('.sources');
+    const sourceConteiner: HTMLEl = document.querySelector('.sources');
 
     data.forEach((item) => {
       const sourceClone = sourceItemTemp?.content.cloneNode(true) as DocumentFragment;
@@ -19,7 +20,7 @@ class Sources {
       fragment.append(sourceClone);
     });
 
-    sourceBlock?.append(fragment);
+    sourceConteiner?.append(fragment);
   };
 }
 

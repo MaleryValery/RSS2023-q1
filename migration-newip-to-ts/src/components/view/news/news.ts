@@ -1,8 +1,9 @@
 import './news.css';
 import { Articles, HTMLEl } from '../../app/types';
+import { NewsDrawInterface } from '../../app/interface';
 
-class News {
-  protected draw(data: Articles[]): void {
+class News implements NewsDrawInterface {
+  public draw(data: Articles[]): void {
     const news: Articles[] = data.length >= 10 ? data.filter((_item, idx) => idx < 10) : data;
 
     const fragment: DocumentFragment = document.createDocumentFragment();
@@ -22,11 +23,9 @@ class News {
         const newsMore: HTMLEl = newsClone.querySelector('.news__read-more a');
 
         if (newsItem && idx % 2) newsItem.classList.add('alt');
-
         if (newsImg) newsImg.style.backgroundImage = `url(${item.urlToImage || 'img/news_placeholder.jpg'})`;
         if (newsAuthor) newsAuthor.textContent = item.author || item.source.name;
         if (newsDate) newsDate.textContent = item.publishedAt.slice(0, 10).split('-').reverse().join('-');
-
         if (newsTitle) newsTitle.textContent = item.title;
         if (newsDiscrSourse) newsDiscrSourse.textContent = item.source.name;
         if (newsDiscrContent) newsDiscrContent.textContent = item.description;
