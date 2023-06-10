@@ -1,9 +1,9 @@
-export type RecordTypeOprions = Record<string, string>;
+export type RecordTypeOptions = Record<string, string>;
 
 export type GetRepsConfig = {
   endpoint: string;
   options?: {
-    sourse?: string;
+    sources?: string;
   };
 };
 
