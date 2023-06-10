@@ -4,7 +4,11 @@ import { NewsDrawInterface, SourcesDrawInterface, AppViewInterface } from '../ap
 import { RespNewsType, RespSourceType } from '../app/types';
 
 export class AppView implements AppViewInterface {
-  constructor(public news: NewsDrawInterface, public sources: SourcesDrawInterface) {
+  public news: NewsDrawInterface;
+
+  public sources: SourcesDrawInterface;
+
+  constructor() {
     this.news = new News();
     this.sources = new Sources();
   }
