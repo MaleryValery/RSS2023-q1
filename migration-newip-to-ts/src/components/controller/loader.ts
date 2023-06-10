@@ -1,11 +1,7 @@
-import { GetRepsConfig, RecordTypeOprions } from '../app/types';
+import { GetRepsConfig, RecordTypeOptions } from '../app/types';
 
 class Loader {
-  private baseLink: string;
-
-  private options: RecordTypeOprions;
-
-  constructor(baseLink: string, options: RecordTypeOprions) {
+  constructor(private baseLink: string, private options: RecordTypeOptions) {
     this.baseLink = baseLink;
     this.options = options;
   }
@@ -19,7 +15,7 @@ class Loader {
     this.load('GET', callback, config);
   }
 
-  public errorHandler(res: Response): Response {
+  private errorHandler(res: Response): Response {
     if (!res.ok) {
       if (res.status === 401 || res.status === 404)
         console.log(`Sorry, but there is ${res.status} error: ${res.statusText}`);
@@ -28,8 +24,8 @@ class Loader {
     return res;
   }
 
-  protected makeUrl({ endpoint, options = {} }: GetRepsConfig): string {
-    const urlOptions: RecordTypeOprions = { ...this.options, ...options };
+  private makeUrl({ endpoint, options = {} }: GetRepsConfig): string {
+    const urlOptions: RecordTypeOptions = { ...this.options, ...options };
     let url = `${this.baseLink}${endpoint}?`;
 
     Object.keys(urlOptions).forEach((key) => {
@@ -39,12 +35,12 @@ class Loader {
     return url.slice(0, -1);
   }
 
-  protected load(method: string, callback: <T>(data: T) => void, config: GetRepsConfig): void {
+  private load(method: string, callback: <T>(data: T) => void, config: GetRepsConfig): void {
     fetch(this.makeUrl(config), { method })
       .then(this.errorHandler)
-      .then((res) => res.json())
-      .then((data) => callback(data))
-      .catch((err) => console.error(err));
+      .then((res: Response) => res.json())
+      .then(<T>(data: T) => callback(data))
+      .catch((err: string) => console.error(err));
   }
 }
 
