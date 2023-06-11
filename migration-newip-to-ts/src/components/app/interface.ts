@@ -9,9 +9,10 @@ export interface NewsDrawInterface {
 export interface SourcesDrawInterface {
   draw(data: Sourses[]): void;
 }
+
 export interface AppViewInterface {
   news: NewsDrawInterface;
   sources: SourcesDrawInterface;
-  drawNews(data: RespNewsType): void;
-  drawSources(data: RespSourceType): void;
+  drawNews(data?: RespNewsType): void;
+  drawSources(data?: RespSourceType): void;
 }
