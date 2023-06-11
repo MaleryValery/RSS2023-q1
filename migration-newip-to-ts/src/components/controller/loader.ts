@@ -1,12 +1,17 @@
-import { GetRepsConfig, RecordTypeOptions } from '../app/types';
+import { GetRepsConfig, RecordTypeOptions, ErrosType } from '../app/types';
 
 class Loader {
-  constructor(private baseLink: string, private options: RecordTypeOptions) {
+  public baseLink: string;
+
+  private options: RecordTypeOptions;
+
+  constructor(baseLink: string, options: RecordTypeOptions) {
     this.baseLink = baseLink;
     this.options = options;
   }
 
-  protected getResp(
+  // TODO protected?
+  public getResp(
     config: GetRepsConfig,
     callback = (): void => {
       console.error('No callback for GET response');
@@ -17,7 +22,7 @@ class Loader {
 
   private errorHandler(res: Response): Response {
     if (!res.ok) {
-      if (res.status === 401 || res.status === 404)
+      if (res.status === ErrosType.unauthorized || res.status === ErrosType.notFound)
         console.log(`Sorry, but there is ${res.status} error: ${res.statusText}`);
       throw Error(res.statusText);
     }
