@@ -1,11 +1,18 @@
 export type RecordTypeOptions = Record<string, string>;
 
+export type SourcesType = {
+  [key: string]: string;
+};
+
 export type GetRepsConfig = {
   endpoint: string;
+  oprions?: SourcesType;
   options?: {
     sources?: string;
   };
 };
+
+export type CallbackGetResp = (data: GetRepsConfig) => void;
 
 export type Sourses = {
   category: string;
@@ -45,3 +52,8 @@ export type RespSourceType = {
   sources: Sourses[];
   status: string;
 };
+
+export enum ErrosType {
+  'notFound' = 404,
+  'unauthorized' = 401,
+}
