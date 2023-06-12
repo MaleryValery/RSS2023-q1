@@ -23,7 +23,10 @@ class News implements NewsDrawInterface {
         const newsMore: HTMLEl = newsClone.querySelector('.news__read-more a');
 
         if (newsItem && idx % 2) newsItem.classList.add('alt');
-        if (newsImg) newsImg.style.backgroundImage = `url(${item.urlToImage || 'img/news_placeholder.jpg'})`;
+        if (newsImg)
+          newsImg.style.backgroundImage = `url(${
+            item.urlToImage || 'https://ajr.org/wp-content/themes/AJR-theme/images/news-placeholder.jpg'
+          })`;
         if (newsAuthor) newsAuthor.textContent = item.author || item.source.name;
         if (newsDate) newsDate.textContent = item.publishedAt.slice(0, 10).split('-').reverse().join('-');
         if (newsTitle) newsTitle.textContent = item.title;
