@@ -21,6 +21,7 @@
   .sources-lg {
     flex-direction: column;
     flex-wrap: nowrap;
+    justify-content: space-between;
   }
 }
 .sources-lg {
@@ -29,6 +30,8 @@
   justify-content: space-between;
   overflow: auto;
   height: 70px;
+  align-items: center;
+  overflow-x: hidden;
 }
 
 .source__item {
