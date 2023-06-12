@@ -39,6 +39,10 @@ class Sources implements SourcesDrawInterface {
         if (sourceLgName) sourceLgName.textContent = item;
         if (sourceLgItem) sourceLgItem.setAttribute('data-source-lg', item);
         sourceLgItem?.addEventListener('click', () => {
+          const sourceLgItems = [...document.querySelectorAll('.sources-lg-item')];
+          sourceLgItems.forEach((actbtn) => {
+            if (actbtn.classList.contains('sources-lg-active')) actbtn.classList.remove('sources-lg-active');
+          });
           sourceLgItem.classList.toggle('sources-lg-active');
           activeLg = sourceLgItem.classList.contains('sources-lg-active')
             ? sourceLgItem.getAttribute('data-source-lg')
