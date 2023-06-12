@@ -11,7 +11,10 @@
       <h1>News Portal</h1>
     </header>
     <main>
-      <div class="sources buttons"></div>
+      <section class="source-wrapper">
+        <div class="sources-lg buttons"></div>
+        <div class="sources buttons"></div>
+      </section>
       <div class="news"></div>
     </main>
     <footer>
@@ -20,6 +23,11 @@
       <a class="github-link" href="https://github.com/MaleryValery"></a>
     </footer>
 
+    <template id="sourceLgTemp">
+      <div class="sources-lg-item">
+        <span class="sources-lg-name"></span>
+      </div>
+    </template>
     <template id="sourceItemTemp">
       <div class="source__item">
         <span class="source__item-name"></span>
@@ -45,7 +53,5 @@
         </div>
       </div>
     </template>
-
-    <!-- <script src="./index.js" type="module"></script> -->
   </body>
 </html>

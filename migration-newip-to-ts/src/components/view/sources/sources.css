@@ -1,7 +1,13 @@
+.source-wrapper {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+}
+
 .sources {
   margin: 0 auto;
   display: flex;
-  justify-content: space-between;
+  justify-content: space-evenly;
   flex-wrap: wrap;
   width: 90%;
   height: 70px;
@@ -11,30 +17,45 @@
 }
 
 @media (max-width: 640px) {
-  .sources {
+  .sources,
+  .sources-lg {
     flex-direction: column;
     flex-wrap: nowrap;
-    /* justify-content: center; */
   }
+}
+.sources-lg {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  overflow: auto;
+  height: 70px;
 }
 
 .source__item {
+  min-width: 260px;
+  padding: 1em 2em;
+}
+.source__item,
+.sources-lg-item {
   box-sizing: border-box;
   text-align: center;
-  min-width: 260px;
   background: none;
   border: 2px solid #30c5ff;
   font: inherit;
   line-height: 1;
   margin: 0.5em;
-  padding: 1em 2em;
   color: #70d6ff;
   transition: 0.25s;
   cursor: pointer;
 }
-
+.sources-lg-item {
+  width: 40px;
+  padding: 1rem 8px;
+}
 .source__item:hover,
-.source__item:focus {
+.source__item:focus,
+.sources-lg-item:hover,
+.sources-lg-item:focus {
   border-color: #3fcc59;
   color: #69db7e;
   box-shadow: 0 0.5em 0.5em -0.4em #3fcc59;
@@ -44,4 +65,11 @@
 .source__item-name {
   font-weight: 400;
   white-space: nowrap;
+}
+
+.sources-lg-active {
+  border-color: #3fcc59;
+  color: #69db7e;
+  box-shadow: 0 0.5em 0.5em -0.4em #3fcc59;
+  transform: translateY(-0.25em);
 }
