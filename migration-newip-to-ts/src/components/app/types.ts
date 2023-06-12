@@ -1,7 +1,7 @@
 export type RecordTypeOptions = Record<string, string>;
 
 export type SourcesType = {
-  [key: string]: string;
+  readonly [key: string]: string;
 };
 
 export type GetRepsConfig = {
@@ -15,13 +15,13 @@ export type GetRepsConfig = {
 export type CallbackGetResp = (data: GetRepsConfig) => void;
 
 export type Sourses = {
-  category: string;
-  country: string;
-  description: string;
-  id: string;
-  language: string;
-  name: string;
-  url: string;
+  readonly category: string;
+  readonly country: string;
+  readonly description: string;
+  readonly id: string;
+  readonly language: string;
+  readonly name: string;
+  readonly url: string;
 };
 
 export type ArticleSourse = {
@@ -30,14 +30,14 @@ export type ArticleSourse = {
 };
 
 export type Articles = {
-  author: string | null;
-  content: string;
-  description: string;
-  publishedAt: string;
-  source: ArticleSourse;
-  title: string;
-  url: string;
-  urlToImage: string;
+  readonly author: string | null;
+  readonly content: string;
+  readonly description: string;
+  readonly publishedAt: string;
+  readonly source: ArticleSourse;
+  readonly title: string;
+  readonly url: string;
+  readonly urlToImage: string;
 };
 
 export type HTMLEl = HTMLElement | null;
