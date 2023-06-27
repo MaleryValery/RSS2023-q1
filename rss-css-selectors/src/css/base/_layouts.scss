@@ -1,0 +1,11 @@
+.wrapper {
+  margin: 0 auto;
+  width: 100vw;
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  column-gap: 2rem;
+}
+
+.game-field__wrapper {
+  overflow: auto;
+}

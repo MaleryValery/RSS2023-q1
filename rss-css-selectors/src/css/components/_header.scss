@@ -1,0 +1,34 @@
+.header {
+  padding: 2rem 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.nav__list {
+  display: flex;
+  gap: 1.6rem;
+}
+
+.list__link {
+  color: inherit;
+  text-decoration: none;
+  display: block;
+  position: relative;
+  width: 3rem;
+  height: 3rem;
+  background-size: contain;
+  background-repeat: no-repeat;
+  transition: all 0.3s;
+}
+
+.list__link-tw {
+  background-image: url(https://flukeout.github.io/images/icon-twitter.svg);
+}
+.list__link-fb {
+  background-image: url(https://flukeout.github.io/images/icon-facebook.svg);
+}
+
+.list__link:hover {
+  transform: scale(1.1);
+}

@@ -1,0 +1,27 @@
+*,
+*::after,
+*::before {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+ul {
+  list-style: none;
+}
+html {
+  font-size: 62.5%;
+}
+
+.body {
+  font-size: 1.6rem;
+  font-family: 'Exo 2', sans-serif;
+  background: #2e2a23;
+  background-image: -webkit-radial-gradient(20% 40%, cover circle, #3e392f, #221e17);
+  position: relative;
+  background-repeat: no-repeat;
+  color: rgba(255, 255, 255, 0.3);
+}
+
+/* font-family: 'Exo 2', sans-serif;
+font-family: 'Fira Code', monospace;
+font-family: 'Lato', sans-serif; */
