@@ -12,7 +12,7 @@ const baseConfig = {
     rules: [
       { test: /\.ts$/i, loader: 'ts-loader' },
       { test: /\.scss$/i, use: [MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader'] },
-      { test: /\.png|jpeg|jpg|svg$/i, use: ['file-loader', 'url-loader'], type: 'asset' },
+      { test: /\.png|jpeg|jpg|svg$/i, type: 'asset/resource' }, // use: ['file-loader', 'url-loader'],
       { test: /\.html$/i, use: 'html-loader' },
       { test: /\.css$/i, use: [MiniCssExtractPlugin.loader, 'css-loader'] },
     ],
