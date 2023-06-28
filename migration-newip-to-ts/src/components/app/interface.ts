@@ -1,18 +1,12 @@
-import { Articles, Sourses, RespNewsType, RespSourceType } from './types';
+import { Article, Sourse, RespNewsType, RespSourceType } from './types';
 
-// TODO ask Alex about almost the same interface
-
-export interface NewsDrawInterface {
-  draw(data: Articles[]): void;
-}
-
-export interface SourcesDrawInterface {
-  draw(data: Sourses[]): void;
+export interface DrawInterface {
+  draw(data: Article[] | Sourse[]): void;
 }
 
 export interface AppViewInterface {
-  news: NewsDrawInterface;
-  sources: SourcesDrawInterface;
+  news: DrawInterface;
+  sources: DrawInterface;
   drawNews(data?: RespNewsType): void;
   drawSources(data?: RespSourceType): void;
 }

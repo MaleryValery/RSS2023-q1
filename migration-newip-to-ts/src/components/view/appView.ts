@@ -1,25 +1,20 @@
 import News from './news/news';
 import Sources from './sources/sources';
-import { NewsDrawInterface, SourcesDrawInterface, AppViewInterface } from '../app/interface';
+import { AppViewInterface } from '../app/interface';
 import { RespNewsType, RespSourceType } from '../app/types';
 
 export class AppView implements AppViewInterface {
-  public news: NewsDrawInterface;
+  public news: News = new News();
 
-  public sources: SourcesDrawInterface;
-
-  constructor() {
-    this.news = new News();
-    this.sources = new Sources();
-  }
+  public sources: Sources = new Sources();
 
   public drawNews(data?: RespNewsType): void {
-    const values = data?.articles ? data?.articles : [];
+    const values = data?.articles ?? [];
     this.news.draw(values);
   }
 
   public drawSources(data?: RespSourceType): void {
-    const values = data?.sources ? data?.sources : [];
+    const values = data?.sources ?? [];
     this.sources.draw(values);
   }
 }

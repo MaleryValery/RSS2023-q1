@@ -1,8 +1,8 @@
 import AppLoader from './appLoader';
-import { RespSourceType, RespNewsType } from '../app/types';
+import { CallbackGetResp, RespNewsType } from '../app/types';
 
 class AppController extends AppLoader {
-  public getSources(callback?: (data?: RespSourceType) => void): void {
+  public getSources(callback?: CallbackGetResp): void {
     super.getResp(
       {
         endpoint: 'sources',

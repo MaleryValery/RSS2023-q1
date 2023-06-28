@@ -1,26 +1,26 @@
 import './news.css';
-import { Articles, HTMLEl } from '../../app/types';
-import { NewsDrawInterface } from '../../app/interface';
+import { Article } from '../../app/types';
+import { DrawInterface } from '../../app/interface';
 
-class News implements NewsDrawInterface {
-  public draw(data: Articles[]): void {
-    const news: Articles[] = data.length >= 10 ? data.filter((_item, idx) => idx < 10) : data;
+class News implements DrawInterface {
+  public draw(data: Article[]): void {
+    const news: Article[] = data.length >= 10 ? data.filter((_item, idx) => idx < 10) : data;
 
     const fragment: DocumentFragment = document.createDocumentFragment();
     const newsItemTemp: HTMLTemplateElement | null = document.querySelector('#newsItemTemp');
-    const newsConteiner: HTMLEl = document.querySelector('.news');
+    const newsConteiner: HTMLElement | null = document.querySelector('.news');
 
-    news.forEach((item: Articles, idx: number) => {
+    news.forEach((item: Article, idx: number) => {
       const newsClone = newsItemTemp?.content.cloneNode(true) as DocumentFragment;
       if (newsClone) {
-        const newsItem: HTMLEl = newsClone.querySelector('.news__item');
-        const newsImg: HTMLEl = newsClone.querySelector('.news__meta-photo');
-        const newsAuthor: HTMLEl = newsClone.querySelector('.news__meta-author');
-        const newsDate: HTMLEl = newsClone.querySelector('.news__description-title');
-        const newsTitle: HTMLEl = newsClone.querySelector('.news__description-title');
-        const newsDiscrSourse: HTMLEl = newsClone.querySelector('.news__description-source');
-        const newsDiscrContent: HTMLEl = newsClone.querySelector('.news__description-content');
-        const newsMore: HTMLEl = newsClone.querySelector('.news__read-more a');
+        const newsItem: HTMLElement | null = newsClone.querySelector('.news__item');
+        const newsImg: HTMLElement | null = newsClone.querySelector('.news__meta-photo');
+        const newsAuthor: HTMLElement | null = newsClone.querySelector('.news__meta-author');
+        const newsDate: HTMLElement | null = newsClone.querySelector('.news__description-title');
+        const newsTitle: HTMLElement | null = newsClone.querySelector('.news__description-title');
+        const newsDiscrSourse: HTMLElement | null = newsClone.querySelector('.news__description-source');
+        const newsDiscrContent: HTMLElement | null = newsClone.querySelector('.news__description-content');
+        const newsMore: HTMLElement | null = newsClone.querySelector('.news__read-more a');
 
         if (newsItem && idx % 2) newsItem.classList.add('alt');
         if (newsImg)

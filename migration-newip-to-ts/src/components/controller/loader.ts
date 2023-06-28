@@ -1,11 +1,7 @@
 import { GetRepsConfig, RecordTypeOptions, ErrosType } from '../app/types';
 
 class Loader {
-  public baseLink: string;
-
-  private options: RecordTypeOptions;
-
-  constructor(baseLink: string, options: RecordTypeOptions) {
+  constructor(public baseLink: string, private options: RecordTypeOptions) {
     this.baseLink = baseLink;
     this.options = options;
   }
@@ -22,7 +18,7 @@ class Loader {
 
   private errorHandler(res: Response): Response {
     if (!res.ok) {
-      if (res.status === ErrosType.unauthorized || res.status === ErrosType.notFound)
+      if (res.status === ErrosType.Unauthorized || res.status === ErrosType.NotFound)
         console.log(`Sorry, but there is ${res.status} error: ${res.statusText}`);
       throw Error(res.statusText);
     }

@@ -1,8 +1,6 @@
 export type RecordTypeOptions = Record<string, string>;
 
-export type SourcesType = {
-  readonly [key: string]: string;
-};
+export type SourcesType = Record<string, string>;
 
 export type GetRepsConfig = {
   endpoint: string;
@@ -12,9 +10,9 @@ export type GetRepsConfig = {
   };
 };
 
-export type CallbackGetResp = (data: GetRepsConfig) => void;
+export type CallbackGetResp = <T extends RespSourceType>(data?: T) => void;
 
-export type Sourses = {
+export type Sourse = {
   readonly category: string;
   readonly country: string;
   readonly description: string;
@@ -29,7 +27,7 @@ export type ArticleSourse = {
   name: string;
 };
 
-export type Articles = {
+export type Article = {
   readonly author: string | null;
   readonly content: string;
   readonly description: string;
@@ -40,20 +38,18 @@ export type Articles = {
   readonly urlToImage: string;
 };
 
-export type HTMLEl = HTMLElement | null;
-
 export type RespNewsType = {
-  articles: Articles[];
+  articles: Article[];
   status: string;
   totalResults: number;
 };
 
 export type RespSourceType = {
-  sources: Sourses[];
+  sources: Sourse[];
   status: string;
 };
 
 export enum ErrosType {
-  'notFound' = 404,
-  'unauthorized' = 401,
+  NotFound = 404,
+  Unauthorized = 401,
 }
