@@ -4,49 +4,45 @@ import { Table } from './table';
 import { Editor } from './editor';
 import { Aside } from './aside';
 import { Footer } from './footer';
+import { EventEmitter } from './emitter';
+import { Controller } from './controller';
 
 class App {
-  public header;
+  public emitter = new EventEmitter();
 
-  public main;
+  public controller = new Controller();
 
-  public table;
+  public header = new Header();
 
-  public editor;
+  public main = new Main(this.emitter, this.controller);
 
-  public aside;
+  public table = new Table(this.emitter, this.controller);
 
-  public footer;
+  public editor = new Editor(this.emitter, this.controller);
+
+  public aside = new Aside(this.emitter, this.controller);
+
+  public footer = new Footer();
+
+  public currentLevel;
 
   constructor() {
-    this.header = new Header();
-    this.main = new Main();
-    this.table = new Table();
-    this.editor = new Editor();
-    this.aside = new Aside();
-    this.footer = new Footer();
-
-    this.aside.newComponent.addEventListener('click', this.chooseLevel.bind(this));
+    this.currentLevel = 0;
   }
 
-  public init(): void {
-    const body = document.querySelector('.body');
+  public render(): void {
     const mainConteiner = document.createElement('div');
     const field = document.createElement('div');
     field.classList.add('game-field__wrapper');
     mainConteiner.classList.add('wrapper');
-    body.append(mainConteiner);
+    document.body.append(mainConteiner);
     mainConteiner.append(field);
-
-    field.append(
-      this.header.newComponent,
-      this.main.newComponent,
-      this.table.newComponent,
-      this.editor.newComponent,
-      this.footer.newComponent,
-    );
-
-    mainConteiner.append(this.aside.newComponent);
+    this.header.render(field);
+    this.main.render(field);
+    this.table.render(this.main.main);
+    this.editor.render(this.main.main);
+    this.footer.render(field);
+    this.aside.render(mainConteiner);
   }
 
   protected chooseLevel(e: Event): void {
@@ -58,21 +54,39 @@ class App {
     table.innerHTML = '';
     htmlCode.innerHTML = '';
     if (listItem) {
+      const listItems = document.querySelectorAll('.levels-list__name');
+      listItems.forEach((item) => {
+        if (item.classList.contains('active')) item.classList.remove('active');
+      });
       const id: number = +listItem.id;
-      mainHeading.textContent = this.aside.getHeading(id) as string;
-      table.insertAdjacentHTML('afterbegin', `${this.aside.getMarkupEditor(id) as string}`);
+      this.currentLevel = id;
+      listItem.classList.add('active');
+      mainHeading.textContent = this.aside.getHeading(this.currentLevel) as string;
+      table.insertAdjacentHTML('afterbegin', `${this.aside.getMarkupEditor(this.currentLevel) as string}`);
       htmlCode.insertAdjacentText(
         'afterbegin',
-        `<div class="table">${this.aside.getMarkupEditor(id) as string}\n</div>`,
+        `<div class="table">${this.aside.getMarkupEditor(this.currentLevel) as string}\n</div>`,
       );
-      setTimeout(() => {
-        const tableElement = [...document.querySelectorAll(`.table-top ${this.aside.getSelector(id)}`)];
-        if (tableElement) {
-          tableElement.forEach((element) => element.classList.add('strobe'));
-        }
-      }, 200);
+      // setTimeout(() => {
+
+      // }, 200);
     }
   }
+
+  // public checkAnswer(e: KeyboardEvent): void {
+  //   if (e.key === 'Enter') {
+  //     const textAria = document.querySelector('.editor__text-aria');
+  //     if (textAria.textContent === this.aside.getSelector(this.currentLevel)) {
+  //       const listItem = document.querySelector(`#${this.currentLevel}`);
+  //       const table = document.querySelector('.table-top');
+  //       listItem.classList.add('completed');
+  //       table.classList.add('clean');
+  //       setTimeout(() => {
+  //         table.innerHTML = '';
+  //       }, 200);
+  //     }
+  //   }
+  // }
 }
 
 export { App };

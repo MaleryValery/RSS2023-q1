@@ -1,9 +1,8 @@
-interface ILevels {
-  [key: string]: string | string[];
-}
+import { ILevels } from './utils/interface';
 
 const levels: ILevels[] = [
   {
+    id: 0,
     helpTitle: 'Select elements by their type',
     selectorName: 'Type Selector',
     doThis: 'Select the plates',
@@ -20,6 +19,7 @@ const levels: ILevels[] = [
     `,
   },
   {
+    id: 1,
     doThis: 'Select the bento boxes',
     selector: 'bento',
     syntax: 'A',
@@ -37,6 +37,7 @@ const levels: ILevels[] = [
     `,
   },
   {
+    id: 2,
     doThis: 'Select the fancy plate',
     selector: '#fancy',
     selectorName: 'ID Selector',
@@ -54,6 +55,7 @@ const levels: ILevels[] = [
     `,
   },
   {
+    id: 3,
     doThis: 'Select the small apples',
     selector: '.small',
     selectorName: 'Class Selector',
@@ -71,6 +73,7 @@ const levels: ILevels[] = [
     `,
   },
   {
+    id: 4,
     doThis: 'Select the small oranges',
     selector: 'orange.small',
     helpTitle: 'Combine the Class Selector',
@@ -94,6 +97,7 @@ const levels: ILevels[] = [
     </plate>`,
   },
   {
+    id: 5,
     doThis: 'Select the small oranges in the bentos',
     selector: 'bento orange.small',
     syntax: 'Put your back into it!',
@@ -116,6 +120,7 @@ const levels: ILevels[] = [
     `,
   },
   {
+    id: 6,
     doThis: 'Select all the plates and bentos',
     selector: 'plate,bento',
     selectorName: 'Comma Combinator',
@@ -141,6 +146,7 @@ const levels: ILevels[] = [
     `,
   },
   {
+    id: 7,
     doThis: 'Select all the things!',
     selector: '*',
     selectorName: 'The Universal Selector',
@@ -160,6 +166,7 @@ const levels: ILevels[] = [
     `,
   },
   {
+    id: 8,
     selectorName: 'First Child Pseudo-selector',
     helpTitle: 'Select a first child element inside of another element',
     doThis: 'Select the top orange',
@@ -183,6 +190,7 @@ const levels: ILevels[] = [
     <pickle class="small"></pickle>`,
   },
   {
+    id: 9,
     selectorName: 'General Sibling Selector',
     helpTitle: 'Select elements that follows another element',
     syntax: 'A ~ B',
@@ -206,6 +214,7 @@ const levels: ILevels[] = [
     `,
   },
   {
+    id: 10,
     selectorName: 'Nth of Type Selector',
     doThis: 'Select all even plates',
     selector: 'plate:nth-of-type(even)',
@@ -223,6 +232,7 @@ const levels: ILevels[] = [
     `,
   },
   {
+    id: 11,
     selectorName: 'Only of Type Selector',
     helpTitle: 'Select elements that are the only ones of their type within of their parent element',
     selector: 'apple:only-of-type',
@@ -246,6 +256,7 @@ const levels: ILevels[] = [
     `,
   },
   {
+    id: 12,
     selectorName: 'Empty Selector',
     helpTitle: "Select elements that don't have children",
     doThis: 'Select the empty bentos',
@@ -263,4 +274,4 @@ const levels: ILevels[] = [
   },
 ];
 
-export { levels, ILevels };
+export { levels };
