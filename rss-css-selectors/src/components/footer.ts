@@ -1,33 +1,36 @@
-import { ComponentCreate } from './ComponentCreate';
+import { View } from './view';
 
-class Footer extends ComponentCreate {
-  constructor() {
-    super('footer', 'footer');
-    const footerContentBox = new ComponentCreate('div', 'footer__content-wrappter');
-    const texBox = new ComponentCreate('div', 'footer__text-wrappter');
-    const linkToOrigin = new ComponentCreate('a', 'footer__link', {
+class Footer extends View {
+  public footer: HTMLElement;
+
+  public render(parent: HTMLElement): void {
+    this.footer = super.renderComponent('footer', 'footer');
+    const footerContentBox = super.renderComponent('div', 'footer__content-wrappter');
+    const texBox = super.renderComponent('div', 'footer__text-wrappter');
+    const linkToOrigin = super.renderComponent('a', 'footer__link', {
       textContent: 'CSS Diner clone',
       href: 'https://flukeout.github.io/',
     });
-    const textContent = new ComponentCreate('span', 'text-content', {
+    const textContent = super.renderComponent('span', 'text-content', {
       textContent: ' is made by ',
     });
-    const linkToStudent = new ComponentCreate('a', 'footer__link', {
+    const linkToStudent = super.renderComponent('a', 'footer__link', {
       textContent: 'MaleryValery',
       href: 'https://github.com/MaleryValery',
     });
-    const year = new ComponentCreate('span', 'footer__year', {
+    const year = super.renderComponent('span', 'footer__year', {
       textContent: `${new Date().getFullYear()}`,
     });
-    const imgSchool = new ComponentCreate('a', 'footer__link-scholl', {
+    const imgSchool = super.renderComponent('a', 'footer__link-scholl', {
       href: 'https://rs.school/js/',
     });
-    const imgGithub = new ComponentCreate('a', 'footer__link-github', {
+    const imgGithub = super.renderComponent('a', 'footer__link-github', {
       href: 'https://flukeout.github.io/',
     });
-    this.appendComponent(footerContentBox);
-    texBox.appendComponent(linkToOrigin, textContent, linkToStudent, year);
-    footerContentBox.appendComponent(imgSchool, texBox, imgGithub);
+    parent.append(this.footer);
+    this.footer.append(footerContentBox);
+    texBox.append(linkToOrigin, textContent, linkToStudent, year);
+    footerContentBox.append(imgSchool, texBox, imgGithub);
   }
 }
 

@@ -1,71 +1,38 @@
-import { ComponentCreate } from './ComponentCreate';
+import { ILevels } from './utils/interface';
+import { View } from './view';
 
-class Main extends ComponentCreate {
-  constructor() {
-    super('main', 'main');
+class Main extends View {
+  public main: HTMLElement;
 
-    const contentBox = new ComponentCreate('div', 'content-box');
-    const subHeading = new ComponentCreate('h2', 'sub-heading', { textContent: 'Name of level' });
-    // const hint = new ComponentCreate('a', 'main-hint', { textContent: 'Hint button' });
+  public subHeading: HTMLElement;
 
-    this.appendComponent(contentBox);
-    contentBox.appendComponent(subHeading);
+  public helper: HTMLElement;
+
+  // constructor() {}
+
+  public render(parent: HTMLElement): void {
+    this.main = super.renderComponent('div', 'content-box');
+    const contentBox = super.renderComponent('div', 'content-box');
+    this.helper = super.renderComponent('button', 'help-button', {}, 'help me!');
+    this.subHeading = super.renderComponent('h2', 'sub-heading', { textContent: 'Name of level' });
+
+    parent.append(this.main);
+    this.main.append(contentBox);
+    contentBox.append(this.subHeading, this.helper);
+    this.helper.addEventListener('click', this.onHelpCall);
+    this.onLevelChange();
   }
 
-  // public showHint(id) {}
-}
-// function createMain(): void {
-//   const gameField = document.querySelector('.game-field__wrapper');
-//   const main = document.createElement('main');
-//   main.classList.add('main');
-//   gameField?.append(main);
-//   main.insertAdjacentHTML(
-//     'beforeend',
-//     ` <div class="content-box">
-//         <h2 class="sub-heading">Name of level</h2>
-//         <p>Hint button</p>
-//       </div>
-//       <div class="table-wrapper">
-//         <div class="table-box">
-//           <div class="table"></div>
-//           <div class="table-top"></div>
-//         </div>
-//         <div class="table-bottom">
-//           <div class="table-leg"></div>
-//           <div class="table-leg"></div>
-//         </div>
-//      </div>
-//       <section class = "editor__wrapper">
-//         <div class = "editor-css">
-//         <div class = "editor__heading">
-//           <span>CSS Editor</span>
-//           <span>style CSS</span>
-//         </div>
-//           <div class = "editor__lines-numbers "></div>
-//           <pre>/*Type in a CSS selector*/</pre>
-//           <textarea class="editor__text-aria"></textarea>
-//         </div>
-//         <div class = "viewer-css">
-//           <div class = "editor__heading">
-//             <span>HTML viewer</span>
-//             <span>table.html</span>
-//           </div>
-//           <div class = "viewer__lines-numbers"></div>
-//         </div>
-//       </section>
-//       <section>here is a html structure</section>
-//   `,
-//   );
-//   const linesBoxEditor = document.querySelector('.editor__lines-numbers');
-//   const linesBoxViewer = document.querySelector('.viewer__lines-numbers');
-//   const lines: number[] = Array(20)
-//     .fill(0)
-//     .map((el: number, i) => i + 1);
+  // TODO add correct type and value
+  public changeHeader(level: ILevels): void {
+    this.subHeading.textContent = level.doThis as string;
+  }
 
-//   lines.forEach((line) => {
-//     linesBoxEditor.insertAdjacentHTML('beforeend', `${line}<br>`);
-//     linesBoxViewer.insertAdjacentHTML('beforeend', `${line}<br>`);
-//   });
-// }
+  public onLevelChange(): void {
+    this.emitter.subscribe('updateLevel', (level: ILevels) => this.changeHeader(level));
+  }
+
+  public onHelpCall(): void {}
+}
 
 export { Main };

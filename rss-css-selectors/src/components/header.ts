@@ -1,26 +1,28 @@
-import { ComponentCreate } from './ComponentCreate';
+import { View } from './view';
 
-class Header extends ComponentCreate {
-  constructor() {
-    super('header', 'header');
-    const heading = new ComponentCreate('h1', 'fheading', {
-      textContent: 'CSS Selectors',
-    });
-    const navHeader = new ComponentCreate('nav', 'nav');
-    const navList = new ComponentCreate('ul', 'nav__list list');
-    const listElem1 = new ComponentCreate('li', 'list__item');
-    const listElem2 = new ComponentCreate('li', 'list__item');
-    const linkToTwitter = new ComponentCreate('a', 'list__link list__link-tw', {
+class Header extends View {
+  public header: HTMLElement;
+
+  public render(parent: HTMLElement): void {
+    this.header = super.renderComponent('header', 'header');
+    const heading = super.renderComponent('h1', 'heading', { textContent: 'CSS Selectors' });
+    const navHeader = super.renderComponent('nav', 'nav');
+    const navList = super.renderComponent('ul', 'nav__list list');
+    const listElemTw = super.renderComponent('li', 'list__item');
+    const listElemFb = super.renderComponent('li', 'list__item');
+    const linkToTwitter = super.renderComponent('a', 'list__link list__link-tw', {
       href: 'https://twitter.com/?lang=ru',
     });
-    const linkToFb = new ComponentCreate('a', 'list__link list__link-fb', {
+    const linkToFb = super.renderComponent('a', 'list__link list__link-fb', {
       href: 'https://www.facebook.com/',
     });
-    this.appendComponent(heading, navHeader);
-    navHeader.appendComponent(navList);
-    navList.appendComponent(listElem1, listElem2);
-    listElem1.appendComponent(linkToTwitter);
-    listElem2.appendComponent(linkToFb);
+
+    parent.append(this.header);
+    this.header.append(heading, navHeader);
+    navHeader.append(navList);
+    navList.append(listElemTw, listElemFb);
+    listElemFb.append(linkToTwitter);
+    listElemTw.append(linkToFb);
   }
 }
 
