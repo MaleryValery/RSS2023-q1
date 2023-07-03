@@ -11,6 +11,9 @@
   position: relative;
   margin: 10px auto 0 auto;
   width: 534px;
+  @media (max-width: 900px) {
+    width: 320px;
+  }
 }
 .table {
   // clip-path: polygon(10% 0, 90% 0, 100% 100%, 0% 100%);
@@ -23,6 +26,9 @@
   bottom: 0;
   width: 100%;
   // display: inline-block;
+  @media (max-width: 900px) {
+    width: 100%;
+  }
 }
 .table-top {
   transform-style: preserve-3d;
@@ -37,6 +43,9 @@
   white-space: nowrap;
   align-items: center;
   justify-content: center;
+  @media (max-width: 900px) {
+    // width: 50%;
+  }
 }
 .table-bottom {
   margin: 0 auto 10px auto;
@@ -46,6 +55,9 @@
   transform-origin: top;
   z-index: 2;
   width: 534px;
+  @media (max-width: 900px) {
+    width: 320px;
+  }
 }
 .table-leg {
   width: 24px;
@@ -53,6 +65,9 @@
   background: #84570f;
   position: absolute;
   top: 15px;
+  @media (max-width: 900px) {
+    width: 15px;
+  }
 }
 
 .table-leg:first-child {

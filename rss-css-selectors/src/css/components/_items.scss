@@ -6,6 +6,10 @@ plate {
   height: 100px;
   margin: 0 10px;
   position: relative;
+  @media (max-width: 900px) {
+    width: 50px;
+    height: 50px;
+  }
 }
 
 plate {
@@ -13,14 +17,21 @@ plate {
   background: white;
   -webkit-border-radius: 100px;
   border-radius: 100px;
+  @media (max-width: 900px) {
+    -webkit-border-radius: 50px;
+    border-radius: 50px;
+  }
 }
 
 bento {
   height: 100px;
-  background: brown;
+  background: #c70039;
   position: relative;
   border: solid 3px #711c12;
   border-width: 20px 2px;
+  @media (max-width: 900px) {
+    bheight: 50px;
+  }
 }
 
 plate bento {
@@ -29,6 +40,10 @@ plate bento {
   position: absolute;
   top: -8px;
   left: 4px;
+  @media (max-width: 900px) {
+    height: 39px;
+    width: 39px;
+  }
 }
 
 plate bento apple,
@@ -51,8 +66,8 @@ apple {
 }
 
 orange {
-  background: orange;
-  border-color: #bd6e07;
+  background: #ffac1c;
+  border-color: #be5504;
 }
 
 orange,
@@ -62,6 +77,9 @@ pickle {
   display: inline-block;
   margin: 0 10px;
   height: 60px;
+  @media (max-width: 900px) {
+    height: 30px;
+  }
 }
 orange,
 apple {
@@ -73,6 +91,10 @@ apple {
   width: 60px;
   position: relative;
   margin: 20px 10px;
+  @media (max-width: 900px) {
+    height: 30px;
+    width: 30px;
+  }
 }
 
 orange.small,
@@ -81,6 +103,11 @@ apple.small {
   width: 30px;
   border-width: 2px 4px 8px 4px;
   margin: 30px 10px;
+  @media (max-width: 900px) {
+    height: 15px;
+    width: 15px;
+    margin: 15px 5px;
+  }
 }
 
 pickle {
@@ -92,6 +119,11 @@ pickle {
   border: solid 2px #025a18;
   border-width: 2px 2px 9px 2px;
   margin: 20px 10px;
+  @media (max-width: 900px) {
+    width: 13px;
+    margin: 10px 5px;
+    border-radius: 15px;
+  }
 }
 
 pickle.small {
@@ -99,6 +131,11 @@ pickle.small {
   width: 18px;
   border-width: 1px 2px 6px 2px;
   margin: 30px 10px;
+  @media (max-width: 900px) {
+    height: 20px;
+    width: 9px;
+    border-radius: 15px 5px;
+  }
 }
 
 orange:before,
@@ -112,6 +149,9 @@ apple:before {
   top: 0px;
   left: calc(50% - 15%);
   border-radius: 100px;
+  @media (max-width: 900px) {
+    border-radius: 50px;
+  }
 }
 
 /*FRUITS ON A PLATTER*/
@@ -129,7 +169,8 @@ plate > apple:last-child,
 plate > orange:last-child,
 bento > apple:last-child,
 bento > orange:last-child {
-  top: calc(50% - 35px);
+  top: calc(50% - 19px);
+  left: calc(50% - 16px);
 }
 
 plate .small,
@@ -144,6 +185,10 @@ bento > .small:only-child {
   position: absolute;
   top: calc(50% - 15px);
   margin: 0;
+  @media (max-width: 900px) {
+    left: calc(50% - 7px);
+    top: calc(50% - 9px);
+  }
 }
 
 plate > pickle:only-child,
@@ -153,6 +198,10 @@ bento > pickle:only-child {
   z-index: 99999;
   margin: 0;
   position: absolute;
+  @media (max-width: 900px) {
+    left: calc(50% - 7px);
+    top: calc(50% - 21px);
+  }
 }
 
 plate > pickle.small:only-child,
@@ -160,6 +209,10 @@ bento > pickle.small:only-child {
   top: calc(50% - 22px);
   left: calc(50% - 8px);
   z-index: 99999;
+  @media (max-width: 900px) {
+    left: 20px;
+    top: 10px;
+  }
 }
 
 .shake {
@@ -197,11 +250,16 @@ plate apple:nth-last-child(2),
 plate orange:nth-last-child(2) {
   top: -25px;
   z-index: 400;
+  @media (max-width: 900px) {
+    left: 10px;
+    top: -10px;
+  }
 }
 
 plate apple:nth-last-child(3),
 plate orange:nth-last-child(3) {
-  top: -65px;
+  top: -30px;
+  left: 10px;
   z-index: 500;
 }
 
@@ -222,6 +280,13 @@ plate:before {
   border-top: solid 6px #ccc;
   opacity: 0.4;
   background: rgba(255, 255, 255, 1);
+  @media (max-width: 900px) {
+    left: calc(50% - 17px);
+    top: calc(50% - 23px);
+    height: 33px;
+    width: 33px;
+    border-radius: 30px;
+  }
 }
 
 #fancy:after {
@@ -235,6 +300,14 @@ plate:before {
   border-radius: 60px;
   border: solid 10px #009ff2;
   opacity: 0.4;
+  @media (max-width: 900px) {
+    left: calc(50% - 23px);
+    top: calc(50% - 22px);
+    height: 45px;
+    width: 46px;
+    border-radius: 30px;
+    border: solid 6px #009ff2;
+  }
 }
 
 orange {
@@ -248,4 +321,9 @@ orange {
   position: relative;
   padding-top: 15px;
   margin-bottom: 50px;
+
+  @media (max-width: 900px) {
+    -webkit-perspective: 300px;
+    perspective: 300px;
+  }
 }

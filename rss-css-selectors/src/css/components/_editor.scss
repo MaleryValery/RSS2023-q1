@@ -8,6 +8,11 @@
   margin: 0 auto;
   border-radius: 4px;
   overflow: hidden;
+
+  @media (max-width: 900px) {
+    display: flex;
+    flex-direction: column;
+  }
 }
 
 .editor__heading {
@@ -68,7 +73,7 @@
   border: none;
   resize: none;
   line-height: 1.5;
-  font-size: 1.6rem;
+  font-size: 1.4rem;
 }
 .editor__text-aria:focus-visible {
   outline: none;
