@@ -15,16 +15,22 @@ class Aside extends View {
 
   public levelID: number;
 
+  public reset: HTMLElement;
+
   public render(parent: HTMLElement): void {
     this.aside = super.renderComponent('aside', 'levels-of-game__wrapper');
 
     const asideHeading = super.renderComponent('h2', 'sub-heading', {
       textContent: 'Choose a level',
     });
+    this.reset = super.renderComponent('button', 'reset-button', {
+      textContent: 'restart progress',
+    });
     this.levelsList = super.renderComponent('ul', 'levels-list');
     parent.append(this.aside);
-    this.aside.append(asideHeading, this.levelsList);
+    this.aside.append(asideHeading, this.levelsList, this.reset);
     this.addLevels(levels, this.levelsList);
+
     if (localStorage.getItem('currentLevel') !== null) {
       console.log('storage', localStorage.getItem('currentLevel'));
       const levelStorage = JSON.parse(localStorage.getItem('currentLevel'));
@@ -37,6 +43,7 @@ class Aside extends View {
     if (localStorage.getItem('completedLevels') !== null) {
       this.addCompletedOnload();
     }
+    this.reset.addEventListener('click', this.controller.resetProgress);
   }
 
   protected addLevels(list: ILevels[], levelsList: HTMLElement): void {

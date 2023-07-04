@@ -11,7 +11,7 @@ class EventEmitter {
     eventName: string,
     // TODO return types after check
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    fn: (arg?: any /* level?: ILevels, animation?: string, target?: Event */) => void,
+    fn: (level?: ILevels, animation?: string, target?: Event) => void,
   ): void {
     if (!this.events[eventName]) {
       this.events[eventName] = [];
@@ -24,7 +24,7 @@ class EventEmitter {
     this.events[eventName] = this.events[eventName].filter((eventCallback) => fn !== eventCallback);
   }
 
-  public emit(eventName: string, args: number | string | ILevels | Event): void {
+  public emit(eventName: string, args?: number | string | ILevels | Event): void {
     const event = this.events[eventName];
     if (event) event.forEach((callback) => callback.call(this, args));
   }
