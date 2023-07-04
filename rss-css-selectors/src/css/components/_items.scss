@@ -111,12 +111,12 @@ apple.small {
 }
 
 pickle {
-  background: #179837;
-  width: 25px;
   border-radius: 30px;
   display: inline-block;
   position: relative;
-  border: solid 2px #025a18;
+  border: solid 2px #036a29;
+  background: #289348;
+  width: 25px;
   border-width: 2px 2px 9px 2px;
   margin: 20px 10px;
   @media (max-width: 900px) {
@@ -193,11 +193,11 @@ bento > .small:only-child {
 
 plate > pickle:only-child,
 bento > pickle:only-child {
-  top: calc(50% - 40px);
-  left: calc(50% - 10px);
   z-index: 99999;
   margin: 0;
   position: absolute;
+  top: calc(50% - 40px);
+  left: calc(50% - 10px);
   @media (max-width: 900px) {
     left: calc(50% - 7px);
     top: calc(50% - 21px);
@@ -234,16 +234,9 @@ bento > pickle.small:only-child {
   }
 }
 
-/* Fancy orange stacking */
-
 plate apple,
 plate orange {
   position: absolute;
-}
-
-plate apple:last-child,
-plate orange:last-child {
-  z-index: 300;
 }
 
 plate apple:nth-last-child(2),
@@ -289,6 +282,11 @@ plate:before {
   }
 }
 
+plate apple:last-child,
+plate orange:last-child {
+  z-index: 300;
+}
+
 #fancy:after {
   content: '';
   display: block;
@@ -298,7 +296,7 @@ plate:before {
   height: 89px;
   width: 91px;
   border-radius: 60px;
-  border: solid 10px #009ff2;
+  border: solid 10px #11aee3;
   opacity: 0.4;
   @media (max-width: 900px) {
     left: calc(50% - 23px);
@@ -306,7 +304,7 @@ plate:before {
     height: 45px;
     width: 46px;
     border-radius: 30px;
-    border: solid 6px #009ff2;
+    border: solid 6px #11aee3;
   }
 }
 

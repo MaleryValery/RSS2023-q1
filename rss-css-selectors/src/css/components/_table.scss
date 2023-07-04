@@ -17,10 +17,10 @@
 }
 .table {
   // clip-path: polygon(10% 0, 90% 0, 100% 100%, 0% 100%);
-  box-shadow: 0px 40px 10px rgba(0, 0, 0, 0.2);
-  background: #dd992d;
-  background: -webkit-linear-gradient(#dd992d, #cd8c26);
-  background: linear-gradient(#dd992d, #cd8c26);
+  box-shadow: 0px 40px 10px rgba(0, 0, 0, 0.1);
+  background: #ee881a;
+  background: -webkit-linear-gradient(#ee881a, #ed8c26);
+  background: linear-gradient(#ee881a, #ee8c26);
   position: absolute;
   height: 100%;
   bottom: 0;
@@ -31,8 +31,6 @@
   }
 }
 .table-top {
-  transform-style: preserve-3d;
-  outline: solid 1px transparent;
   margin: 0px auto 0px auto;
   min-height: 142px;
   padding: 15px px 15px 22px 15px;
@@ -43,13 +41,15 @@
   white-space: nowrap;
   align-items: center;
   justify-content: center;
+  transform-style: preserve-3d;
+  outline: solid 1px transparent;
   @media (max-width: 900px) {
     // width: 50%;
   }
 }
 .table-bottom {
   margin: 0 auto 10px auto;
-  background: #ac741c;
+  background: #bc841b;
   height: 15px;
   transform: rotateX(-40deg);
   transform-origin: top;
@@ -62,7 +62,7 @@
 .table-leg {
   width: 24px;
   height: 10px;
-  background: #84570f;
+  background: #96550e;
   position: absolute;
   top: 15px;
   @media (max-width: 900px) {

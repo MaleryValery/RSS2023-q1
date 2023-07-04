@@ -25,7 +25,7 @@ class Aside extends View {
     parent.append(this.aside);
     this.aside.append(asideHeading, this.levelsList);
     this.addLevels(levels, this.levelsList);
-    this.levelsList.addEventListener('click', this.getDataLevel.bind(this));
+
     this.onWinLevel();
   }
 
@@ -38,6 +38,7 @@ class Aside extends View {
       levelsList.append(this.levelName);
       this.levelName.append(checkMark, index, linkLevel);
       this.arrLevels.push(this.levelName);
+      this.levelName.addEventListener('click', this.getDataLevel.bind(this));
     });
   }
 
@@ -53,10 +54,18 @@ class Aside extends View {
     return levels[id].selector;
   }
 
-  protected getDataLevel(e?: Event): ILevels {
-    const eventTarget = e.target as Element;
-    const levelName = eventTarget.closest('.levels-list__name');
-    this.levelID = +levelName.getAttribute('id');
+  protected getDataLevel(e?: Event | null, id?: number): ILevels {
+    let levelName: HTMLElement;
+    if (e) {
+      const eventTarget = e.target as Element;
+      levelName = eventTarget.closest('.levels-list__name');
+      console.log(eventTarget);
+      this.levelID = +levelName.getAttribute('id');
+    }
+    if (id) {
+      this.levelID = id;
+      levelName = document.getElementById(String(id));
+    }
     this.onLevelChange(levels[this.levelID]);
     levelName.classList.add('active');
     console.log(levels[this.levelID].id);
@@ -73,11 +82,14 @@ class Aside extends View {
 
   public onWinLevel(): void {
     this.emitter.subscribe('winLevel', (level: ILevels) => this.addCompletedClass(level));
-    if (this.levelID < levels.length - 1) this.levelID += 1;
   }
 
   public addCompletedClass(level: ILevels): void {
     document.getElementById(String(level.id)).classList.add('completed');
+    if (this.levelID < levels.length - 1) {
+      this.levelID += 1;
+      setTimeout(() => this.getDataLevel(null, this.levelID), 500);
+    }
   }
 }
 export { Aside };

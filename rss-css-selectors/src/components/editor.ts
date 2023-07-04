@@ -24,6 +24,7 @@ class Editor extends View {
     const numbersLinesCSS = super.renderComponent('span', 'editor__lines-numbers');
     const pre = super.renderComponent('pre', 'code', { textContent: '/*Type in a CSS selector*/' });
     this.textArea = super.renderComponent('textarea', 'editor__text-aria') as HTMLTextAreaElement;
+    this.textArea.focus();
     this.enterBtn = super.renderComponent('button', 'enter-button', {
       textContent: 'Enter',
     });
