@@ -44,6 +44,10 @@ class Table extends View {
     this.emitter.subscribe('winLevel', (level: ILevels) => this.getTableElementsAnimation(level, 'clean'));
   }
 
+  public onWinGame(): void {
+    this.emitter.subscribe('winLevel', () => this.showWinMessage());
+  }
+
   public onLoseLevel(): void {
     this.emitter.subscribe('loseLevel', (level: ILevels) => this.getTableElementsAnimation(level, 'shake'));
   }
@@ -65,15 +69,9 @@ class Table extends View {
     }
   }
 
-  public onHoverEditor(): void {
-    this.emitter.subscribe('hoverEditor', (target) => this.showTable(target));
-  }
-
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-explicit-any
-  public showTable(target: any): void {
-    if (target !== 'div') {
-      console.log(target, target.toElement);
-    }
+  public showWinMessage(): void {
+    const tableElement = document.querySelector('.table-top');
+    tableElement.innerHTML = 'You win!';
   }
 }
 

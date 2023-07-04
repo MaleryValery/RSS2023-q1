@@ -23,9 +23,16 @@ export class Controller {
   public getCompletedLevels(level: ILevels): ILevels[] {
     this.getStorageCompleted();
     this.complitedLevels.push(level);
-    console.log('controller complitedLevels', this.complitedLevels);
     this.setStorageCompleted();
     return this.complitedLevels;
+  }
+
+  public checkGame(): void {
+    console.log('sorted', this.complitedLevels);
+    // this.getStorageCompleted();
+    // this.complitedLevels.push(level);
+    // this.setStorageCompleted();
+    // return this.complitedLevels;
   }
 
   public getStorageCompleted(): void {

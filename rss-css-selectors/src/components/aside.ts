@@ -110,6 +110,7 @@ class Aside extends View {
       this.levelID += 1;
       setTimeout(() => this.getDataLevel(null, this.levelID), 500);
     }
+    this.controller.checkGame();
   }
 
   public addCompletedOnload(): void {
