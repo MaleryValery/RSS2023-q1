@@ -4,6 +4,13 @@
   display: grid;
   grid-template-columns: 2fr 1fr;
   column-gap: 2rem;
+  @media (max-width: 900px) {
+    column-gap: 0.5rem;
+  }
+  @media (max-width: 400px) {
+    display: flex;
+    flex-direction: column-reverse;
+  }
 }
 
 .game-field__wrapper {

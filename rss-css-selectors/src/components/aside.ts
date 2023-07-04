@@ -25,8 +25,18 @@ class Aside extends View {
     parent.append(this.aside);
     this.aside.append(asideHeading, this.levelsList);
     this.addLevels(levels, this.levelsList);
-
+    if (localStorage.getItem('currentLevel') !== null) {
+      console.log('storage', localStorage.getItem('currentLevel'));
+      const levelStorage = JSON.parse(localStorage.getItem('currentLevel'));
+      console.log('levelStorage', levelStorage);
+      this.getDataLevel(null, levelStorage.id);
+    } else {
+      this.getDataLevel(null, 0);
+    }
     this.onWinLevel();
+    if (localStorage.getItem('completedLevels') !== null) {
+      this.addCompletedOnload();
+    }
   }
 
   protected addLevels(list: ILevels[], levelsList: HTMLElement): void {
@@ -59,16 +69,15 @@ class Aside extends View {
     if (e) {
       const eventTarget = e.target as Element;
       levelName = eventTarget.closest('.levels-list__name');
-      console.log(eventTarget);
       this.levelID = +levelName.getAttribute('id');
     }
-    if (id) {
+    if (id || id === 0) {
       this.levelID = id;
       levelName = document.getElementById(String(id));
+      console.log('getDataLevel', this.levelID);
     }
     this.onLevelChange(levels[this.levelID]);
     levelName.classList.add('active');
-    console.log(levels[this.levelID].id);
     this.controller.upDatelevel(levels[this.levelID]);
     return levels[this.levelID];
   }
@@ -86,10 +95,24 @@ class Aside extends View {
 
   public addCompletedClass(level: ILevels): void {
     document.getElementById(String(level.id)).classList.add('completed');
+    this.switchNewLevel();
+  }
+
+  public switchNewLevel(): void {
     if (this.levelID < levels.length - 1) {
       this.levelID += 1;
       setTimeout(() => this.getDataLevel(null, this.levelID), 500);
     }
   }
+
+  public addCompletedOnload(): void {
+    const completedLevels: ILevels[] = JSON.parse(localStorage.getItem('completedLevels'));
+    console.log('completedLevels parse', completedLevels);
+    completedLevels.forEach((levelCompled) => {
+      document.getElementById(String(levelCompled.id)).classList.add('completed');
+    });
+  }
+
+  public setLocalStorage(): void {}
 }
 export { Aside };

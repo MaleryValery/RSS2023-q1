@@ -54,6 +54,10 @@
   position: relative;
   display: grid;
   grid-template-columns: 4rem 1fr;
+  @media (max-width: 900px) {
+    font-size: 1.2rem;
+    grid-template-columns: 3rem 1fr;
+  }
 }
 .editor-css pre {
   background: #eee;
@@ -74,6 +78,9 @@
   resize: none;
   line-height: 1.5;
   font-size: 1.4rem;
+  @media (max-width: 900px) {
+    width: 75%;
+  }
 }
 .editor__text-aria:focus-visible {
   outline: none;

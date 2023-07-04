@@ -18,7 +18,6 @@ class EventEmitter {
     }
 
     this.events[eventName].push(fn);
-    console.log(this.events);
   }
 
   public unsubscribe(eventName: string, fn: () => void): void {

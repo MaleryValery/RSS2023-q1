@@ -1,5 +1,6 @@
 import { ILevels } from './utils/interface';
 import { View } from './view';
+// import '../ace/ace';
 // import { levels } from './levels';
 
 class Editor extends View {
@@ -16,7 +17,7 @@ class Editor extends View {
   public enterBtn: HTMLElement;
 
   public render(parent: HTMLElement): void {
-    this.editor = super.renderComponent('section', 'editor__wrapper');
+    this.editor = super.renderComponent('div', 'editor__wrapper', { id: 'editor' });
 
     this.editorCss = super.renderComponent('div', 'editor-css');
     const editorHeading = super.renderComponent('div', 'editor__heading');
@@ -77,13 +78,10 @@ class Editor extends View {
   }
 
   protected getTextAriaContent(): string {
-    console.log('textaria', this.textArea.value);
     return this.textArea.value;
   }
 
   public checkSelector(level: ILevels, answer: string): void {
-    console.log('check', level);
-    console.log('check answer', answer);
     if (level.selector !== answer) {
       console.log('LLLOOOOOOSSSEEE💥');
       this.emitter.emit('loseLevel', level);

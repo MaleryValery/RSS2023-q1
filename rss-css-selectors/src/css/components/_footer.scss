@@ -11,16 +11,27 @@
 .footer {
   padding: 2rem 0;
   margin: 0 auto;
+  @media (max-width: 900px) {
+    font-size: 1.2rem;
+  }
 }
 .footer__link-scholl {
   background-image: url(https://rs.school/images/partners/logo-rs.svg);
   width: 5rem;
   height: 5rem;
+  @media (max-width: 900px) {
+    width: 2rem;
+    height: 2rem;
+  }
 }
 .footer__link-github {
   background-image: url(https://static-00.iconduck.com/assets.00/github-icon-512x499-ziwq0a1i.png);
   width: 5rem;
   height: 4rem;
+  @media (max-width: 900px) {
+    width: 3rem;
+    height: 2rem;
+  }
 }
 .footer__link-scholl,
 .footer__link-github {

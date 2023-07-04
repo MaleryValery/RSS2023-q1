@@ -4,7 +4,11 @@
   justify-content: space-between;
   align-items: center;
 }
-
+.heading {
+  @media (max-width: 900px) {
+    font-size: 2rem;
+  }
+}
 .nav__list {
   display: flex;
   gap: 1.6rem;
