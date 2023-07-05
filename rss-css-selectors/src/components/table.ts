@@ -27,7 +27,7 @@ class Table extends View {
     this.onLevelChange();
     this.onLoseLevel();
     this.onWinLevel();
-    // this.tableTop.addEventListener('mouseover', this.showTable);
+    this.onWinGame();
   }
 
   public showApple(level: ILevels): void {
@@ -71,7 +71,7 @@ class Table extends View {
 
   public showWinMessage(): void {
     const tableElement = document.querySelector('.table-top');
-    tableElement.innerHTML = 'You win!';
+    tableElement.innerHTML = 'You win! Congrads🎊';
   }
 }
 

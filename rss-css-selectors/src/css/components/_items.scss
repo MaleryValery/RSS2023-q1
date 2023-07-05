@@ -30,7 +30,8 @@ bento {
   border: solid 3px #711c12;
   border-width: 20px 2px;
   @media (max-width: 900px) {
-    bheight: 50px;
+    height: 50px;
+    border-width: 5px 2px;
   }
 }
 

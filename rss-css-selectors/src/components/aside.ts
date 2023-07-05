@@ -43,7 +43,10 @@ class Aside extends View {
     if (localStorage.getItem('completedLevels') !== null) {
       this.addCompletedOnload();
     }
-    this.reset.addEventListener('click', this.controller.resetProgress);
+    this.reset.addEventListener('click', () => {
+      this.controller.resetProgress();
+      this.getDataLevel(null, 0);
+    });
   }
 
   protected addLevels(list: ILevels[], levelsList: HTMLElement): void {
