@@ -59,7 +59,7 @@
     grid-template-columns: 3rem 1fr;
   }
 }
-.editor-css pre {
+.editor-css .code {
   background: #eee;
   color: #999;
 }
@@ -93,4 +93,26 @@
   bottom: 3.5rem;
   right: 1rem;
   padding: 0.5rem 1rem;
+
+  @media (max-width: 900px) {
+    bottom: 1.5rem;
+  }
+}
+.css-code {
+  position: absolute;
+  top: 160px;
+  left: 60px;
+  width: 80%;
+  line-height: 1.5;
+  color: #555;
+  // :right ;
+
+  @media (max-width: 900px) {
+    left: 45px;
+    width: 75%;
+  }
+}
+.example-help {
+  padding: 3px;
+  color: #555;
 }

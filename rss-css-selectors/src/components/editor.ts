@@ -31,9 +31,9 @@ class Editor extends View {
     const editorHeading = super.renderComponent('div', 'editor__heading');
     const spanTextCss = super.renderComponent('span', 'editor__heading', { textContent: 'CSS Editor' });
     const numbersLinesCSS = super.renderComponent('span', 'editor__lines-numbers');
-    const pre = super.renderComponent('pre', 'code', { textContent: '/*Type in a CSS selector*/' });
+    const pre = super.renderComponent('div', 'code', { textContent: '/*Type in a CSS selector*/' });
     this.textArea = super.renderComponent('textarea', 'editor__text-aria') as HTMLTextAreaElement;
-    this.textPre = super.renderComponent('pre', 'css-code') as HTMLTextAreaElement;
+    this.textPre = super.renderComponent('div', 'css-code') as HTMLTextAreaElement;
     this.textCode = super.renderComponent('code', 'language-css') as HTMLTextAreaElement;
     this.enterBtn = super.renderComponent('button', 'enter-button', {
       textContent: 'Enter',
@@ -47,8 +47,8 @@ class Editor extends View {
     this.codeTag = super.renderComponent('code', 'language-html');
     parent.append(this.editor);
     this.editor.append(this.editorCss, this.editorHTML);
-    this.editorCss.append(editorHeading, numbersLinesCSS, pre, this.textArea, this.enterBtn);
-    // this.textArea.append(this.textPre);
+    this.editorCss.append(editorHeading, numbersLinesCSS, pre);
+    pre.append(this.textArea, this.textPre, this.enterBtn);
     // this.textPre.append(this.textCode);
     editorHeading.append(spanTextCss);
 
@@ -72,7 +72,7 @@ class Editor extends View {
   }
 
   protected createLinesNumbers(numbersLinesC: HTMLElement, numbersLinesH: HTMLElement): void {
-    const lines: number[] = Array(15)
+    const lines: number[] = Array(20)
       .fill(0)
       .map((el: number, i) => i + 1);
     lines.forEach((line) => {
@@ -84,8 +84,18 @@ class Editor extends View {
   public showCode(level: ILevels): void {
     this.textArea.value = '';
     this.codeTag.innerHTML = '';
-    const codeI = hljs.highlightAuto(`<div class = "table-inmain">\n${level.boardMarkup as string}\n</div>`).value;
+    this.textPre.innerHTML = '';
+    const codeI = hljs.highlightAuto(`<div class = "table">\n${level.boardMarkup as string}\n</div>`).value;
     this.codeTag.innerHTML = codeI;
+    this.textPre.innerHTML = level.help as string;
+    const examples = level.examples as string[];
+    if (examples) {
+      examples.forEach((ex) => {
+        const exElement = this.renderComponent('div', 'example-help');
+        exElement.insertAdjacentHTML('beforeend', ex);
+        this.textPre.append(exElement);
+      });
+    }
   }
 
   public onLevelChange(): void {
