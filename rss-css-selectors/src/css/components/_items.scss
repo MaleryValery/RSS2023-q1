@@ -170,8 +170,12 @@ plate > apple:last-child,
 plate > orange:last-child,
 bento > apple:last-child,
 bento > orange:last-child {
-  top: calc(50% - 19px);
-  left: calc(50% - 16px);
+  top: calc(50% - 33px);
+  left: calc(50% - 31px);
+  @media (max-width: 900px) {
+    left: calc(50% - 15px);
+    top: calc(50% - 14px);
+  }
 }
 
 plate .small,
@@ -185,6 +189,7 @@ plate > .small:only-child,
 bento > .small:only-child {
   position: absolute;
   top: calc(50% - 15px);
+  left: calc(50% - 13px);
   margin: 0;
   @media (max-width: 900px) {
     left: calc(50% - 7px);
@@ -242,10 +247,10 @@ plate orange {
 
 plate apple:nth-last-child(2),
 plate orange:nth-last-child(2) {
-  top: -25px;
+  top: -7px;
   z-index: 400;
   @media (max-width: 900px) {
-    left: 10px;
+    left: 13px;
     top: -10px;
   }
 }
@@ -253,8 +258,12 @@ plate orange:nth-last-child(2) {
 plate apple:nth-last-child(3),
 plate orange:nth-last-child(3) {
   top: -30px;
-  left: 10px;
+  left: 22px;
   z-index: 500;
+  @media (max-width: 900px) {
+    top: -30px;
+    left: 13px;
+  }
 }
 
 plate apple:nth-last-child(4),
