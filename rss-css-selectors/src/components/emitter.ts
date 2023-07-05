@@ -7,16 +7,10 @@ class EventEmitter {
     this.events = {};
   }
 
-  public subscribe(
-    eventName: string,
-    // TODO return types after check
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    fn: (level?: ILevels, animation?: string, target?: Event) => void,
-  ): void {
+  public subscribe(eventName: string, fn: (level?: ILevels, animation?: string, target?: Event) => void): void {
     if (!this.events[eventName]) {
       this.events[eventName] = [];
     }
-
     this.events[eventName].push(fn);
   }
 

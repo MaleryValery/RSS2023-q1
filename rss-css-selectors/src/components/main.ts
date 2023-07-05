@@ -1,3 +1,4 @@
+// import { levels } from './levels';
 import { ILevels } from './utils/interface';
 import { View } from './view';
 
@@ -19,11 +20,10 @@ class Main extends View {
     parent.append(this.main);
     this.main.append(contentBox);
     contentBox.append(this.subHeading, this.helper);
-    this.helper.addEventListener('click', this.onHelpCall);
+    this.helper.addEventListener('click', this.helpCall.bind(this));
     this.onLevelChange();
   }
 
-  // TODO add correct type and value
   public changeHeader(level: ILevels): void {
     this.subHeading.textContent = level.doThis as string;
   }
@@ -32,7 +32,10 @@ class Main extends View {
     this.emitter.subscribe('updateLevel', (level: ILevels) => this.changeHeader(level));
   }
 
-  public onHelpCall(): void {}
+  public helpCall(): void {
+    const mainLevel: ILevels = JSON.parse(localStorage.getItem('currentLevel'));
+    if (mainLevel) this.emitter.emit('hint', mainLevel);
+  }
 }
 
 export { Main };

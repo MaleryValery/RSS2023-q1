@@ -9,10 +9,6 @@ export class Controller {
 
   public eventEmitter = new EventEmitter();
 
-  // constructor() {
-  //   this.upDatelevel(levels[0]);
-  // }
-
   public upDatelevel(takenLevel: ILevels): ILevels {
     this.currentLevel = levels.find((level) => level.id === takenLevel.id);
     console.log('controller current', this.currentLevel);

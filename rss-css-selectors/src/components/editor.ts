@@ -25,7 +25,6 @@ class Editor extends View {
   public textCode: HTMLTextAreaElement;
 
   public render(parent: HTMLElement): void {
-    console.log('hljs', hljs);
     this.editor = super.renderComponent('div', 'editor__wrapper', { id: 'editor' });
 
     this.editorCss = super.renderComponent('div', 'editor-css');
@@ -49,8 +48,8 @@ class Editor extends View {
     parent.append(this.editor);
     this.editor.append(this.editorCss, this.editorHTML);
     this.editorCss.append(editorHeading, numbersLinesCSS, pre, this.textArea, this.enterBtn);
-    this.textArea.append(this.textPre);
-    this.textPre.append(this.textCode);
+    // this.textArea.append(this.textPre);
+    // this.textPre.append(this.textCode);
     editorHeading.append(spanTextCss);
 
     this.editorHTML.append(viewerHeading, numbersLinesHTML, htmlBox);
@@ -69,6 +68,7 @@ class Editor extends View {
       }
     });
     this.onLevelChange();
+    this.onGetHint();
   }
 
   protected createLinesNumbers(numbersLinesC: HTMLElement, numbersLinesH: HTMLElement): void {
@@ -82,7 +82,7 @@ class Editor extends View {
   }
 
   public showCode(level: ILevels): void {
-    this.textCode.innerHTML = '';
+    this.textArea.value = '';
     this.codeTag.innerHTML = '';
     const codeI = hljs.highlightAuto(`<div class = "table-inmain">\n${level.boardMarkup as string}\n</div>`).value;
     this.codeTag.innerHTML = codeI;
@@ -93,7 +93,7 @@ class Editor extends View {
   }
 
   protected getTextAriaContent(): string {
-    return this.textCode.value;
+    return this.textArea.value;
   }
 
   public checkSelector(level: ILevels, answer: string): void {
@@ -107,6 +107,16 @@ class Editor extends View {
       this.textArea.value = '';
       this.emitter.emit('winLevel', level);
     }
+  }
+
+  public onGetHint(): void {
+    this.emitter.subscribe('hint', (level: ILevels) => this.getHint(level));
+  }
+
+  public getHint(level: ILevels): void {
+    const hint = level.selector;
+    console.log('editor hint', hint);
+    this.textArea.value = `${hint as string}`;
   }
 }
 
