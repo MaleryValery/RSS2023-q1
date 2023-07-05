@@ -72,7 +72,7 @@ class Editor extends View {
   }
 
   protected createLinesNumbers(numbersLinesC: HTMLElement, numbersLinesH: HTMLElement): void {
-    const lines: number[] = Array(20)
+    const lines: number[] = Array(19)
       .fill(0)
       .map((el: number, i) => i + 1);
     lines.forEach((line) => {
