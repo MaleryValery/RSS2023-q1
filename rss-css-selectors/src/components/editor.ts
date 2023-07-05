@@ -1,5 +1,10 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
+import 'highlight.js/scss/tokyo-night-light.scss';
 import { ILevels } from './utils/interface';
 import { View } from './view';
+
+const hljs = require('highlight.js/lib/common');
+
 // import '../ace/ace';
 // import { levels } from './levels';
 
@@ -16,7 +21,14 @@ class Editor extends View {
 
   public enterBtn: HTMLElement;
 
+  public codeTag: HTMLElement;
+
+  public textPre: HTMLTextAreaElement;
+
+  public textCode: HTMLTextAreaElement;
+
   public render(parent: HTMLElement): void {
+    console.log('hljs', hljs);
     this.editor = super.renderComponent('div', 'editor__wrapper', { id: 'editor' });
 
     this.editorCss = super.renderComponent('div', 'editor-css');
@@ -25,7 +37,8 @@ class Editor extends View {
     const numbersLinesCSS = super.renderComponent('span', 'editor__lines-numbers');
     const pre = super.renderComponent('pre', 'code', { textContent: '/*Type in a CSS selector*/' });
     this.textArea = super.renderComponent('textarea', 'editor__text-aria') as HTMLTextAreaElement;
-    this.textArea.focus();
+    this.textPre = super.renderComponent('pre', 'css-code') as HTMLTextAreaElement;
+    this.textCode = super.renderComponent('code', 'language-css') as HTMLTextAreaElement;
     this.enterBtn = super.renderComponent('button', 'enter-button', {
       textContent: 'Enter',
     });
@@ -35,13 +48,17 @@ class Editor extends View {
     const numbersLinesHTML = super.renderComponent('span', 'viewer__lines-numbers');
     const htmlBox = super.renderComponent('div', 'html-box');
     this.htmlCode = super.renderComponent('pre', 'html-code');
+    this.codeTag = super.renderComponent('code', 'language-html');
     parent.append(this.editor);
     this.editor.append(this.editorCss, this.editorHTML);
     this.editorCss.append(editorHeading, numbersLinesCSS, pre, this.textArea, this.enterBtn);
+    this.textArea.append(this.textPre);
+    this.textPre.append(this.textCode);
     editorHeading.append(spanTextCss);
 
     this.editorHTML.append(viewerHeading, numbersLinesHTML, htmlBox);
     htmlBox.append(this.htmlCode);
+    this.htmlCode.appendChild(this.codeTag);
     viewerHeading.append(spanTextHTML);
 
     this.createLinesNumbers(numbersLinesCSS, numbersLinesHTML);
@@ -68,9 +85,10 @@ class Editor extends View {
   }
 
   public showCode(level: ILevels): void {
-    this.textArea.innerHTML = '';
-    this.htmlCode.innerHTML = '';
-    this.htmlCode.insertAdjacentText('afterbegin', `<div class = "table">\n${level.boardMarkup as string}\n</div>`);
+    this.textCode.innerHTML = '';
+    this.codeTag.innerHTML = '';
+    const codeI = hljs.highlightAuto(`<div class = "table-inmain">\n${level.boardMarkup as string}\n</div>`).value;
+    this.codeTag.innerHTML = codeI;
   }
 
   public onLevelChange(): void {
@@ -78,7 +96,7 @@ class Editor extends View {
   }
 
   protected getTextAriaContent(): string {
-    return this.textArea.value;
+    return this.textCode.value;
   }
 
   public checkSelector(level: ILevels, answer: string): void {

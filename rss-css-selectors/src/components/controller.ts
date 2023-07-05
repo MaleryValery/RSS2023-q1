@@ -22,17 +22,19 @@ export class Controller {
 
   public getCompletedLevels(level: ILevels): ILevels[] {
     this.getStorageCompleted();
-    this.complitedLevels.push(level);
+    const isIncluded: string = this.complitedLevels
+      .map((lev) => JSON.stringify(lev))
+      .find((lev) => lev === JSON.stringify(level));
+    if (!isIncluded) this.complitedLevels.push(level);
     this.setStorageCompleted();
     return this.complitedLevels;
   }
 
   public checkGame(): void {
-    console.log('sorted', this.complitedLevels);
-    // this.getStorageCompleted();
-    // this.complitedLevels.push(level);
-    // this.setStorageCompleted();
-    // return this.complitedLevels;
+    if (this.complitedLevels.length === levels.length) {
+      // eslint-disable-next-line no-alert
+      alert('you win! to restart press <restart progress>');
+    }
   }
 
   public getStorageCompleted(): void {
@@ -63,5 +65,6 @@ export class Controller {
     });
     localStorage.removeItem('completedLevels');
     localStorage.removeItem('currentLevel');
+    [this.currentLevel] = levels;
   }
 }
