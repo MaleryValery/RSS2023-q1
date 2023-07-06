@@ -7,14 +7,14 @@ class Main extends View {
 
   public subHeading: HTMLElement;
 
-  public helper: HTMLElement;
+  public helper: HTMLButtonElement;
 
   // constructor() {}
 
   public render(parent: HTMLElement): void {
     this.main = super.renderComponent('div', 'content-box');
     const contentBox = super.renderComponent('div', 'content-box');
-    this.helper = super.renderComponent('button', 'help-button', {}, 'help me!');
+    this.helper = super.renderComponent('button', 'help-button', {}, 'help me!') as HTMLButtonElement;
     this.subHeading = super.renderComponent('h2', 'sub-heading', { textContent: 'Name of level' });
 
     parent.append(this.main);

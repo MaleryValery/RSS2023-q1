@@ -67,26 +67,8 @@ class App {
         'afterbegin',
         `<div class="table">${this.aside.getMarkupEditor(this.currentLevel) as string}\n</div>`,
       );
-      // setTimeout(() => {
-
-      // }, 200);
     }
   }
-
-  // public checkAnswer(e: KeyboardEvent): void {
-  //   if (e.key === 'Enter') {
-  //     const textAria = document.querySelector('.editor__text-aria');
-  //     if (textAria.textContent === this.aside.getSelector(this.currentLevel)) {
-  //       const listItem = document.querySelector(`#${this.currentLevel}`);
-  //       const table = document.querySelector('.table-top');
-  //       listItem.classList.add('completed');
-  //       table.classList.add('clean');
-  //       setTimeout(() => {
-  //         table.innerHTML = '';
-  //       }, 200);
-  //     }
-  //   }
-  // }
 }
 
 export { App };

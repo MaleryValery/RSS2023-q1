@@ -18,7 +18,6 @@ class Table extends View {
     const tableBottom = super.renderComponent('div', 'table-bottom');
     const tableLeftLeg = super.renderComponent('div', 'table-leg');
     const tableRightLeg = super.renderComponent('div', 'table-leg');
-
     parent.append(tableWrapper);
     tableWrapper.append(tableBox);
     tableBox.append(this.table, this.tableTop);
@@ -28,6 +27,7 @@ class Table extends View {
     this.onLoseLevel();
     this.onWinLevel();
     this.onWinGame();
+    // this.tableTop.addEventListener('mouseover', this.showTable);
   }
 
   public showApple(level: ILevels): void {
@@ -45,7 +45,7 @@ class Table extends View {
   }
 
   public onWinGame(): void {
-    this.emitter.subscribe('winLevel', () => this.showWinMessage());
+    this.emitter.subscribe('winGame', () => this.showWinMessage());
   }
 
   public onLoseLevel(): void {
@@ -58,9 +58,13 @@ class Table extends View {
       tableElement.forEach((element) => element.classList.add(`${animation}`));
     }
     if (animation === 'shake') {
+      tableElement.forEach((element) => element.classList.remove('dance'));
+      tableElement.forEach((element) => element.classList.add(`${animation}`));
       setTimeout(() => {
         tableElement.forEach((element) => element.classList.remove(`${animation}`));
-      }, 300);
+
+        tableElement.forEach((element) => element.classList.add(`dance`));
+      }, 900);
     }
     if (animation === 'clean') {
       setTimeout(() => {

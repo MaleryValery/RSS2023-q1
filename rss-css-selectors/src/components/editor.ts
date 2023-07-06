@@ -34,7 +34,7 @@ class Editor extends View {
     const pre = super.renderComponent('div', 'code', { textContent: '/*Type in a CSS selector*/' });
     this.textArea = super.renderComponent('textarea', 'editor__text-aria') as HTMLTextAreaElement;
     this.textPre = super.renderComponent('div', 'css-code') as HTMLTextAreaElement;
-    this.textCode = super.renderComponent('code', 'language-css') as HTMLTextAreaElement;
+    // this.textCode = super.renderComponent('code', 'language-css') as HTMLTextAreaElement;
     this.enterBtn = super.renderComponent('button', 'enter-button', {
       textContent: 'Enter',
     });
@@ -72,7 +72,7 @@ class Editor extends View {
   }
 
   protected createLinesNumbers(numbersLinesC: HTMLElement, numbersLinesH: HTMLElement): void {
-    const lines: number[] = Array(19)
+    const lines: number[] = Array(18)
       .fill(0)
       .map((el: number, i) => i + 1);
     lines.forEach((line) => {
@@ -89,13 +89,11 @@ class Editor extends View {
     this.codeTag.innerHTML = codeI;
     this.textPre.innerHTML = level.help as string;
     const examples = level.examples as string[];
-    if (examples) {
+    if (examples)
       examples.forEach((ex) => {
-        const exElement = this.renderComponent('div', 'example-help');
-        exElement.insertAdjacentHTML('beforeend', ex);
-        this.textPre.append(exElement);
+        // const exElement = this.renderComponent('div', 'example-help', { textContent: ex });
+        this.textPre.insertAdjacentHTML('beforeend', `\n${ex}`);
       });
-    }
   }
 
   public onLevelChange(): void {

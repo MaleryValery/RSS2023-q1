@@ -9,6 +9,8 @@ export class Controller {
 
   public eventEmitter = new EventEmitter();
 
+  public gameOver: boolean;
+
   public upDatelevel(takenLevel: ILevels): ILevels {
     this.currentLevel = levels.find((level) => level.id === takenLevel.id);
     console.log('controller current', this.currentLevel);
@@ -59,8 +61,12 @@ export class Controller {
     completedLevelsData.forEach((level) => {
       document.getElementById(String(level.id)).classList.remove('completed');
     });
+    this.complitedLevels = [];
     localStorage.removeItem('completedLevels');
     localStorage.removeItem('currentLevel');
     [this.currentLevel] = levels;
+    const tableElement = document.querySelector('.table-top');
+    tableElement.innerHTML = '';
+    this.gameOver = false;
   }
 }
