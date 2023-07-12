@@ -1,15 +1,12 @@
-// import { levels } from './levels';
 import { ILevels } from './utils/interface';
 import { View } from './view';
 
 class Main extends View {
-  public main: HTMLElement;
+  public main!: HTMLElement;
 
-  public subHeading: HTMLElement;
+  public subHeading!: HTMLElement;
 
-  public helper: HTMLButtonElement;
-
-  // constructor() {}
+  public helper!: HTMLButtonElement;
 
   public render(parent: HTMLElement): void {
     this.main = super.renderComponent('div', 'content-box');
@@ -29,12 +26,17 @@ class Main extends View {
   }
 
   public onLevelChange(): void {
-    this.emitter.subscribe('updateLevel', (level: ILevels) => this.changeHeader(level));
+    this.emitter?.subscribe('updateLevel', (level?: ILevels) => {
+      if (level) this.changeHeader(level);
+    });
   }
 
   public helpCall(): void {
-    const mainLevel: ILevels = JSON.parse(localStorage.getItem('currentLevel'));
-    if (mainLevel) this.emitter.emit('hint', mainLevel);
+    const storage = localStorage.getItem('currentLevel');
+    if (storage) {
+      const mainLevel: ILevels = JSON.parse(storage);
+      if (mainLevel) this.emitter?.emit('hint', mainLevel);
+    }
   }
 }
 

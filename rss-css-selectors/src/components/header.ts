@@ -1,7 +1,7 @@
 import { View } from './view';
 
 class Header extends View {
-  public header: HTMLElement;
+  public header!: HTMLElement;
 
   public render(parent: HTMLElement): void {
     this.header = super.renderComponent('header', 'header');
@@ -27,27 +27,3 @@ class Header extends View {
 }
 
 export { Header };
-
-// function createHeader(): void {
-//   const body = document.querySelector('.body');
-//   const mainConteiner = document.createElement('div');
-//   mainConteiner.classList.add('wrapper');
-//   body.append(mainConteiner);
-//   mainConteiner.insertAdjacentHTML(
-//     'afterbegin',
-//     ` <div class="game-field__wrapper">
-//       <header class="header">
-//       <h1 class="heading">CSS Selectors</h1>
-//       <nav class="nav">
-//       <ul class="nav__list list">
-//         <li class="list__item"><a class="list__link list__link-school" href="https://rs.school/js/"></a></li>
-//         <li class="list__item"><a class="list__link list__link-github" href="https://github.com/MaleryValery"></a></li>
-//       </ul>
-//     </nav>
-//     </header>
-//     </div>
-//   `,
-//   );
-// }
-
-// export { createHeader };

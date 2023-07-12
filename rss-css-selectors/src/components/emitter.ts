@@ -1,5 +1,7 @@
 import { IEmitter, ILevels } from './utils/interface';
 
+type Listener = (level?: ILevels, animation?: string, target?: Event) => void;
+
 class EventEmitter {
   public events: IEmitter;
 
@@ -7,7 +9,7 @@ class EventEmitter {
     this.events = {};
   }
 
-  public subscribe(eventName: string, fn: (level?: ILevels, animation?: string, target?: Event) => void): void {
+  public subscribe(eventName: string, fn: Listener): void {
     if (!this.events[eventName]) {
       this.events[eventName] = [];
     }
@@ -18,9 +20,9 @@ class EventEmitter {
     this.events[eventName] = this.events[eventName].filter((eventCallback) => fn !== eventCallback);
   }
 
-  public emit(eventName: string, args?: number | string | ILevels | Event): void {
+  public emit(eventName: string, args?: ILevels | undefined): void {
     const event = this.events[eventName];
-    if (event) event.forEach((callback) => callback.call(this, args));
+    if (event) event.forEach((callback: Listener) => callback.call(this, args));
   }
 }
 

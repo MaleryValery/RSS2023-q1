@@ -3,16 +3,17 @@ import { ILevels } from './utils/interface';
 import { levels } from './levels';
 
 export class Controller {
-  public currentLevel: ILevels;
+  public currentLevel!: ILevels;
 
   public complitedLevels: ILevels[] = [];
 
   public eventEmitter = new EventEmitter();
 
-  public gameOver: boolean;
+  public gameOver!: boolean;
 
   public upDatelevel(takenLevel: ILevels): ILevels {
-    this.currentLevel = levels.find((level) => level.id === takenLevel.id);
+    const coosenLevel = levels.find((level) => level.id === takenLevel.id);
+    if (coosenLevel) this.currentLevel = coosenLevel;
     console.log('controller current', this.currentLevel);
     this.setStorageCurrent();
     return this.currentLevel;
@@ -20,7 +21,7 @@ export class Controller {
 
   public getCompletedLevels(level: ILevels): ILevels[] {
     this.getStorageCompleted();
-    const isIncluded: string = this.complitedLevels
+    const isIncluded: string | undefined = this.complitedLevels
       .map((lev) => JSON.stringify(lev))
       .find((lev) => lev === JSON.stringify(level));
     if (!isIncluded) this.complitedLevels.push(level);
@@ -28,18 +29,14 @@ export class Controller {
     return this.complitedLevels;
   }
 
-  public checkGame(): void {
-    if (this.complitedLevels.length === levels.length) {
-      // eslint-disable-next-line no-alert
-      alert('you win! to restart press <restart progress>');
-    }
-  }
-
   public getStorageCompleted(): void {
-    const completedLevelsData: ILevels[] = JSON.parse(localStorage.getItem('completedLevels'));
-    if (completedLevelsData) {
-      this.complitedLevels = completedLevelsData;
-      console.log('completedLevelsData', this.complitedLevels);
+    const storage = localStorage.getItem('completedLevels');
+    if (storage) {
+      const completedLevelsData: ILevels[] = JSON.parse(storage);
+      if (completedLevelsData) {
+        this.complitedLevels = completedLevelsData;
+        console.log('completedLevelsData', this.complitedLevels);
+      }
     }
   }
 
@@ -57,16 +54,19 @@ export class Controller {
 
   public resetProgress(): void {
     if (!localStorage.getItem('completedLevels')) return;
-    const completedLevelsData: ILevels[] = JSON.parse(localStorage.getItem('completedLevels'));
-    completedLevelsData.forEach((level) => {
-      document.getElementById(String(level.id)).classList.remove('completed');
-    });
+    const storage = localStorage.getItem('completedLevels');
+    if (storage) {
+      const completedLevelsData: ILevels[] = JSON.parse(storage);
+      completedLevelsData.forEach((level) => {
+        document.getElementById(String(level.id))?.classList.remove('completed');
+      });
+    }
     this.complitedLevels = [];
     localStorage.removeItem('completedLevels');
     localStorage.removeItem('currentLevel');
     [this.currentLevel] = levels;
     const tableElement = document.querySelector('.table-top');
-    tableElement.innerHTML = '';
+    if (tableElement) tableElement.innerHTML = '';
     this.gameOver = false;
   }
 }

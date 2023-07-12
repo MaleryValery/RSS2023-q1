@@ -51,8 +51,8 @@ class App {
     const elementTarget = e.target as Element;
     const table = document.querySelector('.table-top');
     const listItem = elementTarget.closest('.levels-list__name');
-    table.innerHTML = '';
-    htmlCode.innerHTML = '';
+    if (table) table.innerHTML = '';
+    if (htmlCode) htmlCode.innerHTML = '';
     if (listItem) {
       const listItems = document.querySelectorAll('.levels-list__name');
       listItems.forEach((item) => {
@@ -61,12 +61,14 @@ class App {
       const id: number = +listItem.id;
       this.currentLevel = id;
       listItem.classList.add('active');
-      mainHeading.textContent = this.aside.getHeading(this.currentLevel) as string;
-      table.insertAdjacentHTML('afterbegin', `${this.aside.getMarkupEditor(this.currentLevel) as string}`);
-      htmlCode.insertAdjacentText(
-        'afterbegin',
-        `<div class="table">${this.aside.getMarkupEditor(this.currentLevel) as string}\n</div>`,
-      );
+      if (mainHeading) mainHeading.textContent = this.aside.getHeading(this.currentLevel) as string;
+      if (table) table.insertAdjacentHTML('afterbegin', `${this.aside.getMarkupEditor(this.currentLevel) as string}`);
+      if (htmlCode) {
+        htmlCode.insertAdjacentText(
+          'afterbegin',
+          `<div class="table">${this.aside.getMarkupEditor(this.currentLevel) as string}\n</div>`,
+        );
+      }
     }
   }
 }

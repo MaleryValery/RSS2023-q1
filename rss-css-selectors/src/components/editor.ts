@@ -1,28 +1,27 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
 import 'highlight.js/scss/tokyo-night-light.scss';
 import { ILevels } from './utils/interface';
 import { View } from './view';
-
+/* eslint-disable @typescript-eslint/no-var-requires */
 const hljs = require('highlight.js/lib/common');
 
 class Editor extends View {
-  public editor: HTMLElement;
+  public editor!: HTMLElement;
 
-  public editorCss: HTMLElement;
+  public editorCss!: HTMLElement;
 
-  public editorHTML: HTMLElement;
+  public editorHTML!: HTMLElement;
 
-  public textArea: HTMLTextAreaElement;
+  public textArea!: HTMLTextAreaElement;
 
-  public htmlCode: HTMLElement;
+  public htmlCode!: HTMLElement;
 
-  public enterBtn: HTMLElement;
+  public enterBtn!: HTMLElement;
 
-  public codeTag: HTMLElement;
+  public codeTag!: HTMLElement;
 
-  public textPre: HTMLTextAreaElement;
+  public textPre!: HTMLTextAreaElement;
 
-  public textCode: HTMLTextAreaElement;
+  public textCode!: HTMLTextAreaElement;
 
   public render(parent: HTMLElement): void {
     this.editor = super.renderComponent('div', 'editor__wrapper', { id: 'editor' });
@@ -34,7 +33,6 @@ class Editor extends View {
     const pre = super.renderComponent('div', 'code', { textContent: '/*Type in a CSS selector*/' });
     this.textArea = super.renderComponent('textarea', 'editor__text-aria') as HTMLTextAreaElement;
     this.textPre = super.renderComponent('div', 'css-code') as HTMLTextAreaElement;
-    // this.textCode = super.renderComponent('code', 'language-css') as HTMLTextAreaElement;
     this.enterBtn = super.renderComponent('button', 'enter-button', {
       textContent: 'Enter',
     });
@@ -49,7 +47,6 @@ class Editor extends View {
     this.editor.append(this.editorCss, this.editorHTML);
     this.editorCss.append(editorHeading, numbersLinesCSS, pre);
     pre.append(this.textArea, this.textPre, this.enterBtn);
-    // this.textPre.append(this.textCode);
     editorHeading.append(spanTextCss);
 
     this.editorHTML.append(viewerHeading, numbersLinesHTML, htmlBox);
@@ -59,12 +56,16 @@ class Editor extends View {
 
     this.createLinesNumbers(numbersLinesCSS, numbersLinesHTML);
     this.enterBtn.addEventListener('click', () => {
-      this.checkSelector(this.controller.currentLevel, this.textArea.value);
+      const current = this.controller?.currentLevel;
+
+      if (current) this.checkSelector(current, this.textArea.value);
     });
     this.textArea.addEventListener('keydown', (e) => {
       if (e.code === 'Enter') {
         e.preventDefault();
-        this.checkSelector(this.controller.currentLevel, this.textArea.value);
+        const current = this.controller?.currentLevel;
+
+        if (current) this.checkSelector(current, this.textArea.value);
       }
     });
     this.onLevelChange();
@@ -91,13 +92,14 @@ class Editor extends View {
     const examples = level.examples as string[];
     if (examples)
       examples.forEach((ex) => {
-        // const exElement = this.renderComponent('div', 'example-help', { textContent: ex });
         this.textPre.insertAdjacentHTML('beforeend', `\n${ex}`);
       });
   }
 
   public onLevelChange(): void {
-    this.emitter.subscribe('updateLevel', (level: ILevels) => this.showCode(level));
+    this.emitter?.subscribe('updateLevel', (level?: ILevels) => {
+      if (level) this.showCode(level);
+    });
   }
 
   protected getTextAriaContent(): string {
@@ -107,18 +109,20 @@ class Editor extends View {
   public checkSelector(level: ILevels, answer: string): void {
     if (level.selector !== answer) {
       console.log('LLLOOOOOOSSSEEE💥');
-      this.emitter.emit('loseLevel', level);
+      this.emitter?.emit('loseLevel', level);
     }
     if (level.selector === answer) {
       console.log('WWWWIIINNNNN🎊🎊🎊🎊🎊');
-      this.controller.getCompletedLevels(level);
+      this.controller?.getCompletedLevels(level);
       this.textArea.value = '';
-      this.emitter.emit('winLevel', level);
+      this.emitter?.emit('winLevel', level);
     }
   }
 
   public onGetHint(): void {
-    this.emitter.subscribe('hint', (level: ILevels) => this.getHint(level));
+    this.emitter?.subscribe('hint', (level?: ILevels) => {
+      if (level) this.getHint(level);
+    });
   }
 
   public getHint(level: ILevels): void {

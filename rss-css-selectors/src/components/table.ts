@@ -1,14 +1,10 @@
-// import { levels } from './levels';
-// import { Controller } from './controller';
-// import { EventEmitter } from './emitter';
 import { ILevels } from './utils/interface';
-// import { levels } from './levels';
 import { View } from './view';
 
 class Table extends View {
-  public table: HTMLElement;
+  public table!: HTMLElement;
 
-  public tableTop: HTMLElement;
+  public tableTop!: HTMLElement;
 
   public render(parent: HTMLElement): void {
     const tableWrapper = super.renderComponent('div', 'perspective table-wrapper');
@@ -27,7 +23,6 @@ class Table extends View {
     this.onLoseLevel();
     this.onWinLevel();
     this.onWinGame();
-    // this.tableTop.addEventListener('mouseover', this.showTable);
   }
 
   public showApple(level: ILevels): void {
@@ -37,19 +32,25 @@ class Table extends View {
   }
 
   public onLevelChange(): void {
-    this.emitter.subscribe('updateLevel', (level: ILevels) => this.showApple(level));
+    this.emitter?.subscribe('updateLevel', (level?: ILevels) => {
+      if (level) this.showApple(level);
+    });
   }
 
   public onWinLevel(): void {
-    this.emitter.subscribe('winLevel', (level: ILevels) => this.getTableElementsAnimation(level, 'clean'));
+    this.emitter?.subscribe('winLevel', (level?: ILevels) => {
+      if (level) this.getTableElementsAnimation(level, 'clean');
+    });
   }
 
   public onWinGame(): void {
-    this.emitter.subscribe('winGame', () => this.showWinMessage());
+    this.emitter?.subscribe('winGame', () => this.showWinMessage());
   }
 
   public onLoseLevel(): void {
-    this.emitter.subscribe('loseLevel', (level: ILevels) => this.getTableElementsAnimation(level, 'shake'));
+    this.emitter?.subscribe('loseLevel', (level?: ILevels) => {
+      if (level) this.getTableElementsAnimation(level, 'shake');
+    });
   }
 
   public getTableElementsAnimation(level: ILevels, animation: string): void {
@@ -75,7 +76,7 @@ class Table extends View {
 
   public showWinMessage(): void {
     const tableElement = document.querySelector('.table-top');
-    tableElement.innerHTML = 'You win! Congrads🎊';
+    if (tableElement) tableElement.innerHTML = 'You win! Congrads🎊';
   }
 }
 

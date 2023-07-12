@@ -1,7 +1,7 @@
 import { View } from './view';
 
 class Footer extends View {
-  public footer: HTMLElement;
+  public footer!: HTMLElement;
 
   public render(parent: HTMLElement): void {
     this.footer = super.renderComponent('footer', 'footer');
