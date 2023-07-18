@@ -1,0 +1,12 @@
+body {
+  background-color: aqua;
+}
+
+div {
+  background-image: url("../assets/image/car-sports-svgrepo-com.svg");
+  width: 100px;
+  height: 100px;
+  background-size: cover;
+}
+
+/*# sourceMappingURL=index.css.map */
