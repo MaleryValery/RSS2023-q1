@@ -1,0 +1,40 @@
+.heading {
+  color: #efe1d1;
+  font-size: 3rem;
+}
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.nav {
+  display: flex;
+  gap: 2rem;
+}
+.nav a {
+  color: #a78295;
+  display: inline-block;
+  padding: 1rem 1.5rem;
+  background-color: #efe1d1;
+  border-radius: 5px;
+  font-size: 1.6rem;
+  transition: all 0.3s;
+  cursor: pointer;
+  line-height: 1;
+}
+.nav a:hover {
+  background-color: #efe3ee;
+}
+.nav a:active {
+  transform: scale(0.98);
+}
+.header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 2rem;
+}
+.subtitle {
+  color: #a78295;
+  font-size: 3rem;
+}
