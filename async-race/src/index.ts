@@ -1,5 +1,7 @@
 import { App } from './components/app';
+import { EventEmitter } from './components/emitter';
 
-const app = new App();
-app.render();
+const emitter = new EventEmitter();
+const app = new App(emitter);
+app.appendElement(document.body);
 console.log('Helllllo');

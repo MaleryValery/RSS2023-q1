@@ -2,19 +2,23 @@ import { Header } from './header';
 import { Garage } from './garage';
 import { Winners } from './winners';
 
-export class App {
-  public header = new Header();
+import { View } from './view';
 
-  public garage = new Garage();
+export class App extends View {
+  private header = new Header(this.emmiter);
 
-  public winners = new Winners();
+  private garage = new Garage(this.emmiter);
 
-  public render(): void {
-    const wrapper = document.createElement('div');
-    wrapper.classList.add('wrapper');
-    document.body.append(wrapper);
-    this.header.appendElement(wrapper);
-    this.garage.appendElement(wrapper);
-    this.winners.appendElement(wrapper);
+  private winners = new Winners(this.emmiter);
+
+  private wrapper!: HTMLElement;
+
+  public appendElement(parent: HTMLElement): void {
+    this.wrapper = document.createElement('div');
+    this.wrapper.classList.add('wrapper');
+    parent.append(this.wrapper);
+    this.header.appendElement(this.wrapper);
+    this.garage.appendElement(this.wrapper);
+    this.winners.appendElement(this.wrapper);
   }
 }
