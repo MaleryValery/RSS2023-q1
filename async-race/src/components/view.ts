@@ -1,6 +1,9 @@
 import { Attribute } from './utils/types';
+import { EventEmitter } from './emitter';
 
 export abstract class View {
+  constructor(protected readonly emmiter: EventEmitter) {}
+
   public abstract appendElement(parent: HTMLElement): void;
 
   public renderElement(tag: string, className?: string, attribute?: Attribute): HTMLElement {
