@@ -1,96 +1,163 @@
 import { Car } from './utils/types';
-import { View } from './view';
+// import { EventEmitter } from './emitter';
+import { RouteElement } from './routes/route';
+// import { ApiService } from './api/apiService';
+import { CarsApiService } from './api/apiCarService';
+import { createCarName, selectCarName } from './utils/carsBrand';
+import { setCarColor } from './utils/setColor';
 
-export class Garage extends View {
-  public createBtn!: HTMLElement;
+export class Garage extends RouteElement {
+  public url = 'garage';
 
-  public updateBtn!: HTMLElement;
+  private createBtn!: HTMLElement;
 
-  public createInput!: HTMLElement;
+  private updateBtn!: HTMLButtonElement;
 
-  public updateInput!: HTMLElement;
+  private startBtn!: HTMLElement;
 
-  public createPicker!: HTMLElement;
+  private stopBtn!: HTMLElement;
 
-  public updatePicker!: HTMLElement;
+  private generateBtn!: HTMLElement;
 
-  public carsNumbers!: HTMLElement;
+  private createInput!: HTMLSelectElement;
 
-  public pageNumbers!: HTMLElement;
+  private updateInput!: HTMLInputElement;
 
-  public prevBtn!: HTMLElement;
+  private createPicker!: HTMLInputElement;
 
-  public nextBtn!: HTMLElement;
+  private updatePicker!: HTMLInputElement;
 
-  public carsWrapper!: HTMLElement;
+  private currentUpdateCar!: Car;
+  // constructor(protected emitter: EventEmitter) {
+  //   super(emitter);
 
-  public dataCars!: Car[];
+  // }
 
-  constructor() {
-    super();
-    this.appendCars('http://127.0.0.1:3000/garage');
-  }
-
-  public appendElement(parent: HTMLElement): void {
+  public async appendElement(parent: HTMLElement): Promise<void> {
+    super.render(parent);
     this.createBtn = super.renderElement('button', 'create-btn btn', { textContent: 'create' });
-    this.updateBtn = super.renderElement('button', 'update-btn btn', { textContent: 'update' });
-    this.createInput = super.renderElement('input', 'create-input input');
-    this.updateInput = super.renderElement('input', 'uodate-input input');
-    this.createPicker = super.renderElement('input', 'create-picker picker', { type: 'color' });
-    this.updatePicker = super.renderElement('input', 'uodate-picker picker', { type: 'color' });
+    this.updateBtn = super.renderElement('button', 'update-btn btn', { textContent: 'update' }) as HTMLButtonElement;
+    this.createInput = super.renderElement('select', 'create-input input') as HTMLSelectElement;
+    this.generateModels();
+    this.updateInput = super.renderElement('input', 'update-input input') as HTMLInputElement;
+    this.createPicker = super.renderElement('input', 'create-picker picker', { type: 'color' }) as HTMLInputElement;
+    this.updatePicker = super.renderElement('input', 'uodate-picker picker', { type: 'color' }) as HTMLInputElement;
+    this.startBtn = super.renderElement('button', 'start-btn btn', { textContent: 'start' });
+    this.stopBtn = super.renderElement('button', 'stop-btn btn', { textContent: 'stop' });
+    this.generateBtn = super.renderElement('button', 'update-btn btn', { textContent: 'generate cars' });
+    const controllersWrapper = super.renderElement('div', 'controllers-wrapper');
     const createContainer = super.renderElement('div', 'create-container garage-input-container');
     const updateContainer = super.renderElement('div', 'update-container garage-input-container');
-    this.carsWrapper = super.renderElement('div', 'cars-list-wrapper');
-    this.carsNumbers = super.renderElement('h3', 'title', { textContent: 'Garage (here number)' });
-    this.pageNumbers = super.renderElement('h4', 'subtitle-page', { textContent: 'Pages(here number)' });
-    this.nextBtn = super.renderElement('button', 'next-btn btn', { textContent: 'next' });
-    this.prevBtn = super.renderElement('button', 'prev-btn btn', { textContent: 'prev' });
-    const garageWrapper = super.renderElement('div', 'garage-wrapper');
-    parent.append(garageWrapper);
-    garageWrapper.append(createContainer, updateContainer, this.carsWrapper);
-    this.carsWrapper.append(this.carsNumbers, this.pageNumbers, this.nextBtn, this.prevBtn);
+    this.updateInput.disabled = true;
+    this.updatePicker.disabled = true;
+    this.updateBtn.disabled = true;
+    const controllersContainer = super.renderElement('div', 'controller-container garage-input-container');
+    this.wrapper.append(controllersWrapper);
+    controllersWrapper.append(createContainer, updateContainer, controllersContainer);
     createContainer.append(this.createInput, this.createPicker, this.createBtn);
     updateContainer.append(this.updateInput, this.updatePicker, this.updateBtn);
+    controllersContainer.append(this.startBtn, this.stopBtn, this.generateBtn);
+    this.onUpdateNameCar();
+    this.updateBtn.addEventListener('click', this.getUpdatedCar.bind(this));
+    this.createBtn.addEventListener('click', this.onCreateCar.bind(this));
+    this.generateBtn.addEventListener('click', this.onGenerateCars.bind(this));
+    this.startBtn.addEventListener('click', this.startRace.bind(this));
+    this.stopBtn.addEventListener('click', this.stopRace.bind(this));
+    this.emitter.subscribe('clearInputs', () => this.clearInputs());
   }
 
-  public async appendCars(url: string): Promise<void> {
-    const response = await fetch(url);
-    this.dataCars = await response.json();
-    this.renderCar(this.dataCars);
+  private onUpdateNameCar(): void {
+    this.emitter.subscribe('onSelectedCar', (car: Car) => this.updateCar(car));
   }
 
-  public renderCar(cars: Car[]): void {
-    cars.forEach((car) => {
-      const raceContainer = super.renderElement('div', 'race-container');
-      const carContainer = super.renderElement('div', 'car-container');
-      const carBoxRow1 = super.renderElement('div', 'row1');
-      const carBoxRow2 = super.renderElement('div', 'row2');
-      const engineBtn = super.renderElement('div', 'engine-btn-box');
-      const selectCar = super.renderElement('button', 'select-btn btn', { textContent: 'select' });
-      const removeCar = super.renderElement('button', 'remove-btn btn', { textContent: 'remove' });
-      const startCar = super.renderElement('button', 'start-btn engine-btn', { textContent: 'A' });
-      const stopCar = super.renderElement('button', 'stop-btn engine-btn', { textContent: 'B' });
-      const carName = super.renderElement('h5', 'car-name', { textContent: car.name });
-      const carImgBox = super.renderElement('div', 'car-img-box');
-      const svgCar = `<svg fill="${car.color}" width="800px" height="800px" viewBox="0 -83.92 122.88 122.88" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"  style="enable-background:new 0 0 122.88 35.03" xml:space="preserve" >
+  private updateCar(someCar: Car): void {
+    if (someCar) {
+      this.currentUpdateCar = someCar;
+      console.log('some', someCar);
+      this.updateInput.value = someCar.name;
+      this.updatePicker.value = someCar.color;
+      this.updateInput.disabled = false;
+      this.updatePicker.disabled = false;
+      this.updateBtn.disabled = false;
+    }
+  }
 
-      <style type="text/css">.st0{fill-rule:evenodd;clip-rule:evenodd;}</style>
-      
-      <g>
-      
-      <path class="st0" d="M99.42,13.57c5.93,0,10.73,4.8,10.73,10.73c0,5.93-4.8,10.73-10.73,10.73s-10.73-4.8-10.73-10.73 C88.69,18.37,93.49,13.57,99.42,13.57L99.42,13.57z M79.05,5c-0.59,1.27-1.06,2.69-1.42,4.23c-0.82,2.57,0.39,3.11,3.19,2.06 c2.06-1.23,4.12-2.47,6.18-3.7c1.05-0.74,1.55-1.47,1.38-2.19c-0.34-1.42-3.08-2.16-5.33-2.6C80.19,2.23,80.39,2.11,79.05,5 L79.05,5z M23.86,19.31c2.75,0,4.99,2.23,4.99,4.99c0,2.75-2.23,4.99-4.99,4.99c-2.75,0-4.99-2.23-4.99-4.99 C18.87,21.54,21.1,19.31,23.86,19.31L23.86,19.31z M99.42,19.31c2.75,0,4.99,2.23,4.99,4.99c0,2.75-2.23,4.99-4.99,4.99 c-2.75,0-4.99-2.23-4.99-4.99C94.43,21.54,96.66,19.31,99.42,19.31L99.42,19.31z M46.14,12.5c2.77-2.97,5.97-4.9,9.67-6.76 c8.1-4.08,13.06-3.58,21.66-3.58l-2.89,7.5c-1.21,1.6-2.58,2.73-4.66,2.84H46.14L46.14,12.5z M23.86,13.57 c5.93,0,10.73,4.8,10.73,10.73c0,5.93-4.8,10.73-10.73,10.73s-10.73-4.8-10.73-10.73C13.13,18.37,17.93,13.57,23.86,13.57 L23.86,13.57z M40.82,10.3c3.52-2.19,7.35-4.15,11.59-5.82c12.91-5.09,22.78-6,36.32-1.9c4.08,1.55,8.16,3.1,12.24,4.06 c4.03,0.96,21.48,1.88,21.91,4.81l-4.31,5.15c1.57,1.36,2.85,3.03,3.32,5.64c-0.13,1.61-0.57,2.96-1.33,4.04 c-1.29,1.85-5.07,3.76-7.11,2.67c-0.65-0.35-1.02-1.05-1.01-2.24c0.06-23.9-28.79-21.18-26.62,2.82H35.48 C44.8,5.49,5.04,5.4,12.1,28.7C9.62,31.38,3.77,27.34,0,18.75c1.03-1.02,2.16-1.99,3.42-2.89c-0.06-0.05,0.06,0.19-0.15-0.17 c-0.21-0.36,0.51-1.87,1.99-2.74C13.02,8.4,31.73,8.52,40.82,10.3L40.82,10.3z"/>
-      
-      </g>
-      </svg>
-      `;
-      carImgBox.innerHTML = svgCar;
-      const flag = super.renderElement('div', 'flag');
-      raceContainer.append(carContainer, flag);
-      carContainer.append(carBoxRow1, carBoxRow2);
-      carBoxRow1.append(selectCar, removeCar, carName);
-      carBoxRow2.append(engineBtn, carImgBox);
-      engineBtn.append(startCar, stopCar);
-      this.carsWrapper.append(raceContainer);
+  private async getUpdatedCar(): Promise<void> {
+    const { id } = this.currentUpdateCar;
+    const newCar = {
+      name: this.updateInput.value,
+      color: this.updatePicker.value,
+    };
+    await CarsApiService.updateCar(id, newCar, { 'Content-Type': 'application/json' });
+    try {
+      const updatedCar = await CarsApiService.getCar(id);
+      if (updatedCar.id) this.emitter.onEmit('onUpdateCar', updatedCar);
+      this.updateInput.value = '';
+      this.updatePicker.value = '#000000';
+    } catch {
+      console.log('car is not exist');
+    }
+  }
+
+  private async onCreateCar(): Promise<void> {
+    const name = this.createInput.value ? this.createInput.value : createCarName();
+    const color = this.createPicker.value;
+    const newCar = {
+      name,
+      color,
+    };
+    await CarsApiService.createCar(newCar, { 'Content-Type': 'application/json' });
+    const createdCar = await CarsApiService.getAllCars();
+    // this.carsNumbers.textContent = `Garage${createdCar.length}`;
+    console.log('createdCar', createdCar[createdCar.length - 1]);
+    this.emitter.onEmit('onCreatedCar', createdCar[createdCar.length - 1]);
+    this.createInput.value = '';
+    this.createPicker.value = '#000000';
+  }
+
+  private async onGenerateCars(): Promise<void> {
+    const lengthBefore = (await CarsApiService.getAllCars()).length - 1;
+    const arr = new Array(100).fill('0').map(async () => {
+      const name = createCarName();
+      const color = setCarColor();
+      const newCar = {
+        name,
+        color,
+      };
+      await CarsApiService.createCar(newCar, { 'Content-Type': 'application/json' });
+      return newCar;
     });
+    console.log(arr, lengthBefore);
+    const createdCar = await CarsApiService.getAllCars();
+    // this.carsNumbers.textContent = `Garage${createdCar.length}`;
+    this.emitter.onEmit('onCreatedCar', createdCar.slice(lengthBefore + 1));
+  }
+
+  private clearInputs(): void {
+    this.createInput.value = '';
+    this.createPicker.value = '#000000';
+    this.updateInput.value = '';
+    this.updatePicker.value = '#000000';
+  }
+
+  private generateModels(): void {
+    const carNames = selectCarName();
+    carNames.unshift('');
+    carNames.forEach((name) => {
+      const value = document.createElement('option');
+      value.setAttribute('value', name);
+      value.textContent = name;
+      this.createInput.append(value);
+    });
+  }
+
+  private startRace(event: Event): void {
+    console.log(event);
+    this.emitter.onEmit('onStartRace');
+  }
+
+  private stopRace(event: Event): void {
+    console.log(event);
+    this.emitter.onEmit('onStopRace');
   }
 }
