@@ -1,4 +1,3 @@
-/* eslint-disable no-restricted-globals */
 /* eslint-disable no-undef */
 import { View } from './view';
 import { Car, CreateWinner, Engine, IPathPagination } from './utils/types';
@@ -58,6 +57,7 @@ const limit: IPathPagination = {
   key: '_limit',
   value: 7,
 };
+
 export class Cars extends View {
   private dataCars!: Car[];
 
@@ -111,13 +111,18 @@ export class Cars extends View {
   }
 
   public async getCars(pageGarage: number = startPage): Promise<void> {
+    const request = await fetch(`http://127.0.0.1:3000/garage?_page=${pageGarage}&_limit=${limit.value}`, {
+      method: 'GET',
+    });
+    const totalQty = request.headers.get('X-Total-Count');
     this.dataCars = await CarsApiService.getPagination(pageGarage, limit);
     if (this.dataCars.length === 0) {
-      this.currentPage -= 1;
+      this.currentPage = Number(totalQty) / limit.value < 1 ? 1 : Math.round(Number(totalQty) / limit.value);
       this.dataCars = await CarsApiService.getPagination(this.currentPage, limit);
     }
+
     this.pageNumbers.textContent = String(this.currentPage);
-    this.renderCar(this.dataCars);
+    this.renderCars(this.dataCars);
   }
 
   public appendElement(parent: HTMLElement): void {
@@ -134,14 +139,13 @@ export class Cars extends View {
     pageContainer.append(this.pageSubtitle, this.prevBtn, this.nextBtn);
     this.garageSubtitle.append(this.carsNumbers);
     this.pageSubtitle.append(this.pageNumbers);
-    // this.carListWrapper.append(this.carsWrapper);
     parent.append(this.carsWrapper);
     parent.append(this.carListWrapper);
     this.nextBtn.addEventListener('click', this.nextPage.bind(this));
     this.prevBtn.addEventListener('click', this.prevPage.bind(this));
   }
 
-  public renderCar(cars: Car[]): void {
+  public renderCars(cars: Car[]): void {
     cars.forEach((car) => {
       setTimeout(() => {
         const raceContainer = super.renderElement('div', 'race-container', { id: car.id });
@@ -175,40 +179,39 @@ export class Cars extends View {
     });
   }
 
-  private onSelectCar(event: Event): void {
-    const id = this.getIdCar(event);
-    console.log('selected car', id);
-    console.log('selected car', this.dataCars);
-    if (id) {
-      this.emitter.onEmit(
-        'onSelectedCar',
-        this.dataCars.find((car) => car.id === id),
-      );
+  private async onSelectCar(event: Event): Promise<void> {
+    try {
+      const id = this.getIdCar(event);
+      const selectedCar = await CarsApiService.getCar(id);
+      if (id) {
+        this.emitter.onEmit('onSelectedCar', selectedCar);
+      }
+    } catch {
+      console.log('😔 cannot select car');
     }
   }
 
   private onSub(): void {
     this.emitter.subscribe('onUpdateCar', (car: Car) => this.onUpdateCar(car));
-    this.emitter.subscribe('onCreatedCar', (car: Car) => this.onCreatedCar(car));
-    this.emitter.subscribe('onStartRace', () => {
-      this.startRace();
-      console.log('race started');
-    });
-    this.emitter.subscribe('onStopRace', () => {
-      this.stopRace();
-      console.log('race started');
-    });
+    this.emitter.subscribe('onCreatedCar', () => this.onCreatedCar());
+    this.emitter.subscribe('onStartRace', () => this.startRace());
+    this.emitter.subscribe('onStopRace', () => this.stopRace());
   }
 
   private async onRemoveCar(event: Event): Promise<void> {
-    const id = this.getIdCar(event);
-    if (id) {
-      await CarsApiService.deleteCar(id);
-      this.getCarsQty();
-      this.carListWrapper.innerHTML = '';
-      this.getCars(this.currentPage);
-      this.emitter.onEmit('clearInputs');
-      this.emitter.onEmit('onRemove');
+    try {
+      const id = this.getIdCar(event);
+      if (id) {
+        const car = await CarsApiService.getCar(id);
+        await CarsApiService.deleteCar(id);
+        this.getCarsQty();
+        this.carListWrapper.innerHTML = '';
+        this.getCars(this.currentPage);
+        this.emitter.onEmit('clearInputs');
+        this.emitter.onEmit('onRemove', car);
+      }
+    } catch {
+      console.log('💣 cannot remove car');
     }
   }
 
@@ -227,69 +230,76 @@ export class Cars extends View {
     }
   }
 
-  private async onCreatedCar(newcar: Car): Promise<void> {
-    console.log('render newly car', newcar);
-    this.dataCars = await CarsApiService.getPagination(0, limit);
-    const currentQtyPage = this.carListWrapper.childNodes.length;
-    if (currentQtyPage < limit.value) {
-      if (!Array.isArray(newcar)) this.renderCar([newcar]);
-      if (Array.isArray(newcar)) {
-        const possibleToRender = limit.value - currentQtyPage;
-        this.renderCar(newcar.slice(0, possibleToRender));
-      }
-      this.carsNumbers.textContent = String(this.qtyCars);
-    }
+  private async onCreatedCar(): Promise<void> {
+    this.dataCars = await CarsApiService.getPagination(this.currentPage, limit);
+    this.carListWrapper.innerHTML = '';
+    this.renderCars(this.dataCars);
     this.getCarsQty();
   }
 
   private async nextPage(): Promise<void> {
-    const maxPage = this.qtyCars / limit.value;
-    if (this.currentPage < maxPage) {
-      this.nextBtn.disabled = false;
-      this.prevBtn.disabled = false;
-      this.currentPage += 1;
-      localStorage.setItem('currentPage', String(this.currentPage));
-      this.pageNumbers.textContent = String(this.currentPage);
-      this.carListWrapper.innerHTML = '';
-      this.getCars(this.currentPage);
-    } else this.nextBtn.disabled = true;
+    try {
+      const maxPage = this.qtyCars / limit.value;
+      if (this.currentPage < maxPage) {
+        this.nextBtn.disabled = false;
+        this.prevBtn.disabled = false;
+        this.currentPage += 1;
+        localStorage.setItem('currentPage', String(this.currentPage));
+        this.pageNumbers.textContent = String(this.currentPage);
+        this.carListWrapper.innerHTML = '';
+        this.getCars(this.currentPage);
+      } else this.nextBtn.disabled = true;
+    } catch {
+      console.log('👁️👁️cannot get next page');
+    }
   }
 
   private async prevPage(): Promise<void> {
-    const minPage = 1;
-    if (this.currentPage > minPage) {
-      this.prevBtn.disabled = false;
-      this.nextBtn.disabled = false;
-      this.currentPage -= 1;
-      localStorage.setItem('currentPage', String(this.currentPage));
-      this.pageNumbers.textContent = String(this.currentPage);
-      this.carListWrapper.innerHTML = '';
-      this.getCars(this.currentPage);
-    } else this.prevBtn.disabled = true;
+    try {
+      const minPage = 1;
+      if (this.currentPage > minPage) {
+        this.prevBtn.disabled = false;
+        this.nextBtn.disabled = false;
+        this.currentPage -= 1;
+        localStorage.setItem('currentPage', String(this.currentPage));
+        this.pageNumbers.textContent = String(this.currentPage);
+        this.carListWrapper.innerHTML = '';
+        this.getCars(this.currentPage);
+      } else {
+        this.prevBtn.disabled = true;
+      }
+    } catch {
+      console.log('👁️👁️cannot get prev page');
+    }
   }
 
   private async startOneEngin(event?: Event, idCar?: number): Promise<Response> {
     let intervalAnim: string | number | NodeJS.Timer | undefined;
-    const id = event ? this.getIdCar(event) : (idCar as number);
-    const currentCar = await CarsApiService.getCar(id);
-    const imgCar = document.getElementById(`${id}`)?.children[0].children[1].childNodes[1] as HTMLElement;
-    this.emitter.subscribe('onStopCar', () => clearInterval(intervalAnim));
     try {
+      const id = event ? this.getIdCar(event) : (idCar as number);
+      const start = Date.now();
+      const currentCar = await CarsApiService.getCar(id);
+      const imgCar = document.getElementById(`${id}`)?.children[0].children[1].childNodes[1] as HTMLElement;
       const changeToStart = await CarsApiService.onEnginCar(id, Engine.started);
       const currentWith = window.screen.width;
       const flagDist = window.screen.width - this.flagImg.offsetLeft + this.flagImg.offsetWidth;
       let leftDist = this.carImgBox.offsetLeft - this.carImgBox.offsetWidth + 5;
       const fullDis = currentWith - leftDist - flagDist;
-      const partDis = (fullDis - leftDist) / (((changeToStart.velocity * 30) / 1000) * 60);
+      const partDis = (fullDis - leftDist) / (((changeToStart.velocity * 50) / 1000) * 60);
+      this.emitter.subscribe('onStopCar', () => clearInterval(intervalAnim));
       intervalAnim = setInterval(() => {
         leftDist += partDis;
         if (leftDist >= fullDis) {
-          if (!this.winnerTime) {
-            this.winnerTime = +(fullDis / changeToStart.velocity).toFixed(2);
-            this.addWinner(id, this.winnerTime, currentCar.color, currentCar.name);
-            this.showWinMessage(id, currentCar.name, this.winnerTime);
-          }
+          const end = Date.now();
+          this.emitter.subscribe('onStopCar', () => clearInterval(intervalAnim));
           clearInterval(intervalAnim);
+          if (!event) {
+            if (!this.winnerTime) {
+              this.winnerTime = +((end - start) / 1000).toFixed(2);
+              this.addWinner(id, this.winnerTime, currentCar.color, currentCar.name);
+              this.showWinMessage(id, currentCar.name, this.winnerTime);
+            }
+          }
         }
         imgCar.style.transform = `translateX(${leftDist}px)`;
       }, 16);
@@ -299,19 +309,21 @@ export class Cars extends View {
       if (runStatus !== 200) clearInterval(intervalAnim);
       return await runCar;
     } catch (error) {
-      console.error(`💩 ${error} 💩`);
       clearInterval(intervalAnim);
-      throw new Error('Engine is broken');
+      throw new Error('💥 Engine is broken');
     }
   }
 
   private async stopOneEngin(event?: Event, idCar?: number): Promise<void> {
-    const id = event ? this.getIdCar(event) : (idCar as number);
-    const changeToStop = await CarsApiService.onEnginCar(id, Engine.stopped);
-    console.log(changeToStop);
-    this.emitter.onEmit('onStopCar');
-    const imgCar = document.getElementById(`${id}`)?.children[0].children[1].childNodes[1] as HTMLElement;
-    if (imgCar.style.transform) imgCar.style.transform = 'translateX(0px)';
+    try {
+      const id = event ? this.getIdCar(event) : (idCar as number);
+      await CarsApiService.onEnginCar(id, Engine.stopped);
+      this.emitter.onEmit('onStopCar');
+      const imgCar = document.getElementById(`${id}`)?.children[0].children[1].childNodes[1] as HTMLElement;
+      imgCar.style.transform = 'translateX(0px)';
+    } catch {
+      console.log('🤓 i was trying to stop car');
+    }
   }
 
   private getIdCar(event: Event): number {
@@ -322,42 +334,46 @@ export class Cars extends View {
   }
 
   private async startRace(): Promise<void> {
-    const winners: Response[] = [];
-    const currentPageCars = await CarsApiService.getPagination(this.currentPage, limit);
-    console.log(currentPageCars);
+    try {
+      const winners: Response[] = [];
+      const currentPageCars = await CarsApiService.getPagination(this.currentPage, limit);
 
-    currentPageCars.forEach(async (car) => {
-      // this.startOneEngin(event, car.id);
-      const raceCar = await this.startOneEngin(event, car.id);
-      if (raceCar.status === 200) winners.push(raceCar);
-    });
-    console.log(winners);
-    this.winnerTime = 0;
+      currentPageCars.forEach(async (car) => {
+        const raceCar = await this.startOneEngin(undefined, car.id);
+        if (raceCar.status === 200) winners.push(raceCar);
+      });
+      this.winnerTime = 0;
+    } catch {
+      console.log('🚗 cannot start race ');
+    }
   }
 
   private async stopRace(): Promise<void> {
-    const currentPageCars = await CarsApiService.getPagination(this.currentPage, limit);
-    console.log(currentPageCars);
+    try {
+      const currentPageCars = await CarsApiService.getPagination(this.currentPage, limit);
 
-    currentPageCars.forEach((car) => this.stopOneEngin(event, car.id));
+      currentPageCars.forEach((car) => this.stopOneEngin(undefined, car.id));
+    } catch {
+      console.log('🤓 i was trying to stop rase');
+    }
   }
 
-  private async addWinner(id: number, time: number, colorCar: string, nameCar: string): Promise<void> {
+  private async addWinner(carId: number, time: number, colorCar: string, nameCar: string): Promise<void> {
     try {
-      const checkWinner = await ApiWinnersService.getWin(id);
-      console.log('checkWinner', checkWinner.id);
-      if (checkWinner.carId === id) {
-        console.log('winner update', id);
+      const checkWinner = (await ApiWinnersService.getAllWin()).find((win) => win.carId === carId);
+      if (checkWinner) {
+        console.log('winner update', carId);
         checkWinner.wins += 1;
         checkWinner.time = checkWinner.time <= time ? checkWinner.time : time;
         const updateWin = {
+          name: nameCar,
           wins: checkWinner.wins,
           time: checkWinner.time,
         };
-        await ApiWinnersService.updateWin(id, updateWin, { 'Content-Type': 'application/json' });
+        await ApiWinnersService.updateWin(carId, updateWin, { 'Content-Type': 'application/json' });
       } else {
         const winner: CreateWinner = {
-          carId: id,
+          carId,
           time,
           wins: 1,
           color: colorCar,
@@ -365,8 +381,7 @@ export class Cars extends View {
         };
         await ApiWinnersService.createWin(winner, { 'Content-Type': 'application/json' });
       }
-      const allWinners = await ApiWinnersService.getAllWin();
-      console.log('allWinners', allWinners);
+      this.emitter.onEmit('renderWinners');
     } catch {
       console.error('Winner is not found');
     }
@@ -376,7 +391,7 @@ export class Cars extends View {
     const popUpWrapper = super.renderElement('div', 'popup-wrapper');
     const overlay = super.renderElement('div', 'overlay');
     const messageText = super.renderElement('div', 'win-message', {
-      textContent: `Car id#${id} ${name} is win with time ${time}`,
+      textContent: `Car id#${id} ${name} is win with time ${time}s`,
     });
     document.body.append(overlay);
     overlay.append(popUpWrapper);
@@ -387,29 +402,4 @@ export class Cars extends View {
       } else clearInterval(showPopup);
     }, 3000);
   }
-  // private animation(img: HTMLElement, duration: number, distance: number): void {
-  //   if (duration === 0) {
-  //     clearInterval(this.intervalAnim);
-  // eslint-disable-next-line no-param-reassign
-  //   img.style.transform = `translateX(${0}px)`;
-  //   return;
-  // }
-  // const currentWith = window.screen.width;
-  // const flagDist = window.screen.width - this.flagImg.offsetLeft + this.flagImg.offsetWidth;
-
-  // let leftDist = this.carImgBox.offsetLeft - this.carImgBox.offsetWidth;
-  // const fullDis = currentWith - leftDist - flagDist;
-  // const frames = ((duration * 100) / 1000) * 60;
-  // const partDis = (distance - leftDist) / frames;
-
-  // this.intervalAnim = setInterval(() => {
-  //   leftDist += partDis;
-  //   console.log(leftDist);
-  //   if (leftDist >= distance) {
-  //     clearInterval(this.intervalAnim);
-  //   }
-  // eslint-disable-next-line no-param-reassign
-  //     img.style.transform = `translateX(${leftDist}px)`;
-  //   }, 16);
-  // }
 }

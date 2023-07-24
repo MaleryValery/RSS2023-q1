@@ -29,25 +29,18 @@ export class App extends View {
     this.wrapper = super.renderElement('div', 'main-wrapper');
 
     parent.append(this.wrapper);
-    this.winners.appendElement(this.wrapper);
     this.garage.appendElement(this.wrapper);
     this.cars.appendElement(this.garage.wrapper);
     this.emitter.subscribe('routeChanged', (route: Route) => this.onChangeRoute(route));
     this.header.appendElement(this.wrapper);
+    this.winners.appendElement(this.wrapper);
   }
 
   public onChangeRoute(route: Route): void {
     const activePage = this.routeElemetns.find((page) => page.url === route.url);
-    const hiddenPage = this.routeElemetns.filter((page) => page.url !== route.url);
+    const hiddenPage = this.routeElemetns.find((page) => page.url !== route.url);
 
-    if (activePage) {
-      console.log('should page', activePage);
-      activePage.show();
-    }
-
-    hiddenPage.forEach((page) => {
-      page.hide();
-      console.log('should hide', page, route);
-    });
+    activePage?.show();
+    hiddenPage?.hide();
   }
 }
