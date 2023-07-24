@@ -1,7 +1,5 @@
 import { Car } from './utils/types';
-// import { EventEmitter } from './emitter';
 import { RouteElement } from './routes/route';
-// import { ApiService } from './api/apiService';
 import { CarsApiService } from './api/apiCarService';
 import { createCarName, selectCarName } from './utils/carsBrand';
 import { setCarColor } from './utils/setColor';
@@ -28,10 +26,6 @@ export class Garage extends RouteElement {
   private updatePicker!: HTMLInputElement;
 
   private currentUpdateCar!: Car;
-  // constructor(protected emitter: EventEmitter) {
-  //   super(emitter);
-
-  // }
 
   public async appendElement(parent: HTMLElement): Promise<void> {
     super.render(parent);
@@ -42,7 +36,7 @@ export class Garage extends RouteElement {
     this.updateInput = super.renderElement('input', 'update-input input') as HTMLInputElement;
     this.createPicker = super.renderElement('input', 'create-picker picker', { type: 'color' }) as HTMLInputElement;
     this.updatePicker = super.renderElement('input', 'uodate-picker picker', { type: 'color' }) as HTMLInputElement;
-    this.startBtn = super.renderElement('button', 'start-btn btn', { textContent: 'start' });
+    this.startBtn = super.renderElement('button', 'start-race-btn btn', { textContent: 'start' });
     this.stopBtn = super.renderElement('button', 'stop-btn btn', { textContent: 'stop' });
     this.generateBtn = super.renderElement('button', 'update-btn btn', { textContent: 'generate cars' });
     const controllersWrapper = super.renderElement('div', 'controllers-wrapper');
@@ -76,24 +70,30 @@ export class Garage extends RouteElement {
       console.log('some', someCar);
       this.updateInput.value = someCar.name;
       this.updatePicker.value = someCar.color;
-      this.updateInput.disabled = false;
-      this.updatePicker.disabled = false;
-      this.updateBtn.disabled = false;
+      this.disabledUpdate(false);
     }
   }
 
+  private disabledUpdate(value: boolean): void {
+    this.updateInput.disabled = value;
+    this.updatePicker.disabled = value;
+    this.updateBtn.disabled = value;
+  }
+
   private async getUpdatedCar(): Promise<void> {
-    const { id } = this.currentUpdateCar;
-    const newCar = {
-      name: this.updateInput.value,
-      color: this.updatePicker.value,
-    };
-    await CarsApiService.updateCar(id, newCar, { 'Content-Type': 'application/json' });
     try {
+      const { id } = this.currentUpdateCar;
+      const newCar = {
+        name: this.updateInput.value,
+        color: this.updatePicker.value,
+      };
+      await CarsApiService.updateCar(id, newCar, { 'Content-Type': 'application/json' });
+
       const updatedCar = await CarsApiService.getCar(id);
       if (updatedCar.id) this.emitter.onEmit('onUpdateCar', updatedCar);
       this.updateInput.value = '';
       this.updatePicker.value = '#000000';
+      this.disabledUpdate(true);
     } catch {
       console.log('car is not exist');
     }
@@ -106,31 +106,33 @@ export class Garage extends RouteElement {
       name,
       color,
     };
-    await CarsApiService.createCar(newCar, { 'Content-Type': 'application/json' });
-    const createdCar = await CarsApiService.getAllCars();
-    // this.carsNumbers.textContent = `Garage${createdCar.length}`;
-    console.log('createdCar', createdCar[createdCar.length - 1]);
-    this.emitter.onEmit('onCreatedCar', createdCar[createdCar.length - 1]);
+    const createdCar: Car = await CarsApiService.createCar(newCar, { 'Content-Type': 'application/json' });
+
+    this.emitter.onEmit('onCreatedCar', createdCar);
     this.createInput.value = '';
     this.createPicker.value = '#000000';
   }
 
   private async onGenerateCars(): Promise<void> {
-    const lengthBefore = (await CarsApiService.getAllCars()).length - 1;
-    const arr = new Array(100).fill('0').map(async () => {
-      const name = createCarName();
-      const color = setCarColor();
-      const newCar = {
-        name,
-        color,
-      };
-      await CarsApiService.createCar(newCar, { 'Content-Type': 'application/json' });
-      return newCar;
-    });
-    console.log(arr, lengthBefore);
-    const createdCar = await CarsApiService.getAllCars();
-    // this.carsNumbers.textContent = `Garage${createdCar.length}`;
-    this.emitter.onEmit('onCreatedCar', createdCar.slice(lengthBefore + 1));
+    try {
+      const lengthBefore = (await CarsApiService.getAllCars()).length - 1;
+      const arr = new Array(100).fill('0').map(async () => {
+        const name = createCarName();
+        const color = setCarColor();
+        const newCar = {
+          name,
+          color,
+        };
+        await CarsApiService.createCar(newCar, { 'Content-Type': 'application/json' });
+        return newCar;
+      });
+      console.log(arr, lengthBefore);
+      const createdCar = await CarsApiService.getAllCars();
+      // this.carsNumbers.textContent = `Garage${createdCar.length}`;
+      this.emitter.onEmit('onCreatedCar', createdCar.slice(lengthBefore + 1));
+    } catch {
+      console.log('🫠 cannot generate cars');
+    }
   }
 
   private clearInputs(): void {
@@ -151,13 +153,11 @@ export class Garage extends RouteElement {
     });
   }
 
-  private startRace(event: Event): void {
-    console.log(event);
+  private startRace(): void {
     this.emitter.onEmit('onStartRace');
   }
 
-  private stopRace(event: Event): void {
-    console.log(event);
+  private stopRace(): void {
     this.emitter.onEmit('onStopRace');
   }
 }
