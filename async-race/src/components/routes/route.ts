@@ -7,7 +7,7 @@ export abstract class RouteElement extends View {
 
   public wrapper!: HTMLElement;
 
-  private isHidden = true;
+  private isShow = false;
 
   public render(parent: HTMLElement): void {
     this.parent = parent;
@@ -17,18 +17,16 @@ export abstract class RouteElement extends View {
   }
 
   public show(): void {
-    if (this.isHidden) {
-      this.isHidden = false;
+    if (!this.isShow) {
+      this.isShow = true;
       this.parent.appendChild(this.wrapper);
-      console.log('show', 'parrent:', this.parent, 'child:', this.wrapper);
     }
   }
 
   public hide(): void {
-    if (!this.isHidden) {
-      this.isHidden = true;
+    if (this.isShow) {
+      this.isShow = false;
       this.parent.removeChild(this.wrapper);
-      console.log('hide', 'parrent:', this.parent, 'child:', this.wrapper);
     }
   }
 }

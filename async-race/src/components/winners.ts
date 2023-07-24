@@ -123,7 +123,6 @@ export class Winners extends RouteElement {
     this.carNameWin = super.renderElement('span', 'table-name-winner', { textContent: 'Name' });
     this.numbnerWins = super.renderElement('span', 'table-numbers-wins', { textContent: 'Wins' });
     this.timeWin = super.renderElement('span', 'table-time-wins', { textContent: 'Best time' });
-    parent.append(this.wrapper);
     this.wrapper.append(this.winnnersHeader, containerWinPage, this.tableContainer);
     this.winnnersHeader.append(this.carsNumbers);
     containerWinPage.append(this.pageNumbers, this.prevBtn, this.nextBtn);
@@ -200,7 +199,6 @@ export class Winners extends RouteElement {
       console.log('winnerToDelete', winnerToDelete);
       if (winnerToDelete) await ApiWinnersService.deleteWin(winnerToDelete.id);
       this.getWinnersQty();
-      // this.carListWrapper.removeChild(carCont as Node);
       this.contentTable.innerHTML = '';
       this.getAllWinnersPagination(this.currentWinnerPage);
     }
