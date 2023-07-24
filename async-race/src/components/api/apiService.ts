@@ -10,7 +10,6 @@ export class ApiService {
     headers?: HeadersInit,
   ): Promise<T> {
     const url = `${this.baseUrl}${page}`;
-    console.log(url);
     const response = await fetch(url, {
       method,
       body: body ? JSON.stringify(body) : null,

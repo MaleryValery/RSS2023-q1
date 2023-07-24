@@ -3,7 +3,6 @@ import { ApiService } from './apiService';
 
 export class ApiWinnersService {
   public static getAllWin(): Promise<Winner[]> {
-    console.log('WinsApiService');
     return ApiService.get(Path.winners);
   }
 

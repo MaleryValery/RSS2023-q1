@@ -3,7 +3,6 @@ import { ApiService } from './apiService';
 
 export class CarsApiService {
   public static getAllCars(): Promise<Car[]> {
-    console.log('CarsApiService');
     return ApiService.get(Path.garage);
   }
 
