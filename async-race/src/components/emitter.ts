@@ -20,7 +20,7 @@ export class EventEmitter {
     }
   }
 
-  public onEmmit<T>(event: string, param: T): void {
+  public onEmit<T>(event: string, param?: T): void {
     const subscriber = this.subscriberMap.get(event);
     if (subscriber) {
       subscriber.forEach((fn) => fn(param));
