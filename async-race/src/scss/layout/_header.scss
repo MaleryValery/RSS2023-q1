@@ -38,3 +38,56 @@
   color: #a78295;
   font-size: 3rem;
 }
+.header__text-wrappter {
+  display: flex;
+  gap: 8px;
+  align-items: start;
+}
+.header__content-wrappter {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+}
+.header__year {
+  color: #efe1d1;
+}
+
+.header__link-scholl {
+  background-image: url(https://rs.school/images/partners/logo-rs.svg);
+  width: 3rem;
+  height: 3rem;
+  @media (max-width: 900px) {
+    width: 3rem;
+    height: 3rem;
+  }
+}
+.header__link-github {
+  background-image: url(https://static-00.iconduck.com/assets.00/github-icon-512x499-ziwq0a1i.png);
+  width: 3rem;
+  height: 2.2rem;
+  @media (max-width: 900px) {
+    width: 3rem;
+    height: 2.2rem;
+  }
+}
+.header__link-scholl,
+.header__link-github {
+  text-decoration: none;
+  display: block;
+  position: relative;
+  background-size: contain;
+  background-repeat: no-repeat;
+  transition: all 0.3s;
+}
+.header__link-scholl:hover,
+.header__link-github:hover {
+  transform: scale(1.1);
+}
+.header__link {
+  text-decoration: none;
+  color: inherit;
+}
+.header__link:hover {
+  text-decoration: underline;
+}

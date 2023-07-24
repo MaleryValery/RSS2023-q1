@@ -13,3 +13,32 @@
 .next-btn {
   margin-right: 2rem;
 }
+.winners-wrapper {
+  padding: 3rem 0;
+}
+
+.table-container {
+  color: #efe1d1;
+  width: 50%;
+}
+.table-row {
+  display: grid;
+  gap: 1.5rem;
+  grid-template-columns: 30px 30px 60px 50px 50px;
+}
+.table-img-winner svg {
+  width: 2rem;
+  height: 2rem;
+}
+.wrapper-page_controller {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  padding-bottom: 1rem;
+}
+.wrapper-page_controller .subtitle-page {
+  padding: 0;
+}
+.win-page-btn {
+  align-self: center;
+}

@@ -10,13 +10,12 @@
   gap: 1rem;
 }
 .btn {
-  min-width: 80px;
   background-color: #efe1d1;
   color: #a78295;
   border: 1px solid #efe1d1;
-  font-size: 1.6rem;
+  font-size: 1.4rem;
   border-radius: 5px;
-  padding: 0.5rem 1.5rem;
+  padding: 0.4rem 1rem;
   transition: all 0.3s;
   cursor: pointer;
 }
@@ -42,14 +41,11 @@
 //#EFE1D1
 .car-img-box svg {
   text-align: left;
-  width: 100px;
-  height: 100px;
-}
-.car-img-box {
+  width: 70px;
+  height: 40px;
   transform: scale(-1, 1);
-  width: 100px;
-  height: 100px;
 }
+
 .race-container {
   display: flex;
   justify-content: space-between;
@@ -63,4 +59,26 @@
   height: 50px;
   background-size: cover;
   margin-right: 8rem;
+  z-index: 3;
+}
+.show {
+  opacity: 1;
+}
+.show {
+  opacity: 0;
+}
+.controllers-wrapper {
+  display: flex;
+  flex-direction: column;
+  width: 40%;
+  gap: 0.5rem;
+  padding-bottom: 1rem;
+}
+.page-wrapper {
+  display: flex;
+  gap: 2rem;
+  align-items: center;
+}
+.page-wrapper .subtitle-page {
+  padding: 0;
 }
