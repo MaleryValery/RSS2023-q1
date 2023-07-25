@@ -1,4 +1,4 @@
-import { Car, IPathPagination, Winner } from './utils/types';
+import { Car, IPathPagination, SortOrderWinner, SortWinner, Winner } from './utils/types';
 import { RouteElement } from './routes/route';
 import { ApiWinnersService } from './api/apiWinnersService';
 import { EventEmitter } from './emitter';
@@ -129,6 +129,8 @@ export class Winners extends RouteElement {
     this.tableContainer.append(this.winTableHead);
     this.winTableHead.append(this.idWin, this.carImgWin, this.carNameWin, this.numbnerWins, this.timeWin);
 
+    this.numbnerWins.addEventListener('click', this.sortByQtyWins.bind(this));
+    this.timeWin.addEventListener('click', this.sortByTime.bind(this));
     this.nextBtn.addEventListener('click', this.nextPage.bind(this));
     this.prevBtn.addEventListener('click', this.prevPage.bind(this));
   }
@@ -205,6 +207,42 @@ export class Winners extends RouteElement {
       this.getWinnersQty();
       this.contentTable.innerHTML = '';
       this.getAllWinnersPagination(this.currentWinnerPage);
+    }
+  }
+
+  private async sortByQtyWins(): Promise<void> {
+    try {
+      if (this.numbnerWins.textContent === 'Wins ⬇️') {
+        const sorted = await ApiWinnersService.sortWin(SortWinner.wins, SortOrderWinner.DESC);
+        this.numbnerWins.textContent = 'Wins ⬆️';
+        this.contentTable.innerHTML = '';
+        this.renderWinner(sorted);
+      } else {
+        const sorted = await ApiWinnersService.sortWin(SortWinner.wins, SortOrderWinner.ASC);
+        this.numbnerWins.textContent = 'Wins ⬇️';
+        this.contentTable.innerHTML = '';
+        this.renderWinner(sorted);
+      }
+    } catch {
+      console.log('cannot sort winners😯');
+    }
+  }
+
+  private async sortByTime(): Promise<void> {
+    try {
+      if (this.timeWin.textContent === 'BestTime ⬇️') {
+        const sorted = await ApiWinnersService.sortWin(SortWinner.time, SortOrderWinner.DESC);
+        this.timeWin.textContent = 'BestTime ⬆️';
+        this.contentTable.innerHTML = '';
+        this.renderWinner(sorted);
+      } else {
+        const sorted = await ApiWinnersService.sortWin(SortWinner.wins, SortOrderWinner.ASC);
+        this.timeWin.textContent = 'BestTime ⬇️';
+        this.contentTable.innerHTML = '';
+        this.renderWinner(sorted);
+      }
+    } catch {
+      console.log('cannot sort winners 😯');
     }
   }
 }

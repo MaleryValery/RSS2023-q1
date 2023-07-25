@@ -42,4 +42,8 @@ export class ApiService {
   public static runEngine<T>(element: string): Promise<T> {
     return this.fetchRequest(element, 'PATCH');
   }
+
+  public static sort<T>(element: string): Promise<T> {
+    return this.fetchRequest(element, 'GET');
+  }
 }

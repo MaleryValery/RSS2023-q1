@@ -27,6 +27,6 @@ export class ApiWinnersService {
   }
 
   public static sortWin(typeSort: SortWinner, order: SortOrderWinner): Promise<Winner[]> {
-    return ApiService.runEngine(`${Path.winners}?_sort=${typeSort}&_order=${order}`);
+    return ApiService.sort(`${Path.winners}?_sort=${typeSort}&_order=${order}`);
   }
 }
