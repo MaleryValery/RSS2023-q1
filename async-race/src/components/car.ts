@@ -279,10 +279,10 @@ export class Cars extends View {
       const currentCar = await CarsApiService.getCar(id);
       const imgCar = document.getElementById(`${id}`)?.children[0].children[1].childNodes[1] as HTMLElement;
       const changeToStart = await CarsApiService.onEnginCar(id, Engine.started);
-      const currentWith = window.screen.width;
+      if (!event) this.disableButtons();
       const flagDist = window.screen.width - this.flagImg.offsetLeft + this.flagImg.offsetWidth;
       let leftDist = this.carImgBox.offsetLeft - this.carImgBox.offsetWidth + 5;
-      const fullDis = currentWith - leftDist - flagDist;
+      const fullDis = window.screen.width - leftDist - flagDist;
       const partDis = (fullDis - leftDist) / (((changeToStart.velocity * 50) / 1000) * 60);
       this.emitter.subscribe('onStopCar', () => clearInterval(intervalAnim));
       intervalAnim = setInterval(() => {
@@ -314,7 +314,13 @@ export class Cars extends View {
 
   private async stopOneEngin(event?: Event, idCar?: number): Promise<void> {
     try {
+      this.activeteButtons();
       const id = event ? this.getIdCar(event) : (idCar as number);
+      const startRaceBtn = document.querySelector('.start-race-btn') as HTMLButtonElement;
+      this.startCar.disabled = false;
+      if (startRaceBtn) startRaceBtn.disabled = false;
+      startRaceBtn.classList.remove('disabled');
+      this.startCar.classList.remove('disabled');
       await CarsApiService.onEnginCar(id, Engine.stopped);
       this.emitter.onEmit('onStopCar');
       const imgCar = document.getElementById(`${id}`)?.children[0].children[1].childNodes[1] as HTMLElement;
@@ -333,6 +339,7 @@ export class Cars extends View {
 
   private async startRace(): Promise<void> {
     try {
+      this.disableButtons();
       const winners: Response[] = [];
       const currentPageCars = await CarsApiService.getPagination(this.currentPage, limit);
 
@@ -349,8 +356,8 @@ export class Cars extends View {
   private async stopRace(): Promise<void> {
     try {
       const currentPageCars = await CarsApiService.getPagination(this.currentPage, limit);
-
       currentPageCars.forEach((car) => this.stopOneEngin(undefined, car.id));
+      this.activeteButtons();
     } catch {
       console.log('🤓 i was trying to stop rase');
     }
@@ -400,5 +407,29 @@ export class Cars extends View {
         document.body.removeChild(overlay);
       } else clearInterval(showPopup);
     }, 3000);
+  }
+
+  private disableButtons(): void {
+    const startRaceBtn = document.querySelector('.start-race-btn') as HTMLButtonElement;
+    const startEngineBtns = [...document.querySelectorAll('.start-btn')] as HTMLButtonElement[];
+    startEngineBtns.forEach((btn) => {
+      // eslint-disable-next-line no-param-reassign
+      btn.disabled = true;
+      btn.classList.add('disabled');
+    });
+    if (startRaceBtn) startRaceBtn.disabled = true;
+    startRaceBtn.classList.add('disabled');
+  }
+
+  private activeteButtons(): void {
+    const startRaceBtn = document.querySelector('.start-race-btn') as HTMLButtonElement;
+    const startEngineBtns = [...document.querySelectorAll('.start-btn')] as HTMLButtonElement[];
+    startEngineBtns.forEach((btn) => {
+      // eslint-disable-next-line no-param-reassign
+      btn.disabled = false;
+      btn.classList.remove('disabled');
+    });
+    if (startRaceBtn) startRaceBtn.disabled = false;
+    startRaceBtn.classList.remove('disabled');
   }
 }
