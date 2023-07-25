@@ -42,3 +42,18 @@
 .win-page-btn {
   align-self: center;
 }
+
+.disabled {
+  color: aliceblue;
+  background-color: #aaa;
+  border: 1px solid #aaa;
+}
+.btn.disabled:hover {
+  cursor: not-allowed;
+  background-color: #aaa;
+  border: 1px solid #aaa;
+}
+.btn.disabled:active {
+  cursor: not-allowed;
+  transform: scale(1);
+}

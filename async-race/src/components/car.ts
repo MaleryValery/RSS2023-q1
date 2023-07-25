@@ -95,8 +95,6 @@ export class Cars extends View {
 
   private winnerTime!: number;
 
-  // private dataCars!: Car[];
-
   constructor(protected emitter: EventEmitter) {
     super(emitter);
     this.getCars(this.currentPage);
@@ -369,6 +367,7 @@ export class Cars extends View {
           name: nameCar,
           wins: checkWinner.wins,
           time: checkWinner.time,
+          color: checkWinner.color,
         };
         await ApiWinnersService.updateWin(carId, updateWin, { 'Content-Type': 'application/json' });
       } else {

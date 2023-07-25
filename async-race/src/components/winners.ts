@@ -189,6 +189,10 @@ export class Winners extends RouteElement {
 
   private onSubWin(): void {
     this.emitter.subscribe('onRemove', (car: Car) => this.onRemoveWin(car));
+    this.emitter.subscribe('renderWinners', () => {
+      this.contentTable.innerHTML = '';
+      this.getAllWinnersPagination(this.currentWinnerPage);
+    });
   }
 
   private async onRemoveWin(car: Car): Promise<void> {
