@@ -179,8 +179,6 @@ export class Winners extends RouteElement {
   private async prevPage(): Promise<void> {
     const minPage = 1;
     if (this.currentWinnerPage > minPage) {
-      this.prevBtn.disabled = false;
-      this.nextBtn.disabled = false;
       this.currentWinnerPage -= 1;
       localStorage.setItem('currentPageWinner', String(this.currentWinnerPage));
       this.pageNumbers.textContent = String(this.currentWinnerPage);
@@ -213,12 +211,22 @@ export class Winners extends RouteElement {
   private async sortByQtyWins(): Promise<void> {
     try {
       if (this.numbnerWins.textContent === 'Wins ⬇️') {
-        const sorted = await ApiWinnersService.sortWin(SortWinner.wins, SortOrderWinner.DESC);
+        const sorted = await ApiWinnersService.sortWin(
+          this.currentWinnerPage,
+          limit,
+          SortWinner.wins,
+          SortOrderWinner.DESC,
+        );
         this.numbnerWins.textContent = 'Wins ⬆️';
         this.contentTable.innerHTML = '';
         this.renderWinner(sorted);
       } else {
-        const sorted = await ApiWinnersService.sortWin(SortWinner.wins, SortOrderWinner.ASC);
+        const sorted = await ApiWinnersService.sortWin(
+          this.currentWinnerPage,
+          limit,
+          SortWinner.wins,
+          SortOrderWinner.ASC,
+        );
         this.numbnerWins.textContent = 'Wins ⬇️';
         this.contentTable.innerHTML = '';
         this.renderWinner(sorted);
@@ -231,12 +239,22 @@ export class Winners extends RouteElement {
   private async sortByTime(): Promise<void> {
     try {
       if (this.timeWin.textContent === 'BestTime ⬇️') {
-        const sorted = await ApiWinnersService.sortWin(SortWinner.time, SortOrderWinner.DESC);
+        const sorted = await ApiWinnersService.sortWin(
+          this.currentWinnerPage,
+          limit,
+          SortWinner.time,
+          SortOrderWinner.DESC,
+        );
         this.timeWin.textContent = 'BestTime ⬆️';
         this.contentTable.innerHTML = '';
         this.renderWinner(sorted);
       } else {
-        const sorted = await ApiWinnersService.sortWin(SortWinner.wins, SortOrderWinner.ASC);
+        const sorted = await ApiWinnersService.sortWin(
+          this.currentWinnerPage,
+          limit,
+          SortWinner.time,
+          SortOrderWinner.ASC,
+        );
         this.timeWin.textContent = 'BestTime ⬇️';
         this.contentTable.innerHTML = '';
         this.renderWinner(sorted);

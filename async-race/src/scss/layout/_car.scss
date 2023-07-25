@@ -43,17 +43,18 @@
 //#3F2E3E
 //#A78295
 //#EFE1D1
-.disabled {
+
+.engine-btn.disabled {
   color: aliceblue;
   background-color: #aaa;
   border: 1px solid #aaa;
 }
-.btn.disabled:hover {
+.engine-btn.disabled:hover {
   cursor: not-allowed;
   background-color: #aaa;
   border: 1px solid #aaa;
 }
-.btn.disabled:active {
+.engine-btn.disabled:active {
   cursor: not-allowed;
   transform: scale(1);
 }

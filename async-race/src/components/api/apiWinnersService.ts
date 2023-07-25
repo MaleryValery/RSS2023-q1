@@ -26,7 +26,14 @@ export class ApiWinnersService {
     return ApiService.getPages(`${Path.winners}?_page=${value}&${limit.key}=${limit.value}`);
   }
 
-  public static sortWin(typeSort: SortWinner, order: SortOrderWinner): Promise<Winner[]> {
-    return ApiService.sort(`${Path.winners}?_sort=${typeSort}&_order=${order}`);
+  public static sortWin(
+    value: number,
+    limit: IPathPagination,
+    typeSort: SortWinner,
+    order: SortOrderWinner,
+  ): Promise<Winner[]> {
+    return ApiService.sort(
+      `${Path.winners}?_page=${value}&${limit.key}=${limit.value}&_sort=${typeSort}&_order=${order}`,
+    );
   }
 }
