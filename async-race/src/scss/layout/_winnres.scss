@@ -46,12 +46,12 @@
 .disabled {
   color: aliceblue;
   background-color: #aaa;
-  border: 1px solid #aaa;
+  border: none;
 }
 .btn.disabled:hover {
   cursor: not-allowed;
   background-color: #aaa;
-  border: 1px solid #aaa;
+  border: none;
 }
 .btn.disabled:active {
   cursor: not-allowed;

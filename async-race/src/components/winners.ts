@@ -142,15 +142,17 @@ export class Winners extends RouteElement {
       this.dataWinners = await ApiWinnersService.getPagination(this.currentWinnerPage, limit);
     }
     this.pageNumbers.textContent = String(this.currentWinnerPage);
+
     this.renderWinner(this.dataWinners);
   }
 
   private renderWinner(winnerList: Winner[]): void {
     this.contentTable = super.renderElement('div', 'table-content');
+    this.contentTable.innerHTML = '';
     this.tableContainer.append(this.contentTable);
-    winnerList.forEach((winner) => {
+    winnerList.forEach((winner, i) => {
       const winTableHead = super.renderElement('div', 'table-head table-row');
-      const idWin = super.renderElement('span', 'table-id-winner', { textContent: winner.id });
+      const idWin = super.renderElement('span', 'table-id-winner', { textContent: `${i + 1}` });
       const carImgWin = super.renderElement('span', 'table-img-winner', { textContent: winner.color });
       const carNameWin = super.renderElement('span', 'table-name-winner', { textContent: winner.name });
       const numbnerWins = super.renderElement('span', 'table-numbers-wins', { textContent: winner.wins });

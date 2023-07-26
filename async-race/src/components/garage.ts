@@ -74,10 +74,10 @@ export class Garage extends RouteElement {
     }
   }
 
-  private disabledUpdate(value: boolean): void {
-    this.updateInput.disabled = value;
-    this.updatePicker.disabled = value;
-    this.updateBtn.disabled = value;
+  private disabledUpdate(isDisable: boolean): void {
+    this.updateInput.disabled = isDisable;
+    this.updatePicker.disabled = isDisable;
+    this.updateBtn.disabled = isDisable;
   }
 
   private async getUpdatedCar(): Promise<void> {
@@ -87,10 +87,11 @@ export class Garage extends RouteElement {
         name: this.updateInput.value,
         color: this.updatePicker.value,
       };
-      await CarsApiService.updateCar(id, newCar, { 'Content-Type': 'application/json' });
 
-      const updatedCar = await CarsApiService.getCar(id);
+      const updatedCar = await CarsApiService.updateCar(id, newCar, { 'Content-Type': 'application/json' });
       if (updatedCar.id) this.emitter.onEmit('onUpdateCar', updatedCar);
+      this.emitter.onEmit('onUpdateWinner', updatedCar);
+
       this.updateInput.value = '';
       this.updatePicker.value = '#000000';
       this.disabledUpdate(true);
@@ -128,7 +129,6 @@ export class Garage extends RouteElement {
       });
       console.log(arr, lengthBefore);
       const createdCar = await CarsApiService.getAllCars();
-      // this.carsNumbers.textContent = `Garage${createdCar.length}`;
       this.emitter.onEmit('onCreatedCar', createdCar.slice(lengthBefore + 1));
     } catch {
       console.log('🫠 cannot generate cars');

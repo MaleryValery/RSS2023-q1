@@ -156,7 +156,10 @@ export class Cars extends View {
         this.startCar = super.renderElement('button', 'start-btn engine-btn', {
           textContent: 'A',
         }) as HTMLButtonElement;
-        this.stopCar = super.renderElement('button', 'stop-btn engine-btn', { textContent: 'B' }) as HTMLButtonElement;
+        this.stopCar = super.renderElement('button', 'stop-btn engine-btn disabled', {
+          textContent: 'B',
+        }) as HTMLButtonElement;
+        this.stopCar.disabled = true;
         this.carName = super.renderElement('h5', 'car-name', { textContent: car.name });
         this.carImgBox = super.renderElement('div', 'car-img-box');
 
@@ -271,32 +274,64 @@ export class Cars extends View {
     }
   }
 
-  private async startOneEngin(event?: Event, idCar?: number): Promise<Response> {
+  // eslint-disable-next-line max-lines-per-function
+  private async startOneEngin(event: Event): Promise<Response> {
     let intervalAnim: string | number | NodeJS.Timer | undefined;
     try {
-      const id = event ? this.getIdCar(event) : (idCar as number);
+      const id = this.getIdCar(event);
+      const imgCar = document.getElementById(`${id}`)?.children[0].children[1].childNodes[1] as HTMLElement;
+      const changeToStart = await CarsApiService.onEnginCar(id, Engine.started);
+      const targetBtn = event.target as HTMLButtonElement;
+      this.disableOneButton(targetBtn);
+      const flagDist = window.screen.width - this.flagImg.offsetLeft + this.flagImg.offsetWidth;
+      let leftDist = this.carImgBox.offsetLeft - this.carImgBox.offsetWidth + 5;
+      const fullDis = window.screen.width - leftDist - flagDist; //
+      const partDis = (fullDis - leftDist) / (((changeToStart.velocity * 50) / 1000) * 60);
+      this.emitter.subscribe('onStopCar', () => clearInterval(intervalAnim));
+      intervalAnim = setInterval(() => {
+        leftDist += partDis;
+        if (leftDist >= fullDis) {
+          // this.emitter.subscribe('onStopCar', () => clearInterval(intervalAnim));
+          clearInterval(intervalAnim);
+        }
+        imgCar.style.transform = `translateX(${leftDist}px)`;
+      }, 16);
+      const runCar = fetch(`http://127.0.0.1:3000/engine?id=${id}&status=drive`, { method: 'PATCH' });
+      runCar.then((res) => res.json()).catch((error) => new Error(error));
+      const runStatus = (await runCar).status;
+      if (runStatus !== 200) clearInterval(intervalAnim);
+      return await runCar;
+    } catch (error) {
+      clearInterval(intervalAnim);
+      throw new Error('💥 Engine is broken');
+    }
+  }
+
+  private async startRaceEngin(idCar: number): Promise<Response> {
+    let intervalAnim: string | number | NodeJS.Timer | undefined;
+    try {
+      const id = idCar;
       const start = Date.now();
       const currentCar = await CarsApiService.getCar(id);
       const imgCar = document.getElementById(`${id}`)?.children[0].children[1].childNodes[1] as HTMLElement;
       const changeToStart = await CarsApiService.onEnginCar(id, Engine.started);
-      if (!event) this.disableButtons();
+      this.disableButtons();
       const flagDist = window.screen.width - this.flagImg.offsetLeft + this.flagImg.offsetWidth;
       let leftDist = this.carImgBox.offsetLeft - this.carImgBox.offsetWidth + 5;
-      const fullDis = window.screen.width - leftDist - flagDist;
+      const fullDis = window.screen.width - leftDist - flagDist; //
       const partDis = (fullDis - leftDist) / (((changeToStart.velocity * 50) / 1000) * 60);
       this.emitter.subscribe('onStopCar', () => clearInterval(intervalAnim));
       intervalAnim = setInterval(() => {
         leftDist += partDis;
         if (leftDist >= fullDis) {
           const end = Date.now();
-          this.emitter.subscribe('onStopCar', () => clearInterval(intervalAnim));
+          // this.emitter.subscribe('onStopCar', () => clearInterval(intervalAnim));
           clearInterval(intervalAnim);
-          if (!event) {
-            if (!this.winnerTime) {
-              this.winnerTime = +((end - start) / 1000).toFixed(2);
-              this.addWinner(id, this.winnerTime, currentCar.color, currentCar.name);
-              this.showWinMessage(id, currentCar.name, this.winnerTime);
-            }
+
+          if (!this.winnerTime) {
+            this.winnerTime = +((end - start) / 1000).toFixed(2);
+            this.addWinner(id, this.winnerTime, currentCar.color, currentCar.name);
+            this.showWinMessage(id, currentCar.name, this.winnerTime);
           }
         }
         imgCar.style.transform = `translateX(${leftDist}px)`;
@@ -314,19 +349,28 @@ export class Cars extends View {
 
   private async stopOneEngin(event?: Event, idCar?: number): Promise<void> {
     try {
-      this.activeteButtons();
       const id = event ? this.getIdCar(event) : (idCar as number);
-      const startRaceBtn = document.querySelector('.start-race-btn') as HTMLButtonElement;
-      this.startCar.disabled = false;
-      if (startRaceBtn) startRaceBtn.disabled = false;
-      startRaceBtn.classList.remove('disabled');
-      this.startCar.classList.remove('disabled');
       await CarsApiService.onEnginCar(id, Engine.stopped);
       this.emitter.onEmit('onStopCar');
       const imgCar = document.getElementById(`${id}`)?.children[0].children[1].childNodes[1] as HTMLElement;
       imgCar.style.transform = 'translateX(0px)';
+      const startRaceBtn = document.querySelector('.start-race-btn') as HTMLButtonElement;
+      const currStopBtn = event?.target as HTMLButtonElement;
+      const currStartBtn = currStopBtn.previousElementSibling as HTMLButtonElement;
+      currStartBtn.disabled = false;
+      if (startRaceBtn) startRaceBtn.disabled = false;
+      startRaceBtn.classList.remove('disabled');
+      currStartBtn.classList.remove('disabled');
+
+      const stopButton = event?.target as HTMLButtonElement;
+      stopButton.disabled = true;
+      stopButton.classList.add('disabled');
+      // const stopBtn = btn.nextElementSibling as HTMLButtonElement;
+      // console.log(stopBtn, btn);
+      // stopBtn.disabled = false;
+      // stopBtn.classList.remove('disabled');
     } catch {
-      console.log('🤓 i was trying to stop car');
+      // console.log('🤓 i was trying to stop car');
     }
   }
 
@@ -344,7 +388,7 @@ export class Cars extends View {
       const currentPageCars = await CarsApiService.getPagination(this.currentPage, limit);
 
       currentPageCars.forEach(async (car) => {
-        const raceCar = await this.startOneEngin(undefined, car.id);
+        const raceCar = await this.startRaceEngin(car.id);
         if (raceCar.status === 200) winners.push(raceCar);
       });
       this.winnerTime = 0;
@@ -394,19 +438,23 @@ export class Cars extends View {
   }
 
   private showWinMessage(id: number, name: string, time: number): void {
-    const popUpWrapper = super.renderElement('div', 'popup-wrapper');
-    const overlay = super.renderElement('div', 'overlay');
-    const messageText = super.renderElement('div', 'win-message', {
-      textContent: `Car id#${id} ${name} is win with time ${time}s`,
-    });
-    document.body.append(overlay);
-    overlay.append(popUpWrapper);
-    popUpWrapper.append(messageText);
-    const showPopup = setInterval(() => {
-      if (document.querySelector('.overlay')) {
-        document.body.removeChild(overlay);
-      } else clearInterval(showPopup);
-    }, 3000);
+    try {
+      const popUpWrapper = super.renderElement('div', 'popup-wrapper');
+      const overlay = super.renderElement('div', 'overlay');
+      const messageText = super.renderElement('div', 'win-message', {
+        textContent: `Car id#${id} ${name} is win with time ${time}s`,
+      });
+      document.body.append(overlay);
+      overlay.append(popUpWrapper);
+      popUpWrapper.append(messageText);
+      const showPopup = setInterval(() => {
+        if (document.querySelector('.overlay')) {
+          document.body.removeChild(overlay);
+        } else clearInterval(showPopup);
+      }, 3000);
+    } catch {
+      console.log('trysing to delete popup🌚');
+    }
   }
 
   private disableButtons(): void {
@@ -431,5 +479,16 @@ export class Cars extends View {
     });
     if (startRaceBtn) startRaceBtn.disabled = false;
     startRaceBtn.classList.remove('disabled');
+  }
+
+  private disableOneButton(btn: HTMLButtonElement): void {
+    // eslint-disable-next-line no-param-reassign
+    btn.disabled = true;
+    btn.classList.add('disabled');
+    const stopBtn = btn.nextElementSibling as HTMLButtonElement;
+    stopBtn.disabled = false;
+    stopBtn.classList.remove('disabled');
+    const startRaceBtn = document.querySelector('.start-race-btn') as HTMLButtonElement;
+    startRaceBtn.classList.add('disabled');
   }
 }
