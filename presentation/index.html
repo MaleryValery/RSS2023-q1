@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+    <title>reveal.js</title>
+
+    <link rel="stylesheet" href="dist/reset.css" />
+    <link rel="stylesheet" href="dist/reveal.css" />
+    <link rel="stylesheet" href="dist/theme/simple.css" />
+
+    <!-- Theme used for syntax highlighted code -->
+    <link rel="stylesheet" href="plugin/highlight/material-palenight.css" />
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides">
+        <section>
+          <h2>TypeScript - Introduction</h2>
+          <h3>A Superset of JavaScript for Strong Typing</h3>
+        </section>
+        <section>
+          <h3>What is TypeScript?</h3>
+          <ul>
+            <li>TypeScript is a programming language developed by Microsoft</li>
+            <li>It is an open-source superset of JavaScript</li>
+            <li>TypeScript adds static typing</li>
+            <li>
+              Additional features like interfaces, classes, enums, and generics enhance code organization and
+              maintainability.
+            </li>
+          </ul>
+        </section>
+        <section><h3>Advantages of TypeScript</h3></section>
+        <section>
+          <h3>IDE Support</h3>
+          <ul>
+            <li>TypeScript is designed to integrate seamlessly with modern IDEs.</li>
+            <li>Popular editors like Visual Studio Code provide real-time error highlighting.</li>
+            <li>Developers can navigate code more efficiently and benefit from TypeScript's tooling.</li>
+          </ul>
+        </section>
+        <section>
+          <section>
+            <h3>Static Typing</h3>
+            <ul>
+              <li>
+                TypeScript's static typing brings a new level of type safety to JavaScript, catching errors at compile
+                time instead of runtime.
+              </li>
+              <li>This reduces the risk of type-related bugs, making code more robust and reliable in the long run.</li>
+              <li>Early detection of type errors simplifies debugging and results in more stable applications.</li>
+            </ul>
+          </section>
+          <section>
+            <h3>Static Typing</h3>
+            <pre><code data-trim data-noescape>
+              // JavaScript
+              function greet(name) {
+                return "Hello, " + name;
+              }
+              
+              // TypeScript
+              function greet(name: string): string {
+                return "Hello, " + name;
+              }
+            </code></pre>
+          </section>
+        </section>
+        <section>
+          <h3>Type Inference</h3>
+          <ul>
+            <li>TypeScript can infer types based on the context, reducing the need for explicit annotations.</li>
+            <li>This makes code more concise and readable.</li>
+          </ul>
+
+          <pre><code data-trim data-noescape data-line-numbers="2,5-6">
+              /* TypeScript infers the variable type as number */
+              let age = 25;
+              
+              /* TypeScript infers the return type as boolean */
+              function isAdult(age: number) {
+                return age >= 18;
+              }
+            </code></pre>
+        </section>
+        <section>
+          <h3>Interfaces</h3>
+          <ul>
+            <li>Interfaces define the structure of objects.</li>
+            <li>Enforce consistent shapes across your codebase.</li>
+          </ul>
+          <pre><code data-trim data-noescape>
+            interface Person {
+              name: string;
+              age: number;
+            }
+            
+            function displayPerson(person: Person) {
+              console.log(person.name + " is " + person.age + " years old.");
+            }
+            </code></pre>
+        </section>
+        <section>
+          <h3>Enums</h3>
+          <ul>
+            <li>Enums define a set of named constants, giving more meaning to values.</li>
+          </ul>
+
+          <pre><code data-trim data-noescape>
+            enum Color {
+              Red,
+              Green,
+              Blue,
+            }
+            
+            let bgColor: Color = Color.Blue;
+            </code></pre>
+        </section>
+        <section>
+          <section>
+            <h3>Classes</h3>
+            <ul>
+              <li>TypeScript supports object-oriented programming with classes.</li>
+            </ul>
+            <pre><code data-trim data-noescape>
+              class Animal {
+                constructor(public name: string) {}
+                makeSound() {
+                  console.log("Animal makes a sound.");
+                }
+              }
+              
+              class Dog extends Animal {
+                makeSound() {
+                  console.log("Dog barks 🐶");
+                }
+              }
+              
+              const dog = new Dog("Buddy");
+              dog.makeSound(); // Output: Dog barks  🐶
+              </code></pre>
+          </section>
+          <section>
+            <h3>Abstract Classes</h3>
+            <ul>
+              <li>TypeScript allows defining abstract classes, which cannot be instantiated directly.</li>
+              <li>
+                Abstract classes serve as a blueprint for other classes and may include abstract methods, which must be
+                implemented in the derived classes.
+              </li>
+            </ul>
+            <pre><code data-trim data-noescape>
+              // Abstract class 'Shape'
+              abstract class Shape {
+                abstract calculateArea(): number; // Abstract method, no implementation
+
+                printArea(): void {
+                  console.log('Area:', this.calculateArea());
+                }
+              }
+
+              // Derived class 'Circle'
+              class Circle extends Shape {
+                constructor(private radius: number) {
+                  super(); // Call to the constructor of the base class 'Shape'
+                }
+
+                calculateArea(): number {
+                  return Math.PI * this.radius * this.radius;
+                }
+              }
+
+              // Derived class 'Rectangle'
+              class Rectangle extends Shape {
+                constructor(private width: number, private height: number) {
+                  super(); // Call to the constructor of the base class 'Shape'
+                }
+
+                calculateArea(): number {
+                  return this.width * this.height;
+                }
+              }
+
+              // Usage of classes
+              const circle = new Circle(5);
+              const rectangle = new Rectangle(4, 6);
+
+              circle.printArea(); // Output: Area: 78.53981633974483
+              rectangle.printArea(); // Output: Area: 24
+              </code></pre>
+          </section>
+          <section>
+            <h3>Static Classes and Methods</h3>
+            <ul>
+              <li>TypeScript supports static classes and methods that belong to the class rather than instances.</li>
+              <li>Static methods are invoked directly on the class without creating instances.</li>
+            </ul>
+            <pre><code data-trim data-noescape>
+              // Static class 'MathUtility'
+              class MathUtility {
+                static add(a: number, b: number): number {
+                  return a + b;
+                }
+
+                static multiply(a: number, b: number): number {
+                  return a * b;
+                }
+              }
+
+              // Usage of static methods
+              const sum = MathUtility.add(10, 20); // sum = 30
+              const product = MathUtility.multiply(5, 8); // product = 40
+            </code></pre>
+          </section>
+          <section>
+            <h3>Public, Protected, and Private Members</h3>
+            <ul>
+              <li>
+                TypeScript supports access modifiers for class members, controlling their visibility and accessibility.
+              </li>
+            </ul>
+          </section>
+          <section>
+            <h3>Public Members</h3>
+            <ul>
+              <li>Public members are accessible from anywhere, both within and outside the class.</li>
+              <li>By default, all class members are public if no access modifier is specified.</li>
+            </ul>
+            <pre><code data-trim data-noescape>
+              class Car {
+                public brand: string; // Public field
+              
+                constructor(brand: string) {
+                  this.brand = brand;
+                }
+              
+                public startEngine(): void { // Public method
+                  console.log(this.brand + ' engine started.');
+                }
+              }
+              
+              const myCar = new Car('Toyota');
+              console.log(myCar.brand); // Output: Toyota
+              myCar.startEngine(); // Output: Toyota engine started.
+            </code></pre>
+          </section>
+          <section>
+            <h3>Protected Members</h3>
+            <ul>
+              <li>Protected members are accessible within the class and its subclasses.</li>
+              <li>They cannot be accessed from outside the class hierarchy.</li>
+            </ul>
+            <pre><code data-trim data-noescape>
+              class Vehicle {
+                protected wheels: number; // Protected field
+              
+                constructor(wheels: number) {
+                  this.wheels = wheels;
+                }
+              
+                protected honk(): void { // Protected method
+                  console.log('Honk!');
+                }
+              }
+              
+              class Car extends Vehicle {
+                constructor() {
+                  super(4);
+                }
+              
+                public displayWheels(): void {
+                  console.log('Number of wheels:', this.wheels); // Accessing protected member in a derived class
+                }
+              }
+              
+              const myCar = new Car();
+              myCar.displayWheels(); // Output: Number of wheels: 4
+            </code></pre>
+          </section>
+          <section>
+            <h3>Private Members</h3>
+            <ul>
+              <li>Private members are accessible only within the class where they are defined.</li>
+              <li>They are not accessible outside the class, including in its derived classes.</li>
+            </ul>
+            <pre><code data-trim data-noescape>
+              class Person {
+                private name: string; // Private field
+              
+                constructor(name: string) {
+                  this.name = name;
+                }
+              
+                private greet(): void { // Private method
+                  console.log('Hello, my name is ' + this.name);
+                }
+              }
+              
+              const person = new Person('Alice');
+              console.log(person.name); // Error: Property 'name' is private and only accessible within class 'Person'
+              person.greet(); // Error: Property 'greet' is private and only accessible within class 'Person'
+            </code></pre>
+          </section>
+        </section>
+        <section>
+          <h3>Generics</h3>
+          <ul>
+            <li>Generics allow writing flexible and reusable code.</li>
+          </ul>
+          <pre><code data-trim data-noescape data-line-numbers="1-7">
+            function reverse&lt;T&gt;(arr: T[]): T[] {
+              return arr.reverse();
+            }
+
+            let numbers = [1, 2, 3, 4];
+            let reversedNumbers = reverse(numbers); 
+            /* Output: [4, 3, 2, 1] */
+            </code></pre>
+        </section>
+        <section>
+          <h3>Conclusion</h3>
+          <ul>
+            <li>TypeScript offers the benefits of static typing, better tooling, and enhanced code quality.</li>
+            <li>It's a great choice for large-scale projects and teams.</li>
+            <li>Embrace TypeScript to build safer and more maintainable JavaScript applications.</li>
+          </ul>
+        </section>
+      </div>
+    </div>
+
+    <script src="dist/reveal.js"></script>
+    <script src="plugin/notes/notes.js"></script>
+    <script src="plugin/markdown/markdown.js"></script>
+    <script src="plugin/highlight/highlight.js"></script>
+    <script>
+      // More info about initialization & config:
+      // - https://revealjs.com/initialization/
+      // - https://revealjs.com/config/
+      Reveal.initialize({
+        hash: true,
+
+        // Learn about plugins: https://revealjs.com/plugins/
+        plugins: [RevealMarkdown, RevealHighlight, RevealNotes],
+      });
+    </script>
+  </body>
+</html>
