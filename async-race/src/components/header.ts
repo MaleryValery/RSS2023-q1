@@ -5,9 +5,7 @@ export class Header extends View {
   private subtitle!: HTMLElement;
 
   private navElements: HTMLElement[] = [];
-  // private navBtnGarage!: HTMLElement;
 
-  // private navBtnWinners!: HTMLElement;
   private routes: Route[] = [
     { title: 'garage', url: 'garage' },
     { title: 'winners', url: 'winners' },
@@ -32,20 +30,20 @@ export class Header extends View {
       this.navElements.push(navLink);
       headerNav.append(navLink);
     });
-    this.onChangeRoute(this.routes[0]);
+    this.changeRoute(this.routes[0]);
 
-    headerNav.addEventListener('click', this.changeRoute.bind(this));
+    headerNav.addEventListener('click', this.onChangeRoute.bind(this));
   }
 
-  private onChangeRoute(route: Route): void {
+  private changeRoute(route: Route): void {
     this.subtitle.innerHTML = route.title;
     this.emitter.onEmit('routeChanged', route);
   }
 
-  private changeRoute(event: Event): void {
+  private onChangeRoute(event: Event): void {
     const targetLink = event.target as HTMLElement;
     const url = targetLink.getAttribute('url');
     const route = this.routes.find((link) => link.url === url);
-    if (route) this.onChangeRoute(route);
+    if (route) this.changeRoute(route);
   }
 }
