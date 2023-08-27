@@ -1,9 +1,7 @@
 import { Header } from './header';
 import { Garage } from './garage';
 import { Winners } from './winners';
-import { Cars } from './car';
 import { RouteElement } from './routes/route';
-
 import { View } from './view';
 import { Route } from './utils/types';
 
@@ -13,8 +11,6 @@ export class App extends View {
   private garage = new Garage(this.emitter);
 
   private winners = new Winners(this.emitter);
-
-  private cars = new Cars(this.emitter);
 
   private wrapper!: HTMLElement;
 
@@ -30,7 +26,6 @@ export class App extends View {
 
     parent.append(this.wrapper);
     this.garage.appendElement(this.wrapper);
-    this.cars.appendElement(this.garage.wrapper);
     this.emitter.subscribe('routeChanged', (route: Route) => this.onChangeRoute(route));
     this.header.appendElement(this.wrapper);
     this.winners.appendElement(this.wrapper);

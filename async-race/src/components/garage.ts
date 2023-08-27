@@ -3,9 +3,12 @@ import { RouteElement } from './routes/route';
 import { CarsApiService } from './api/apiCarService';
 import { createCarName, selectCarName } from './utils/carsBrand';
 import { setCarColor } from './utils/setColor';
+import { Cars } from './cars';
 
 export class Garage extends RouteElement {
   public url = 'garage';
+
+  private cars = new Cars(this.emitter);
 
   private createBtn!: HTMLElement;
 
@@ -17,139 +20,170 @@ export class Garage extends RouteElement {
 
   private generateBtn!: HTMLElement;
 
-  private createInput!: HTMLSelectElement;
+  private createNameInput!: HTMLSelectElement;
 
-  private updateInput!: HTMLInputElement;
+  private updateNameInput!: HTMLInputElement;
 
-  private createPicker!: HTMLInputElement;
+  private createColorPicker!: HTMLInputElement;
 
-  private updatePicker!: HTMLInputElement;
+  private updateColorPicker!: HTMLInputElement;
 
-  private currentUpdateCar!: Car;
+  private selectedCar!: Car;
 
   public async appendElement(parent: HTMLElement): Promise<void> {
     super.render(parent);
-    this.createBtn = super.renderElement('button', 'create-btn btn', { textContent: 'create' });
-    this.updateBtn = super.renderElement('button', 'update-btn btn', { textContent: 'update' }) as HTMLButtonElement;
-    this.createInput = super.renderElement('select', 'create-input input') as HTMLSelectElement;
+    this.wrapper.append(this.renderControllersWrapper());
+    this.cars.appendElement(this.wrapper);
+
     this.generateModels();
-    this.updateInput = super.renderElement('input', 'update-input input') as HTMLInputElement;
-    this.createPicker = super.renderElement('input', 'create-picker picker', { type: 'color' }) as HTMLInputElement;
-    this.updatePicker = super.renderElement('input', 'uodate-picker picker', { type: 'color' }) as HTMLInputElement;
+
+    this.subscribeGarage();
+    this.bindGarage();
+  }
+
+  private renderControllersWrapper(): HTMLElement {
+    const controllersWrapper = super.renderElement('div', 'controllers-wrapper');
+    controllersWrapper.append(
+      this.renderCreateContainer(),
+      this.renderUpdateContainer(),
+      this.renderControllerContainer(),
+    );
+    return controllersWrapper;
+  }
+
+  private renderCreateContainer(): HTMLElement {
+    const createContainer = super.renderElement('div', 'create-container garage-input-container');
+    this.createBtn = super.renderElement('button', 'create-btn btn', { textContent: 'create' });
+    this.createColorPicker = super.renderElement('input', 'create-picker picker', {
+      type: 'color',
+    }) as HTMLInputElement;
+    this.createNameInput = super.renderElement('select', 'create-input input') as HTMLSelectElement;
+    createContainer.append(this.createNameInput, this.createColorPicker, this.createBtn);
+    return createContainer;
+  }
+
+  private renderUpdateContainer(): HTMLElement {
+    const updateContainer = super.renderElement('div', 'update-container garage-input-container');
+    this.updateBtn = super.renderElement('button', 'update-btn btn', { textContent: 'update' }) as HTMLButtonElement;
+    this.updateNameInput = super.renderElement('input', 'update-input input') as HTMLInputElement;
+    this.updateColorPicker = super.renderElement('input', 'uodate-picker picker', {
+      type: 'color',
+    }) as HTMLInputElement;
+    this.updateNameInput.disabled = true;
+    this.updateColorPicker.disabled = true;
+    this.updateBtn.disabled = true;
+    updateContainer.append(this.updateNameInput, this.updateColorPicker, this.updateBtn);
+    return updateContainer;
+  }
+
+  private renderControllerContainer(): HTMLElement {
+    const controllersContainer = super.renderElement('div', 'controller-container garage-input-container');
     this.startBtn = super.renderElement('button', 'start-race-btn btn', { textContent: 'start' });
     this.stopBtn = super.renderElement('button', 'stop-btn btn', { textContent: 'stop' });
     this.generateBtn = super.renderElement('button', 'update-btn btn', { textContent: 'generate cars' });
-    const controllersWrapper = super.renderElement('div', 'controllers-wrapper');
-    const createContainer = super.renderElement('div', 'create-container garage-input-container');
-    const updateContainer = super.renderElement('div', 'update-container garage-input-container');
-    this.updateInput.disabled = true;
-    this.updatePicker.disabled = true;
-    this.updateBtn.disabled = true;
-    const controllersContainer = super.renderElement('div', 'controller-container garage-input-container');
-    this.wrapper.append(controllersWrapper);
-    controllersWrapper.append(createContainer, updateContainer, controllersContainer);
-    createContainer.append(this.createInput, this.createPicker, this.createBtn);
-    updateContainer.append(this.updateInput, this.updatePicker, this.updateBtn);
     controllersContainer.append(this.startBtn, this.stopBtn, this.generateBtn);
-    this.onUpdateNameCar();
+
+    return controllersContainer;
+  }
+
+  private bindGarage(): void {
     this.updateBtn.addEventListener('click', this.getUpdatedCar.bind(this));
     this.createBtn.addEventListener('click', this.onCreateCar.bind(this));
     this.generateBtn.addEventListener('click', this.onGenerateCars.bind(this));
     this.startBtn.addEventListener('click', this.startRace.bind(this));
     this.stopBtn.addEventListener('click', this.stopRace.bind(this));
-    this.emitter.subscribe('clearInputs', () => this.clearInputs());
   }
 
-  private onUpdateNameCar(): void {
+  private subscribeGarage(): void {
     this.emitter.subscribe('onSelectedCar', (car: Car) => this.updateCar(car));
+    this.emitter.subscribe('clearInputs', () => this.resetCreateForm());
   }
 
-  private updateCar(someCar: Car): void {
-    if (someCar) {
-      this.currentUpdateCar = someCar;
-      console.log('some', someCar);
-      this.updateInput.value = someCar.name;
-      this.updatePicker.value = someCar.color;
-      this.disabledUpdate(false);
+  private updateCar(car: Car): void {
+    if (car) {
+      this.selectedCar = car;
+      this.updateNameInput.value = car.name;
+      this.updateColorPicker.value = car.color;
+      this.disableUpdate(false);
     }
   }
 
-  private disabledUpdate(isDisable: boolean): void {
-    this.updateInput.disabled = isDisable;
-    this.updatePicker.disabled = isDisable;
-    this.updateBtn.disabled = isDisable;
+  private disableUpdate(isDisabled: boolean): void {
+    this.updateNameInput.disabled = isDisabled;
+    this.updateColorPicker.disabled = isDisabled;
+    this.updateBtn.disabled = isDisabled;
   }
 
   private async getUpdatedCar(): Promise<void> {
     try {
-      const { id } = this.currentUpdateCar;
+      const { id } = this.selectedCar;
       const newCar = {
-        name: this.updateInput.value,
-        color: this.updatePicker.value,
+        name: this.updateNameInput.value,
+        color: this.updateColorPicker.value,
       };
 
-      const updatedCar = await CarsApiService.updateCar(id, newCar, { 'Content-Type': 'application/json' });
+      const updatedCar = await CarsApiService.updateCar(id, newCar);
+
       if (updatedCar.id) this.emitter.onEmit('onUpdateCar', updatedCar);
       this.emitter.onEmit('onUpdateWinner', updatedCar);
 
-      this.updateInput.value = '';
-      this.updatePicker.value = '#000000';
-      this.disabledUpdate(true);
+      this.resetUpdateForm();
+      this.disableUpdate(true);
     } catch {
       console.log('car is not exist');
     }
   }
 
   private async onCreateCar(): Promise<void> {
-    const name = this.createInput.value ? this.createInput.value : createCarName();
-    const color = this.createPicker.value;
+    const name = this.createNameInput.value ? this.createNameInput.value : '';
+    const color = this.createColorPicker.value;
     const newCar = {
       name,
       color,
     };
-    const createdCar: Car = await CarsApiService.createCar(newCar, { 'Content-Type': 'application/json' });
+    const createdCar: Car = await CarsApiService.createCar(newCar);
 
     this.emitter.onEmit('onCreatedCar', createdCar);
-    this.createInput.value = '';
-    this.createPicker.value = '#000000';
+    this.resetCreateForm();
   }
 
   private async onGenerateCars(): Promise<void> {
     try {
-      const lengthBefore = (await CarsApiService.getAllCars()).length - 1;
-      const arr = new Array(100).fill('0').map(async () => {
-        const name = createCarName();
-        const color = setCarColor();
-        const newCar = {
-          name,
-          color,
-        };
-        await CarsApiService.createCar(newCar, { 'Content-Type': 'application/json' });
-        return newCar;
-      });
-      console.log(arr, lengthBefore);
-      const createdCar = await CarsApiService.getAllCars();
-      this.emitter.onEmit('onCreatedCar', createdCar.slice(lengthBefore + 1));
+      await Promise.all(
+        Array.from({ length: 100 }, () => {
+          const name = createCarName();
+          const color = setCarColor();
+          const newCar = {
+            name,
+            color,
+          };
+          return CarsApiService.createCar(newCar);
+        }),
+      );
+      const createdCars = await CarsApiService.getAllCars();
+      this.emitter.onEmit('onCreatedCar', createdCars);
     } catch {
       console.log('🫠 cannot generate cars');
     }
   }
 
-  private clearInputs(): void {
-    this.createInput.value = '';
-    this.createPicker.value = '#000000';
-    this.updateInput.value = '';
-    this.updatePicker.value = '#000000';
+  private resetCreateForm(): void {
+    this.createNameInput.value = '';
+    this.createColorPicker.value = '#000000';
+  }
+
+  private resetUpdateForm(): void {
+    this.updateNameInput.value = '';
+    this.updateColorPicker.value = '#000000';
   }
 
   private generateModels(): void {
     const carNames = selectCarName();
-    carNames.unshift('');
     carNames.forEach((name) => {
       const value = document.createElement('option');
       value.setAttribute('value', name);
       value.textContent = name;
-      this.createInput.append(value);
+      this.createNameInput.append(value);
     });
   }
 
