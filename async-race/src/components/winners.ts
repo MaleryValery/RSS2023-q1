@@ -1,4 +1,4 @@
-import { Car, IPathPagination, SortOrderWinner, SortWinner, Winner } from './utils/types';
+import { Car, SortOrderWinner, SortWinner, Winner } from './utils/types';
 import { RouteElement } from './routes/route';
 import { ApiWinnersService } from './api/apiWinnersService';
 import { EventEmitter } from './emitter';
@@ -48,10 +48,8 @@ const svgCar = `<svg version="1.0" xmlns="http://www.w3.org/2000/svg"
    </g>
    </svg>
    `;
-const limit: IPathPagination = {
-  key: '_limit',
-  value: 10,
-};
+const limit = 10;
+
 const startPage = 1;
 
 export class Winners extends RouteElement {
@@ -165,7 +163,7 @@ export class Winners extends RouteElement {
   }
 
   private async nextPage(): Promise<void> {
-    const maxPage = this.qtyWins / limit.value;
+    const maxPage = this.qtyWins / limit;
     if (this.currentWinnerPage < maxPage) {
       this.nextBtn.disabled = false;
       this.prevBtn.disabled = false;
