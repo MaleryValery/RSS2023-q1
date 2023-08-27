@@ -1,6 +1,6 @@
 /* eslint-disable no-undef */
 import { View } from './view';
-import { Car, CreateWinner, Engine, IPathPagination } from './utils/types';
+import { Car, CreateWinner, Engine } from './utils/types';
 import { EventEmitter } from './emitter';
 import { CarsApiService } from './api/apiCarService';
 import { ApiWinnersService } from './api/apiWinnersService';
@@ -52,18 +52,12 @@ const svgCar = `<svg version="1.0" xmlns="http://www.w3.org/2000/svg"
    `;
 
 const startPage = 1;
-
-const limit: IPathPagination = {
-  key: '_limit',
-  value: 7,
-};
+const limit = 7;
 
 export class Cars extends View {
   private dataCars!: Car[];
 
-  private carsWrapper!: HTMLElement;
-
-  private carRendered!: Car[];
+  private paginationWrapper!: HTMLElement;
 
   private carImgBox!: HTMLElement;
 
@@ -77,13 +71,13 @@ export class Cars extends View {
 
   private carsNumbers!: HTMLElement;
 
-  private carListWrapper!: HTMLElement;
+  private carsListWrapper!: HTMLElement;
 
   private garageSubtitle!: HTMLElement;
 
   private flagImg!: HTMLElement;
 
-  private qtyCars!: number;
+  private qtyCars!: string | null;
 
   private currentPage: number = localStorage.getItem('currentPage') ? Number(localStorage.getItem('currentPage')) : 1;
 
@@ -97,26 +91,24 @@ export class Cars extends View {
 
   constructor(protected emitter: EventEmitter) {
     super(emitter);
-    this.getCars(this.currentPage);
-    this.onSub();
-    this.getCarsQty();
+    this.getCars(limit, this.currentPage);
+    this.subscribeCars();
   }
 
-  public async getCarsQty(): Promise<void> {
-    const totalCars = await CarsApiService.getAllCars();
-    this.qtyCars = totalCars.length;
-    this.carsNumbers.textContent = String(this.qtyCars);
+  public updateCarsQty(qty: string | null): void {
+    this.carsNumbers.textContent = qty;
   }
 
-  public async getCars(pageGarage: number = startPage): Promise<void> {
-    const request = await fetch(`http://127.0.0.1:3000/garage?_page=${pageGarage}&_limit=${limit.value}`, {
+  public async getCars(limitCars: number, pageGarage: number = startPage): Promise<void> {
+    const request = await fetch(`http://127.0.0.1:3000/garage?_page=${pageGarage}&_limit=${limitCars}`, {
       method: 'GET',
     });
-    const totalQty = request.headers.get('X-Total-Count');
-    this.dataCars = await CarsApiService.getPagination(pageGarage, limit);
+    this.qtyCars = request.headers.get('X-Total-Count');
+    this.updateCarsQty(this.qtyCars);
+    this.dataCars = await CarsApiService.getPagination(pageGarage, limitCars);
     if (this.dataCars.length === 0) {
-      this.currentPage = Number(totalQty) / limit.value < 1 ? 1 : Math.round(Number(totalQty) / limit.value);
-      this.dataCars = await CarsApiService.getPagination(this.currentPage, limit);
+      this.currentPage = Number(this.qtyCars) / limitCars < 1 ? 1 : Math.round(Number(this.qtyCars) / limitCars);
+      this.dataCars = await CarsApiService.getPagination(this.currentPage, limitCars);
     }
 
     this.pageNumbers.textContent = String(this.currentPage);
@@ -124,63 +116,69 @@ export class Cars extends View {
   }
 
   public appendElement(parent: HTMLElement): void {
-    this.carListWrapper = super.renderElement('div', 'cars-list-wrapper');
-    this.carsWrapper = super.renderElement('div', 'cars-pagination');
+    this.carsListWrapper = super.renderElement('div', 'cars-list-wrapper');
+    parent.append(this.renderPaginationContainer());
+    parent.append(this.carsListWrapper);
+  }
+
+  private renderPaginationContainer(): HTMLElement {
+    this.paginationWrapper = super.renderElement('div', 'cars-pagination');
     this.garageSubtitle = super.renderElement('h3', 'title', { textContent: `Garage #` });
-    this.carsNumbers = super.renderElement('span', 'title');
     this.pageSubtitle = super.renderElement('h4', 'subtitle-page', { textContent: 'Pages #' });
+    this.carsNumbers = super.renderElement('span', 'title');
     this.pageNumbers = super.renderElement('span', 'subtitle-page');
-    const pageContainer = super.renderElement('div', 'page-wrapper');
-    this.prevBtn = super.renderElement('button', 'prev-btn btn', { textContent: 'prev' }) as HTMLButtonElement;
-    this.nextBtn = super.renderElement('button', 'next-btn btn', { textContent: 'next' }) as HTMLButtonElement;
-    this.carsWrapper.append(this.garageSubtitle, pageContainer);
-    pageContainer.append(this.pageSubtitle, this.prevBtn, this.nextBtn);
     this.garageSubtitle.append(this.carsNumbers);
     this.pageSubtitle.append(this.pageNumbers);
-    parent.append(this.carsWrapper);
-    parent.append(this.carListWrapper);
+    this.prevBtn = super.renderElement('button', 'prev-btn btn', { textContent: 'prev' }) as HTMLButtonElement;
+    this.nextBtn = super.renderElement('button', 'next-btn btn', { textContent: 'next' }) as HTMLButtonElement;
+    const pageContainer = super.renderElement('div', 'page-wrapper');
+    pageContainer.append(this.pageSubtitle, this.prevBtn, this.nextBtn);
+    this.paginationWrapper.append(this.garageSubtitle, pageContainer);
+    this.bindPaginationBtns();
+    return this.paginationWrapper;
+  }
+
+  private bindPaginationBtns(): void {
     this.nextBtn.addEventListener('click', this.nextPage.bind(this));
     this.prevBtn.addEventListener('click', this.prevPage.bind(this));
   }
 
   public renderCars(cars: Car[]): void {
     cars.forEach((car) => {
-      setTimeout(() => {
-        const raceContainer = super.renderElement('div', 'race-container', { id: car.id });
-        const carContainer = super.renderElement('div', 'car-container');
-        const carBoxRow1 = super.renderElement('div', 'row1');
-        const carBoxRow2 = super.renderElement('div', 'row2');
-        const engineBtn = super.renderElement('div', 'engine-btn-box');
-        const selectCar = super.renderElement('button', 'select-btn btn', { textContent: 'select' });
-        const removeCar = super.renderElement('button', 'remove-btn btn', { textContent: 'remove' });
-        this.startCar = super.renderElement('button', 'start-btn engine-btn', {
-          textContent: 'A',
-        }) as HTMLButtonElement;
-        this.stopCar = super.renderElement('button', 'stop-btn engine-btn disabled', {
-          textContent: 'B',
-        }) as HTMLButtonElement;
-        this.stopCar.disabled = true;
-        this.carName = super.renderElement('h5', 'car-name', { textContent: car.name });
-        this.carImgBox = super.renderElement('div', 'car-img-box');
+      const raceContainer = super.renderElement('div', 'race-container', { id: car.id });
+      const carContainer = super.renderElement('div', 'car-container');
+      const carBoxRow1 = super.renderElement('div', 'row1');
+      const carBoxRow2 = super.renderElement('div', 'row2');
+      const engineBtn = super.renderElement('div', 'engine-btn-box');
+      const selectCarBtn = super.renderElement('button', 'select-btn btn', { textContent: 'select' });
+      const removeCarBtn = super.renderElement('button', 'remove-btn btn', { textContent: 'remove' });
+      this.startCar = super.renderElement('button', 'start-btn engine-btn', {
+        textContent: 'A',
+      }) as HTMLButtonElement;
+      this.stopCar = super.renderElement('button', 'stop-btn engine-btn disabled', {
+        textContent: 'B',
+      }) as HTMLButtonElement;
+      this.stopCar.disabled = true;
+      this.carName = super.renderElement('h5', 'car-name', { textContent: car.name });
+      this.carImgBox = super.renderElement('div', 'car-img-box');
 
-        this.carImgBox.innerHTML = svgCar;
-        this.carImgBox.style.fill = car.color;
-        this.flagImg = super.renderElement('div', 'flag');
-        raceContainer.append(carContainer, this.flagImg);
-        carContainer.append(carBoxRow1, carBoxRow2);
-        carBoxRow1.append(selectCar, removeCar, this.carName);
-        carBoxRow2.append(engineBtn, this.carImgBox);
-        engineBtn.append(this.startCar, this.stopCar);
-        this.carListWrapper.append(raceContainer);
-        selectCar.addEventListener('click', this.onSelectCar.bind(this));
-        removeCar.addEventListener('click', this.onRemoveCar.bind(this));
-        this.startCar.addEventListener('click', this.startOneEngin.bind(this));
-        this.stopCar.addEventListener('click', this.stopOneEngin.bind(this));
-      }, 10);
+      this.carImgBox.innerHTML = svgCar;
+      this.carImgBox.style.fill = car.color;
+      this.flagImg = super.renderElement('div', 'flag');
+      raceContainer.append(carContainer, this.flagImg);
+      carContainer.append(carBoxRow1, carBoxRow2);
+      carBoxRow1.append(selectCarBtn, removeCarBtn, this.carName);
+      carBoxRow2.append(engineBtn, this.carImgBox);
+      engineBtn.append(this.startCar, this.stopCar);
+      this.carsListWrapper.append(raceContainer);
+      selectCarBtn.addEventListener('click', this.selectCar.bind(this));
+      removeCarBtn.addEventListener('click', this.removeCar.bind(this));
+      this.startCar.addEventListener('click', this.startOneEngin.bind(this));
+      this.stopCar.addEventListener('click', this.stopOneEngin.bind(this));
     });
   }
 
-  private async onSelectCar(event: Event): Promise<void> {
+  private async selectCar(event: Event): Promise<void> {
     try {
       const id = this.getIdCar(event);
       const selectedCar = await CarsApiService.getCar(id);
@@ -192,22 +190,21 @@ export class Cars extends View {
     }
   }
 
-  private onSub(): void {
+  private subscribeCars(): void {
     this.emitter.subscribe('onUpdateCar', (car: Car) => this.onUpdateCar(car));
     this.emitter.subscribe('onCreatedCar', () => this.onCreatedCar());
     this.emitter.subscribe('onStartRace', () => this.startRace());
     this.emitter.subscribe('onStopRace', () => this.stopRace());
   }
 
-  private async onRemoveCar(event: Event): Promise<void> {
+  private async removeCar(event: Event): Promise<void> {
     try {
       const id = this.getIdCar(event);
       if (id) {
         const car = await CarsApiService.getCar(id);
         await CarsApiService.deleteCar(id);
-        this.getCarsQty();
-        this.carListWrapper.innerHTML = '';
-        this.getCars(this.currentPage);
+        this.carsListWrapper.innerHTML = '';
+        this.getCars(limit, this.currentPage);
         this.emitter.onEmit('clearInputs');
         this.emitter.onEmit('onRemove', car);
       }
@@ -233,22 +230,21 @@ export class Cars extends View {
 
   private async onCreatedCar(): Promise<void> {
     this.dataCars = await CarsApiService.getPagination(this.currentPage, limit);
-    this.carListWrapper.innerHTML = '';
+    this.carsListWrapper.innerHTML = '';
     this.renderCars(this.dataCars);
-    this.getCarsQty();
   }
 
   private async nextPage(): Promise<void> {
     try {
-      const maxPage = this.qtyCars / limit.value;
+      const maxPage = Number(this.qtyCars) / limit;
       if (this.currentPage < maxPage) {
         this.nextBtn.disabled = false;
         this.prevBtn.disabled = false;
         this.currentPage += 1;
         localStorage.setItem('currentPage', String(this.currentPage));
         this.pageNumbers.textContent = String(this.currentPage);
-        this.carListWrapper.innerHTML = '';
-        this.getCars(this.currentPage);
+        this.carsListWrapper.innerHTML = '';
+        this.getCars(limit, this.currentPage);
       } else this.nextBtn.disabled = true;
     } catch {
       console.log('👁️👁️cannot get next page');
@@ -264,8 +260,8 @@ export class Cars extends View {
         this.currentPage -= 1;
         localStorage.setItem('currentPage', String(this.currentPage));
         this.pageNumbers.textContent = String(this.currentPage);
-        this.carListWrapper.innerHTML = '';
-        this.getCars(this.currentPage);
+        this.carsListWrapper.innerHTML = '';
+        this.getCars(limit, this.currentPage);
       } else {
         this.prevBtn.disabled = true;
       }
@@ -274,13 +270,12 @@ export class Cars extends View {
     }
   }
 
-  // eslint-disable-next-line max-lines-per-function
   private async startOneEngin(event: Event): Promise<Response> {
     let intervalAnim: string | number | NodeJS.Timer | undefined;
     try {
       const id = this.getIdCar(event);
       const imgCar = document.getElementById(`${id}`)?.children[0].children[1].childNodes[1] as HTMLElement;
-      const changeToStart = await CarsApiService.onEnginCar(id, Engine.started);
+      const changeToStart = await CarsApiService.onEnginCar(id, Engine.Started);
       const targetBtn = event.target as HTMLButtonElement;
       this.disableOneButton(targetBtn);
       const flagDist = window.screen.width - this.flagImg.offsetLeft + this.flagImg.offsetWidth;
@@ -291,7 +286,6 @@ export class Cars extends View {
       intervalAnim = setInterval(() => {
         leftDist += partDis;
         if (leftDist >= fullDis) {
-          // this.emitter.subscribe('onStopCar', () => clearInterval(intervalAnim));
           clearInterval(intervalAnim);
         }
         imgCar.style.transform = `translateX(${leftDist}px)`;
@@ -314,7 +308,7 @@ export class Cars extends View {
       const start = Date.now();
       const currentCar = await CarsApiService.getCar(id);
       const imgCar = document.getElementById(`${id}`)?.children[0].children[1].childNodes[1] as HTMLElement;
-      const changeToStart = await CarsApiService.onEnginCar(id, Engine.started);
+      const changeToStart = await CarsApiService.onEnginCar(id, Engine.Started);
       this.disableButtons();
       const flagDist = window.screen.width - this.flagImg.offsetLeft + this.flagImg.offsetWidth;
       let leftDist = this.carImgBox.offsetLeft - this.carImgBox.offsetWidth + 5;
@@ -325,7 +319,6 @@ export class Cars extends View {
         leftDist += partDis;
         if (leftDist >= fullDis) {
           const end = Date.now();
-          // this.emitter.subscribe('onStopCar', () => clearInterval(intervalAnim));
           clearInterval(intervalAnim);
 
           if (!this.winnerTime) {
@@ -350,7 +343,7 @@ export class Cars extends View {
   private async stopOneEngin(event?: Event, idCar?: number): Promise<void> {
     try {
       const id = event ? this.getIdCar(event) : (idCar as number);
-      await CarsApiService.onEnginCar(id, Engine.stopped);
+      await CarsApiService.onEnginCar(id, Engine.Stopped);
       this.emitter.onEmit('onStopCar');
       const imgCar = document.getElementById(`${id}`)?.children[0].children[1].childNodes[1] as HTMLElement;
       imgCar.style.transform = 'translateX(0px)';
@@ -365,12 +358,8 @@ export class Cars extends View {
       const stopButton = event?.target as HTMLButtonElement;
       stopButton.disabled = true;
       stopButton.classList.add('disabled');
-      // const stopBtn = btn.nextElementSibling as HTMLButtonElement;
-      // console.log(stopBtn, btn);
-      // stopBtn.disabled = false;
-      // stopBtn.classList.remove('disabled');
     } catch {
-      // console.log('🤓 i was trying to stop car');
+      console.log('🤓 i was trying to stop car');
     }
   }
 
@@ -411,16 +400,15 @@ export class Cars extends View {
     try {
       const checkWinner = (await ApiWinnersService.getAllWin()).find((win) => win.carId === carId);
       if (checkWinner) {
-        console.log('winner update', carId);
         checkWinner.wins += 1;
-        checkWinner.time = checkWinner.time <= time ? checkWinner.time : time;
+        checkWinner.time = checkWinner.time < time ? checkWinner.time : time;
         const updateWin = {
           name: nameCar,
           wins: checkWinner.wins,
           time: checkWinner.time,
           color: checkWinner.color,
         };
-        await ApiWinnersService.updateWin(carId, updateWin, { 'Content-Type': 'application/json' });
+        await ApiWinnersService.updateWin(checkWinner.id, updateWin);
       } else {
         const winner: CreateWinner = {
           carId,
@@ -429,7 +417,7 @@ export class Cars extends View {
           color: colorCar,
           name: nameCar,
         };
-        await ApiWinnersService.createWin(winner, { 'Content-Type': 'application/json' });
+        await ApiWinnersService.createWin(winner);
       }
       this.emitter.onEmit('renderWinners');
     } catch {
