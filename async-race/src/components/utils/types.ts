@@ -7,7 +7,7 @@ export type Car = {
   color: string;
   id: number;
 };
-export type SetNewCar = {
+export type UpdateCarDto = {
   name: string;
   color: string;
 };
@@ -20,20 +20,16 @@ export type Route = {
 export type MethodsHTTP = 'DELETE' | 'GET' | 'POST' | 'PATCH' | 'PUT';
 
 export enum Path {
-  'garage' = 'garage',
-  'engine' = 'engine',
-  'winners' = 'winners',
+  Garage = 'garage',
+  Engine = 'engine',
+  Winners = 'winners',
 }
 export enum Engine {
-  'started' = 'started',
-  'stopped' = 'stopped',
-  'drive' = 'drive',
+  Started = 'started',
+  Stopped = 'stopped',
+  Drive = 'drive',
 }
-export interface IPathPagination {
-  key: string;
-  value: number;
-}
-export type SrartEngine = {
+export type StartEngine = {
   velocity: number;
   distance: number;
 };

@@ -1,4 +1,4 @@
-import { Path, Car, UpdateCarDto, Engine, SrartEngine, RunRes } from '../utils/types';
+import { Path, Car, UpdateCarDto, Engine, StartEngine, RunRes } from '../utils/types';
 import { ApiService } from './apiService';
 
 export class CarsApiService {
@@ -26,7 +26,7 @@ export class CarsApiService {
     return ApiService.getPages(`${Path.Garage}?_page=${value}&_limit=${limit}`);
   }
 
-  public static onEnginCar(carId: number, status: Engine): Promise<SrartEngine> {
+  public static onEnginCar(carId: number, status: Engine): Promise<StartEngine> {
     return ApiService.runEngine(`${Path.Engine}?id=${carId}&status=${status}`);
   }
 
