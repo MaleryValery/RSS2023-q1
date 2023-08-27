@@ -1,36 +1,36 @@
-import { Path, Car, SetNewCar, IPathPagination, Engine, SrartEngine, RunRes } from '../utils/types';
+import { Path, Car, UpdateCarDto, Engine, SrartEngine, RunRes } from '../utils/types';
 import { ApiService } from './apiService';
 
 export class CarsApiService {
   public static getAllCars(): Promise<Car[]> {
-    return ApiService.get(Path.garage);
+    return ApiService.get(Path.Garage);
   }
 
-  public static createCar(transfer: SetNewCar, headers: HeadersInit): Promise<Car> {
-    return ApiService.post(Path.garage, transfer, headers);
+  public static createCar(dto: UpdateCarDto): Promise<Car> {
+    return ApiService.post(Path.Garage, dto);
   }
 
-  public static getCar(idCar: number): Promise<Car> {
-    return ApiService.get(`${Path.garage}/${idCar}`);
+  public static getCar(carId: number): Promise<Car> {
+    return ApiService.get(`${Path.Garage}/${carId}`);
   }
 
-  public static deleteCar(idCar: number): Promise<void> {
-    return ApiService.delete(`${Path.garage}/${idCar}`);
+  public static deleteCar(carId: number): Promise<void> {
+    return ApiService.delete(`${Path.Garage}/${carId}`);
   }
 
-  public static updateCar(idCar: number, transfer: SetNewCar, headers: HeadersInit): Promise<Car> {
-    return ApiService.put(`${Path.garage}/${idCar}`, transfer, headers);
+  public static updateCar(carId: number, dto: UpdateCarDto): Promise<Car> {
+    return ApiService.put(`${Path.Garage}/${carId}`, dto);
   }
 
-  public static getPagination(value: number, limit: IPathPagination): Promise<Car[]> {
-    return ApiService.getPages(`${Path.garage}?_page=${value}&${limit.key}=${limit.value}`);
+  public static getPagination(value: number, limit: number): Promise<Car[]> {
+    return ApiService.getPages(`${Path.Garage}?_page=${value}&_limit=${limit}`);
   }
 
-  public static onEnginCar(idCar: number, status: Engine): Promise<SrartEngine> {
-    return ApiService.runEngine(`${Path.engine}?id=${idCar}&status=${status}`);
+  public static onEnginCar(carId: number, status: Engine): Promise<SrartEngine> {
+    return ApiService.runEngine(`${Path.Engine}?id=${carId}&status=${status}`);
   }
 
-  public static onRunCar(idCar: number, status: Engine): Promise<RunRes> {
-    return ApiService.runEngine(`${Path.engine}?id=${idCar}&status=${status}`);
+  public static onRunCar(carId: number, status: Engine): Promise<RunRes> {
+    return ApiService.runEngine(`${Path.Engine}?id=${carId}&status=${status}`);
   }
 }

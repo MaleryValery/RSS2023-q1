@@ -27,11 +27,19 @@ export class ApiService {
     return this.fetchRequest(element, 'GET');
   }
 
-  public static post<T>(element: string, body: unknown, headers: HeadersInit): Promise<T> {
+  public static post<T>(
+    element: string,
+    body: unknown,
+    headers: HeadersInit = { 'Content-Type': 'application/json' },
+  ): Promise<T> {
     return this.fetchRequest(element, 'POST', body, headers);
   }
 
-  public static put<T>(element: string, body: unknown, headers: HeadersInit): Promise<T> {
+  public static put<T>(
+    element: string,
+    body: unknown,
+    headers: HeadersInit = { 'Content-Type': 'application/json' },
+  ): Promise<T> {
     return this.fetchRequest(element, 'PUT', body, headers);
   }
 
