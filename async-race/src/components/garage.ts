@@ -10,7 +10,7 @@ export class Garage extends RouteElement {
 
   private cars = new Cars(this.emitter);
 
-  private createBtn!: HTMLElement;
+  private createBtn!: HTMLButtonElement;
 
   private updateBtn!: HTMLButtonElement;
 
@@ -53,7 +53,7 @@ export class Garage extends RouteElement {
 
   private renderCreateContainer(): HTMLElement {
     const createContainer = super.renderElement('div', 'create-container garage-input-container');
-    this.createBtn = super.renderElement('button', 'create-btn btn', { textContent: 'create' });
+    this.createBtn = super.renderElement('button', 'create-btn btn', { textContent: 'create' }) as HTMLButtonElement;
     this.createColorPicker = super.renderElement('input', 'create-picker picker', {
       type: 'color',
     }) as HTMLInputElement;
@@ -105,6 +105,7 @@ export class Garage extends RouteElement {
       this.updateNameInput.value = car.name;
       this.updateColorPicker.value = car.color;
       this.disableUpdate(false);
+      this.disableCreate(true);
     }
   }
 
@@ -112,6 +113,12 @@ export class Garage extends RouteElement {
     this.updateNameInput.disabled = isDisabled;
     this.updateColorPicker.disabled = isDisabled;
     this.updateBtn.disabled = isDisabled;
+  }
+
+  private disableCreate(isDisabled: boolean): void {
+    this.createNameInput.disabled = isDisabled;
+    this.createColorPicker.disabled = isDisabled;
+    this.createBtn.disabled = isDisabled;
   }
 
   private async getUpdatedCar(): Promise<void> {
@@ -129,6 +136,7 @@ export class Garage extends RouteElement {
 
       this.resetUpdateForm();
       this.disableUpdate(true);
+      this.disableCreate(false);
     } catch {
       console.log('car is not exist');
     }
